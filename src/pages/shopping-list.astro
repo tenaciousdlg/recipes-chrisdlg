@@ -1,7 +1,11 @@
 ---
+import { load as parseYaml } from 'js-yaml';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { getPrimaryIngredient } from '../lib/scale';
+// ?raw has Vite inline the file's text at build time, no runtime fs access needed --
+// node:fs isn't available in the Cloudflare-adapter's Workers-emulated prerender step.
+import ingredientsYamlRaw from '../data/ingredients.yaml?raw';
 
 const recipes = (await getCollection('recipes')).sort((a, b) => a.data.title.localeCompare(b.data.title));
 
@@ -23,6 +27,17 @@ const recipesForClient = recipes.map((r) => {
     })),
   };
 });
+
+// grams-per-unit for each ingredient, used client-side to reconcile the same item
+// listed under different units across recipes (e.g. ginger by tbsp in one, tsp in
+// another) into a single line instead of two duplicate ones.
+interface IngredientEntry {
+  grams_per_unit: Record<string, number>;
+}
+const ingredientsYaml = parseYaml(ingredientsYamlRaw) as Record<string, IngredientEntry>;
+const gramConversions = Object.fromEntries(
+  Object.entries(ingredientsYaml).map(([item, data]) => [item, data.grams_per_unit]),
+);
 ---
 
 <Layout title="Shopping List" description="Aggregate scaled ingredients from selected recipes into a store-section shopping list.">
@@ -54,10 +69,11 @@ const recipesForClient = recipes.map((r) => {
   <div id="shopping-list-output"></div>
 
   <script type="application/json" id="recipes-data" set:html={JSON.stringify(recipesForClient)} />
+  <script type="application/json" id="gram-conversions-data" set:html={JSON.stringify(gramConversions)} />
 </Layout>
 
 <script>
-  import { aggregateIngredients, groupBySection, type SelectedRecipe } from '../lib/shoppingList';
+  import { aggregateIngredients, groupBySection, type SelectedRecipe, type GramConversions } from '../lib/shoppingList';
   import { formatQty } from '../lib/scale';
   import type { ScalableIngredient } from '../lib/scale';
 
@@ -77,6 +93,8 @@ const recipesForClient = recipes.map((r) => {
 
   const dataEl = document.getElementById('recipes-data')!;
   const recipesForClient: RecipeForClient[] = JSON.parse(dataEl.textContent!);
+  const conversionsEl = document.getElementById('gram-conversions-data')!;
+  const gramConversions: GramConversions = JSON.parse(conversionsEl.textContent!);
   const STORAGE_KEY = 'recipes-chrisdlg:shopping-list';
 
   const picker = document.getElementById('recipe-picker')!;
@@ -126,7 +144,7 @@ const recipesForClient = recipes.map((r) => {
     }
     emptyState.style.display = 'none';
 
-    const groups = groupBySection(aggregateIngredients(selected));
+    const groups = groupBySection(aggregateIngredients(selected, gramConversions));
     output.innerHTML = groups
       .map(
         (g) => `
@@ -166,7 +184,7 @@ const recipesForClient = recipes.map((r) => {
 
   copyBtn.addEventListener('click', () => {
     const selected = selectedFromState(currentState());
-    const groups = groupBySection(aggregateIngredients(selected));
+    const groups = groupBySection(aggregateIngredients(selected, gramConversions));
     const text = groups
       .map(
         (g) =>
