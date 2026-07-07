@@ -25,7 +25,7 @@ steps:
   - "Push aside, add turkey and brown hard in batches so it sears rather than steams: 2 lb crowds a pot and will steam if dumped in all at once. Get a real crust before breaking it up. 85/15 dries out faster than beef, so don't over-brown."
   - "Bloom the tomato paste: stir it into the fond and cook 1-2 min until it darkens. This is where depth comes from."
   - Pour in the milk and let it reduce almost completely before the tomatoes go in. This tenderizes the turkey and takes the sharp edge off the canned tomato, and adding it early (not at the end) sidesteps curdling the milk in an acidic sauce.
-  - "Add the crushed tomatoes. Drop a parmesan rind in now if you have one. Simmer low and slow: a double batch reduces slower, so give it ~35 min, not the ~25 a single batch takes. Taste and adjust salt. Off heat, swirl in the butter for silk and body."
+  - "Add the crushed tomatoes. Drop a parmesan rind in now if you have one. Simmer low and slow: a double batch reduces slower, so give it ~35 min, not the ~25 a single batch takes. Taste and adjust salt and pepper. Off heat, swirl in the butter for silk and body."
   - "Cook the gnocchi in two batches so the pot isn't crowded: well-salted boiling water, just until they float, ~1 min each batch. Scoop out with a spider, reserving a cup of starchy water. Do not overcook or they turn to paste."
   - Fold spinach into the warm sauce until wilted. Add gnocchi with a splash of the reserved water. Toss gently over medium 30-60 sec until coated and glossy, stirring in half the parmesan. If your pot won't hold it all, combine in two rounds or fold gnocchi into portioned sauce.
   - Off heat, scatter remaining parmesan, final gentle fold, plate or portion into containers.

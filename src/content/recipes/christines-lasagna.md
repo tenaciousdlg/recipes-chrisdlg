@@ -16,7 +16,7 @@ ingredients:
   - { item: egg lasagna noodles, qty: 12, unit: count, section: pantry }
   - { item: salt, qty: 0.5, unit: tsp, prep: season beef mildly, scale: false, section: pantry }
 steps:
-  - Dice the onion. Season the ground beef mildly.
+  - Dice the onion. Season the ground beef mildly with the salt.
   - Brown the ground beef. When browned, remove it and set aside.
   - Cook the diced onion in the leftover fat from the meat until translucent, then return the meat to the onion.
   - Add the tomato basil sauce and stir until it begins to simmer. Remove from heat.

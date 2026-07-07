@@ -192,3 +192,24 @@ matching tag; dairy-containing vegetarian recipes correctly excluded from `vegan
 Chili vs. Three-Meat Chili's differing spicy tag reflects a real heat difference (plain chili
 powder vs. 4 tbsp sriracha), not an inconsistency; Spanish Rice correctly has no
 vegetarian/vegan tag despite being produce-heavy, since it uses chicken bouillon.
+
+## Ingredient/step consistency audit (2026-07-08)
+
+Two-directional check across all 49 recipes: (1) every listed ingredient's name has a
+word-match somewhere in its own recipe's steps/notes, and (2) reverse, every known
+ingredient-database name mentioned in a recipe's steps is actually in that recipe's own
+ingredient list (after excluding substring matches against a more specific already-listed
+variant, e.g. "tomato" flagged against a recipe that already lists "roma tomato").
+
+Direction 1 found two real gaps: Turkey Gnocchi Ragù lists 0.75 tsp black pepper but never
+mentions it anywhere in the 8 steps (added "and pepper" to the existing "taste and adjust
+salt" line). Christine's Lasagna's "season the ground beef mildly" step never named salt
+even though that's exactly what the listed salt ingredient is for (spelled it out).
+
+Direction 2 surfaced mostly false positives: optional garnish/serving suggestions correctly
+left out of the shopping list (turkey chili's "top with whatever you like," gochujang salmon
+bowl's "or a cool element like avocado/cucumber"), and prep-note alternatives already covered
+(al pastor's chili-powder swap for guajillo, orange sauce's brown-sugar option). One real,
+minor finding: Beef and Cabbage Stir Fry's step called its own listed "neutral oil" ingredient
+"cooking oil" instead of by name — fixed for consistency between the ingredient list and the
+step that uses it.

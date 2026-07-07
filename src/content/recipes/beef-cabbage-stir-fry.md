@@ -23,7 +23,7 @@ ingredients:
 steps:
   - Stir together the soy sauce, toasted sesame oil, sriracha, and brown sugar in a small bowl. Set the sauce aside.
   - Shred the vegetables so they're ready to go. Halve the cabbage, remove the core, and finely shred one half (4-6 cups shredded; save the other half for another recipe). Peel and shred the carrots. Slice the scallions. Mince the garlic and grate the ginger.
-  - Heat a large skillet over medium heat. Add the cooking oil, ground beef, garlic, ginger, and a pinch of salt and pepper. Cook until the beef is browned, about 5 minutes.
+  - Heat a large skillet over medium heat. Add the neutral oil, ground beef, garlic, ginger, and a pinch of salt and pepper. Cook until the beef is browned, about 5 minutes.
   - Add the cabbage and carrot to the skillet and stir-cook until the cabbage wilts to your liking. Stir in the prepared sauce and the scallions. Top with sesame seeds and a drizzle of extra sriracha, then serve.
 macros_per_serving:
   calories: 209
