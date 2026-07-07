@@ -11,6 +11,20 @@ const { recipe } = Astro.props;
 const primary = getPrimaryIngredient(recipe.data.ingredients);
 const calories = recipe.data.macros_per_serving?.calories ?? 0;
 const protein = recipe.data.macros_per_serving?.protein_g ?? 0;
+
+// searchable blob: title, description, cuisine/category/season, tags, and every
+// ingredient name, so typing e.g. "chicken thigh" or "cold" surfaces matching recipes
+const searchIndex = [
+  recipe.data.title,
+  recipe.data.description ?? '',
+  recipe.data.cuisine ?? '',
+  recipe.data.category,
+  recipe.data.season,
+  ...recipe.data.tags,
+  ...recipe.data.ingredients.map((i) => i.item),
+]
+  .join(' ')
+  .toLowerCase();
 ---
 
 <div
@@ -19,6 +33,7 @@ const protein = recipe.data.macros_per_serving?.protein_g ?? 0;
   data-created={recipe.data.created.toISOString()}
   data-protein={protein}
   data-calories={calories}
+  data-search={searchIndex}
 >
   <a class="recipe-card-link" href={`/recipes/${recipe.id}/`}>
     <h2>

@@ -11,23 +11,30 @@ const { recipes } = Astro.props;
 const sorted = [...recipes].sort((a, b) => b.data.created.getTime() - a.data.created.getTime());
 ---
 
-<div class="sort-control">
-  <label for="sort-select">Sort by</label>
-  <select id="sort-select">
-    <option value="newest">Newest</option>
-    <option value="title">Title (A-Z)</option>
-    <option value="protein-desc">Protein (high to low)</option>
-    <option value="calories-asc">Calories (low to high)</option>
-  </select>
+<div class="grid-controls">
+  <input type="search" id="recipe-search" placeholder="Search recipes, ingredients, cuisine..." />
+  <div class="sort-control">
+    <label for="sort-select">Sort by</label>
+    <select id="sort-select">
+      <option value="newest">Newest</option>
+      <option value="title">Title (A-Z)</option>
+      <option value="protein-desc">Protein (high to low)</option>
+      <option value="calories-asc">Calories (low to high)</option>
+    </select>
+  </div>
 </div>
+
+<p id="no-results" class="recipe-meta" style="display: none;">No recipes match your search.</p>
 
 <div id="recipe-grid">
   {sorted.map((recipe) => <RecipeCard recipe={recipe} />)}
 </div>
 
 <script>
+  const search = document.getElementById('recipe-search') as HTMLInputElement;
   const select = document.getElementById('sort-select') as HTMLSelectElement;
   const grid = document.getElementById('recipe-grid')!;
+  const noResults = document.getElementById('no-results')!;
 
   function sortCards(mode: string) {
     const cards = Array.from(grid.querySelectorAll<HTMLElement>('.recipe-card'));
@@ -47,5 +54,18 @@ const sorted = [...recipes].sort((a, b) => b.data.created.getTime() - a.data.cre
     cards.forEach((card) => grid.appendChild(card));
   }
 
+  function filterCards(query: string) {
+    const q = query.trim().toLowerCase();
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.recipe-card'));
+    let visibleCount = 0;
+    cards.forEach((card) => {
+      const matches = q === '' || card.dataset.search!.includes(q);
+      card.style.display = matches ? '' : 'none';
+      if (matches) visibleCount++;
+    });
+    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
   select.addEventListener('change', () => sortCards(select.value));
+  search.addEventListener('input', () => filterCards(search.value));
 </script>

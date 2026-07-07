@@ -104,13 +104,33 @@ a.tag:hover { border-color: var(--accent); color: var(--accent); text-decoration
 .recipe-card p { color: var(--text); margin-bottom: 0.5rem; }
 .recipe-meta { font-size: 0.85rem; color: var(--text-dim); }
 
+.grid-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+#recipe-search {
+  flex: 1;
+  min-width: 12rem;
+  background: var(--bg);
+  border: 1px solid var(--border-bright);
+  color: var(--text-bright);
+  border-radius: 6px;
+  padding: 0.5em 0.75em;
+  font-size: 0.95rem;
+}
+#recipe-search::placeholder { color: var(--text-dim); }
+
 .sort-control {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-bottom: 1.5rem;
   font-size: 0.9rem;
   color: var(--text-dim);
+  white-space: nowrap;
 }
 .sort-control select {
   background: var(--bg);
