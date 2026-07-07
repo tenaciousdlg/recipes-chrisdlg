@@ -1,0 +1,51 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import RecipeCard from './RecipeCard.astro';
+
+interface Props {
+  recipes: CollectionEntry<'recipes'>[];
+}
+
+const { recipes } = Astro.props;
+// server-rendered order is the "Newest" default, matching the sort dropdown's default option
+const sorted = [...recipes].sort((a, b) => b.data.created.getTime() - a.data.created.getTime());
+---
+
+<div class="sort-control">
+  <label for="sort-select">Sort by</label>
+  <select id="sort-select">
+    <option value="newest">Newest</option>
+    <option value="title">Title (A-Z)</option>
+    <option value="protein-desc">Protein (high to low)</option>
+    <option value="calories-asc">Calories (low to high)</option>
+  </select>
+</div>
+
+<div id="recipe-grid">
+  {sorted.map((recipe) => <RecipeCard recipe={recipe} />)}
+</div>
+
+<script>
+  const select = document.getElementById('sort-select') as HTMLSelectElement;
+  const grid = document.getElementById('recipe-grid')!;
+
+  function sortCards(mode: string) {
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.recipe-card'));
+    cards.sort((a, b) => {
+      switch (mode) {
+        case 'title':
+          return a.dataset.title!.localeCompare(b.dataset.title!);
+        case 'protein-desc':
+          return parseFloat(b.dataset.protein!) - parseFloat(a.dataset.protein!);
+        case 'calories-asc':
+          return parseFloat(a.dataset.calories!) - parseFloat(b.dataset.calories!);
+        case 'newest':
+        default:
+          return new Date(b.dataset.created!).getTime() - new Date(a.dataset.created!).getTime();
+      }
+    });
+    cards.forEach((card) => grid.appendChild(card));
+  }
+
+  select.addEventListener('change', () => sortCards(select.value));
+</script>

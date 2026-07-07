@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import RecipeGrid from '../../components/RecipeGrid.astro';
+
+export async function getStaticPaths() {
+  const recipes = await getCollection('recipes');
+  const tags = new Set(recipes.flatMap((r) => r.data.tags));
+  return Array.from(tags).map((tag) => ({
+    params: { tag },
+    props: {
+      recipes: recipes.filter((r) => r.data.tags.includes(tag)),
+    },
+  }));
+}
+
+const { tag } = Astro.params;
+const { recipes } = Astro.props;
+---
+
+<Layout title={`Tag: ${tag}`} description={`Recipes tagged "${tag}".`}>
+  <a href="/">&larr; all recipes</a>
+  <h1>Tag: {tag}</h1>
+  <RecipeGrid recipes={recipes} />
+</Layout>

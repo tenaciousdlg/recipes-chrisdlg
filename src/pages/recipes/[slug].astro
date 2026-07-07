@@ -38,7 +38,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
   <p>{recipe.data.description}</p>
   <div class="tags">
     {isHighProtein(recipe.data.macros_per_serving) && <span class="tag">high-protein</span>}
-    {recipe.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+    {recipe.data.tags.map((tag) => <a class="tag" href={`/tags/${tag}/`}>{tag}</a>)}
   </div>
 
   <div class="box">
