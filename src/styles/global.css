@@ -76,6 +76,14 @@ header.site-header .back { font-size: 0.9rem; color: var(--text-dim); }
   border-radius: 999px;
   padding: 0.1em 0.7em;
 }
+.category-tag {
+  vertical-align: middle;
+  margin-left: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  border-color: var(--accent);
+}
 
 .recipe-card {
   display: block;

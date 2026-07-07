@@ -14,7 +14,10 @@ const recipes = (await getCollection('recipes')).sort(
       const primary = getPrimaryIngredient(recipe.data.ingredients);
       return (
         <a class="recipe-card" href={`/recipes/${recipe.id}/`}>
-          <h2>{recipe.data.title}</h2>
+          <h2>
+            {recipe.data.title}
+            {recipe.data.category === 'base' && <span class="tag category-tag">base</span>}
+          </h2>
           <p>{recipe.data.description}</p>
           <div class="recipe-meta">
             {recipe.data.base_servings} servings from {primary.qty} {primary.unit} {primary.item}
