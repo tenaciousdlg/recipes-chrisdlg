@@ -2,19 +2,19 @@
 
 ## Menu tracking page
 
-Build a `/menu/` page backed by a small `src/data/menu.yaml` that mirrors the
-master cookbook list (Breakfast, Lunch/Dinner Anytime, Hot season, Cold season,
-Snacks/Dessert). Each item auto-links to its matching recipe where one exists;
-unmatched items show as open gaps. Turns the list into a living checklist
-instead of a manual diff against the site.
+DONE 2026-07-07: `/menu/` page backed by `src/data/menu.yaml`, mirroring the
+master cookbook list (Breakfast, Lunch/Dinner Anytime, Hot season, Cold
+season, Snacks/Dessert). Cross-checks each item's `recipe` slug against the
+live collection at build time (not trusted blindly), so a renamed/removed
+recipe reverts to an open gap instead of a dead link. Nav link added next to
+Shopping list.
 
-Coverage as of 2026-07-07: Hot season 3/3, Cold season 7/8 (missing Goulash),
-Snacks/Dessert 3/3, Lunch/Dinner ~9/19, Breakfast 0/5 (biggest gap: oatmeal,
-bagel, eggs, pancakes, smoothie all unbuilt). Other Lunch/Dinner gaps: roasted
-chicken thighs w/ potatoes+veggies, baked ziti, marinara+meatballs, King Ranch
-chicken, fideo con pollo, calabaza con pollo, burritos, red beans and rice.
-
-Holding off until more of the gaps above are closed.
+Coverage at ship: 25/38 overall. Hot season 3/3, Cold season 7/8 (missing
+Goulash), Snacks/Dessert 3/3, Lunch/Dinner 11/19, Breakfast 1/5 (oatmeal
+built; bagel, eggs, pancakes, smoothie still open). Other Lunch/Dinner gaps:
+roasted chicken thighs w/ potatoes+veggies, baked ziti, marinara+meatballs,
+King Ranch chicken, fideo con pollo, calabaza con pollo, burritos, red beans
+and rice.
 
 ## Rebalance mains vs. sides/bases
 
@@ -44,3 +44,12 @@ than ever doubling up on two bases from the same cuisine (e.g. it won't
 suggest Spanish Rice + Refried Beans together, since Refried Beans is a
 base and Roasted Broccoli already fills the side slot). Produces a more
 balanced plate in practice; revisit only if that feels wrong in use.
+
+Fixed 2026-07-07: was pairing pasta/noodle/gnocchi mains (already their own
+starch) with a rice or potato base on top, e.g. "Turkey Gnocchi Ragù with
+Steamed Jasmine Rice and Garlic Bread." Added a `self_contained` schema field
+(set on Christine's Lasagna, Pork and Peanut Dragon Noodles, Turkey Gnocchi
+Ragù) that skips the base pool and the base/side fallback-fill entirely,
+leaving room for just a side. Verified via 500 simulated trials against the
+real built data: every self-contained-main trial paired with a side only,
+never a base.

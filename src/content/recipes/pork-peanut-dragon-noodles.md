@@ -3,6 +3,7 @@ title: Pork and Peanut Dragon Noodles
 description: Ground pork and ramen in a three-ingredient sweet-salty-spicy dragon sauce (chili garlic, soy, brown sugar), finished with peanuts and scallion. Fast comfort, from Budget Bytes.
 cuisine: Asian
 source: budget-bytes
+self_contained: true
 tags: [stir-fry, weeknight]
 base_servings: 3
 ingredients:

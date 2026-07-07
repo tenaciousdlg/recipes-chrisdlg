@@ -15,6 +15,7 @@ const recipesForClient = recipes.map((r) => ({
   category: r.data.category,
   cuisine: r.data.cuisine ?? null,
   isBreakfast: r.data.tags.includes('breakfast'),
+  selfContained: r.data.self_contained,
 }));
 ---
 
@@ -35,6 +36,7 @@ const recipesForClient = recipes.map((r) => ({
     category: 'main' | 'base' | 'side' | 'snack';
     cuisine: string | null;
     isBreakfast: boolean;
+    selfContained: boolean;
   }
 
   const dataEl = document.getElementById('meal-suggestion-data')!;
@@ -65,12 +67,16 @@ const recipesForClient = recipes.map((r) => ({
       (r) => r.category !== 'main' && r.category !== 'snack' && (r.cuisine === main.cuisine || r.cuisine === null),
     );
 
+    // a main that already brings its own starch (pasta, gnocchi, noodles) doesn't need
+    // a base like rice stacked on top of it
     const picks: RecipeForPairing[] = [];
-    const base = pickPreferred(pairPool.filter((r) => r.category === 'base'), main.cuisine);
-    if (base) picks.push(base);
+    if (!main.selfContained) {
+      const base = pickPreferred(pairPool.filter((r) => r.category === 'base'), main.cuisine);
+      if (base) picks.push(base);
+    }
     const side = pickPreferred(pairPool.filter((r) => r.category === 'side'), main.cuisine);
     if (side) picks.push(side);
-    if (picks.length < 2) {
+    if (picks.length < 2 && !main.selfContained) {
       const remaining = pickPreferred(
         pairPool.filter((r) => !picks.includes(r)),
         main.cuisine,

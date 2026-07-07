@@ -3,6 +3,7 @@ title: Christine's Lasagna
 description: A family lasagna layered with a simple beef-and-tomato meat sauce, cottage cheese, parmesan, and a ricotta topping over egg noodles. Made the way Christine makes it.
 cuisine: Italian
 source: family
+self_contained: true
 base_servings: 8
 ingredients:
   - { item: ground beef, qty: 1, unit: lb, prep: grass-fed, primary: true, section: meat }

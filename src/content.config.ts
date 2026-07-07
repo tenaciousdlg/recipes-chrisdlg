@@ -44,6 +44,9 @@ const recipe = z.object({
   source: z.enum(['original', 'budget-bytes', 'web', 'family']).optional().default('original'),
   // when this gets cooked: any = year-round, hot/cold = seasonal
   season: z.enum(['any', 'hot', 'cold']).optional().default('any'),
+  // true for a main that already includes its own starch (pasta, gnocchi, noodles) so the
+  // meal-suggestion widget doesn't also pair it with a base like rice
+  self_contained: z.boolean().optional().default(false),
   tags: z.array(z.enum(TAGS)).optional().default([]),
   base_servings: z.number().optional().default(1),
   ingredients: z.array(ingredient).refine(

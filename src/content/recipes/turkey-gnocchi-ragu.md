@@ -2,6 +2,7 @@
 title: Turkey Gnocchi Ragù (Bolognese-style)
 description: Pillowy potato gnocchi in a slow-simmered turkey ragù, enriched with milk in the Bolognese tradition, finished with parmesan and spinach. Sunday-batch sized.
 cuisine: Italian
+self_contained: true
 tags: [pasta, batch-prep]
 base_servings: 8
 ingredients:

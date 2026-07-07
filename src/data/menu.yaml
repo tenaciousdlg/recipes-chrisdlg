@@ -1,0 +1,83 @@
+# Master cookbook wishlist, mirrors the list originally handed off in chat.
+# Each item optionally has a `recipe` slug; the menu page cross-checks that
+# slug against the actual recipe collection at build time rather than trusting
+# it blindly, so a renamed/removed recipe shows up as a gap again instead of
+# silently linking to a 404.
+- section: Breakfast
+  items:
+    - label: Oatmeal with peanut butter and berries
+      recipe: oatmeal-peanut-butter-berries
+    - label: Bagel with whipped cream cheese
+    - label: Eggs with breakfast meat, veggies, or both
+    - label: Pancakes
+    - label: Smoothies (peanut butter and banana, berry)
+      source_url: https://www.budgetbytes.com/peanut-butter-banana-smoothie/
+
+- section: Lunch / Dinner (Anytime)
+  items:
+    - label: Roasted chicken thighs with potatoes and veggies
+    - label: Christine's Lasagna
+      recipe: christines-lasagna
+    - label: Baked Ziti
+    - label: Homemade marinara and meatballs
+    - label: Cauliflower and chickpea masala
+      recipe: cauliflower-chickpea-masala
+    - label: Beef and cabbage stir fry
+      recipe: beef-cabbage-stir-fry
+    - label: Pork peanut dragon noodles
+      recipe: pork-peanut-dragon-noodles
+    - label: King Ranch chicken
+    - label: Sesame chicken
+      recipe: sesame-chicken
+    - label: Jambalaya
+      recipe: jambalaya
+    - label: Pan-fried pork chops
+      recipe: pan-fried-pork-chops
+    - label: Baked pork chops
+      recipe: baked-pork-chops
+    - label: Chicken stir fry
+      recipe: gochujang-chicken-stir-fry
+    - label: Chicken with lime, garlic, and cilantro
+      recipe: chicken-lime-garlic-cilantro
+    - label: BBQ
+      recipe: sheet-pan-bbq-meatloaf
+    - label: Fideo con pollo
+    - label: Calabaza con pollo
+    - label: Burritos
+    - label: Red beans and rice
+
+- section: Hot Season
+  items:
+    - label: Mexican quinoa skillet
+      recipe: mexican-quinoa-skillet
+    - label: Fish tacos with rice, beans, or both
+      recipe: fish-tacos
+    - label: Tortilla soup
+      recipe: tortilla-soup
+
+- section: Cold Season
+  items:
+    - label: Chili with or without sweet potatoes
+      recipe: turkey-chili
+    - label: Goulash
+    - label: Cabbage soup
+      recipe: cabbage-soup
+    - label: Broccoli cheddar soup
+      recipe: broccoli-cheddar-soup
+    - label: Instant Pot pork roast
+      recipe: instant-pot-pork-roast
+    - label: Gumbo
+      recipe: gumbo
+    - label: Pot roast
+      recipe: pot-roast
+    - label: Pinto beans
+      recipe: not-refried-beans
+
+- section: Snacks / Dessert
+  items:
+    - label: Greek yogurt banana bread
+      recipe: greek-yogurt-banana-bread
+    - label: Roasted chickpeas
+      recipe: air-fryer-chickpeas
+    - label: Pickled carrots (veggies)
+      recipe: spicy-pickled-carrots

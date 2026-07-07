@@ -307,3 +307,15 @@ body.cooking-mode h2 { font-size: 1.6rem; }
   cursor: pointer;
 }
 #meal-suggestion-shuffle:hover { background: var(--accent); color: #fff; }
+
+.menu-list { list-style: none; margin-left: 0; }
+.menu-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.15rem 0;
+}
+.menu-check { width: 1.2em; text-align: center; flex-shrink: 0; }
+.menu-built .menu-check { color: var(--accent); font-weight: 700; }
+.menu-gap { color: var(--text-dim); }
+.menu-gap .menu-check { color: var(--border-bright); }
