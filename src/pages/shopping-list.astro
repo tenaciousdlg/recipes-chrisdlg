@@ -62,6 +62,7 @@ const gramConversions = Object.fromEntries(
 
   <div class="list-actions">
     <button id="copy-list" type="button">Copy list</button>
+    <button id="clear-all" type="button">Clear all</button>
     <span id="copy-confirm" class="copy-confirm"></span>
   </div>
 
@@ -102,6 +103,7 @@ const gramConversions = Object.fromEntries(
   const emptyState = document.getElementById('empty-state')!;
   const copyBtn = document.getElementById('copy-list')!;
   const copyConfirm = document.getElementById('copy-confirm')!;
+  const clearBtn = document.getElementById('clear-all')!;
 
   function loadState(): Record<string, RowState> {
     try {
@@ -197,5 +199,16 @@ const gramConversions = Object.fromEntries(
         copyConfirm.textContent = '';
       }, 2000);
     });
+  });
+
+  clearBtn.addEventListener('click', () => {
+    picker.querySelectorAll<HTMLInputElement>('.recipe-check').forEach((cb) => {
+      cb.checked = false;
+    });
+    picker.querySelectorAll<HTMLInputElement>('.recipe-qty').forEach((input) => {
+      const recipe = recipesForClient.find((r) => r.id === input.dataset.id);
+      if (recipe) input.value = String(recipe.primaryQty);
+    });
+    render();
   });
 </script>
