@@ -151,10 +151,3 @@ header.site-header .back { font-size: 0.9rem; color: var(--text-dim); }
 .macros div { text-align: center; }
 .macros .val { font-size: 1.3rem; color: var(--accent); font-weight: 600; }
 .macros .label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; }
-
-footer.site-footer {
-  text-align: center;
-  color: var(--text-dim);
-  font-size: 0.85rem;
-  padding: 2rem 0;
-}

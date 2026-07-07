@@ -9,9 +9,6 @@ const recipes = (await getCollection('recipes')).sort(
 ---
 
 <Layout title="Recipes">
-  <p style="color: var(--text-dim); margin-bottom: 1.5rem;">
-    {recipes.length} recipe{recipes.length === 1 ? '' : 's'}, scaled off whatever you're holding.
-  </p>
   {
     recipes.map((recipe) => {
       const primary = getPrimaryIngredient(recipe.data.ingredients);
