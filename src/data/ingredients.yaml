@@ -123,8 +123,8 @@ baby spinach:
 
 cilantro:
   macros_per_100g: { calories: 23, protein_g: 2.1, carbs_g: 3.7, fat_g: 0.5 }
-  grams_per_unit: { cup: 16 }
-  note: "loosely packed leaves -- cilantro is very light by volume."
+  grams_per_unit: { cup: 16, count: 2 }
+  note: "loosely packed leaves -- cilantro is very light by volume. count=one sprig, ~2g."
   source: usda
 
 cucumber:
@@ -175,7 +175,7 @@ onion:
 yellow onion:
   macros_per_100g: { calories: 40, protein_g: 1.1, carbs_g: 9.3, fat_g: 0.1 }
   note: "same nutrition as onion; separate item key per our join-key convention."
-  grams_per_unit: { count: 110 }
+  grams_per_unit: { count: 110, cup: 160 }
   source: usda
 
 red onion:
@@ -203,7 +203,7 @@ roma tomato:
 
 scallion:
   macros_per_100g: { calories: 32, protein_g: 1.8, carbs_g: 7.3, fat_g: 0.2 }
-  grams_per_unit: { count: 15 }
+  grams_per_unit: { count: 15, cup: 100 }
   source: usda
 
 serrano pepper:
@@ -226,7 +226,7 @@ tomatillo:
 
 brown sugar:
   macros_per_100g: { calories: 380, protein_g: 0, carbs_g: 98, fat_g: 0 }
-  grams_per_unit: { tbsp: 14 }
+  grams_per_unit: { tbsp: 14, cup: 220 }
   source: usda
 
 canned peeled tomatoes:
@@ -295,13 +295,13 @@ harissa paste:
 
 olive oil:
   macros_per_100g: { calories: 884, protein_g: 0, carbs_g: 0, fat_g: 100 }
-  grams_per_unit: { tbsp: 13.5 }
+  grams_per_unit: { tbsp: 13.5, cup: 216 }
   source: usda
 
 oregano:
   macros_per_100g: { calories: 265, protein_g: 9, carbs_g: 69, fat_g: 4.3 }
-  grams_per_unit: { tsp: 1 }
-  note: "dried. negligible at 1-2 tsp."
+  grams_per_unit: { tsp: 1, count: 1 }
+  note: "dried. negligible at 1-2 tsp. count=one fresh sprig, ~1g (used in tortilla-soup)."
   source: usda
 
 rice vinegar:
@@ -334,12 +334,12 @@ smoked paprika:
 
 soy sauce:
   macros_per_100g: { calories: 53, protein_g: 8, carbs_g: 4.9, fat_g: 0.6 }
-  grams_per_unit: { tbsp: 16 }
+  grams_per_unit: { tbsp: 16, cup: 256 }
   source: usda
 
 sugar:
   macros_per_100g: { calories: 387, protein_g: 0, carbs_g: 100, fat_g: 0 }
-  grams_per_unit: { tbsp: 12.5 }
+  grams_per_unit: { tbsp: 12.5, cup: 200 }
   source: usda
 
 tomato paste:
@@ -349,7 +349,7 @@ tomato paste:
 
 salt:
   macros_per_100g: { calories: 0, protein_g: 0, carbs_g: 0, fat_g: 0 }
-  grams_per_unit: { tsp: 6, pinch: 0.36 }
+  grams_per_unit: { tsp: 6, pinch: 0.36, tbsp: 18 }
   source: usda
 
 black pepper:
@@ -494,7 +494,7 @@ green beans:
 
 celery:
   macros_per_100g: { calories: 16, protein_g: 0.7, carbs_g: 3, fat_g: 0.2 }
-  grams_per_unit: { count: 40 }
+  grams_per_unit: { count: 40, cup: 101 }
   note: "count = one stalk."
   source: usda
 
@@ -511,14 +511,20 @@ vegetable broth:
 
 parsley:
   macros_per_100g: { calories: 36, protein_g: 3, carbs_g: 6.3, fat_g: 0.8 }
-  grams_per_unit: { cup: 60 }
+  grams_per_unit: { cup: 60, tbsp: 4 }
   note: "chopped, fresh."
   source: usda
 
 thyme:
   macros_per_100g: { calories: 276, protein_g: 9.1, carbs_g: 64, fat_g: 7.4 }
-  grams_per_unit: { tsp: 1 }
-  note: "dried; negligible at 1 tsp."
+  grams_per_unit: { tsp: 1, count: 1 }
+  note: "dried; negligible at 1 tsp. count=one fresh sprig, ~1g."
+  source: usda
+
+rosemary:
+  macros_per_100g: { calories: 331, protein_g: 4.9, carbs_g: 64, fat_g: 15.2 }
+  grams_per_unit: { count: 1 }
+  note: "fresh sprig, ~1g; negligible at a few sprigs, typically removed before serving."
   source: usda
 
 lemon juice:
@@ -574,7 +580,7 @@ chicken broth:
 bell pepper:
   macros_per_100g: { calories: 26, protein_g: 1, carbs_g: 6, fat_g: 0.2 }
   note: "generic/color unspecified; close to the green bell pepper entry."
-  grams_per_unit: { count: 120 }
+  grams_per_unit: { count: 120, cup: 150 }
   source: usda
 
 sweet potato:
@@ -653,3 +659,289 @@ seasoning:
   note: "generic dry spice blend (everything bagel, cajun, taco, etc); no single authoritative source since it's whatever blend is on hand, and negligible at 0.5 tbsp regardless."
   grams_per_unit: { tbsp: 7 }
   source: estimate
+
+# --- added for pot-roast, soft-pretzels, instant-pot-pork-roast,
+# mexican-quinoa-skillet, gumbo, sesame-chicken (replacement),
+# chicken-lime-garlic-cilantro, cauliflower-chickpea-masala,
+# pork-peanut-dragon-noodles (replacement), pan-fried-pork-chops,
+# greek-yogurt-banana-bread, three-meat-chili, broccoli-cheddar-soup,
+# jambalaya, tortilla-soup (replacement), sheet-pan-bbq-meatloaf ---
+
+all-purpose flour:
+  macros_per_100g: { calories: 364, protein_g: 10.3, carbs_g: 76, fat_g: 1 }
+  grams_per_unit: { cup: 120, tbsp: 7.8 }
+  source: usda
+
+eggs:
+  macros_per_100g: { calories: 143, protein_g: 12.6, carbs_g: 0.7, fat_g: 9.5 }
+  grams_per_unit: { count: 50 }
+  note: "one large egg."
+  source: usda
+
+active dry yeast:
+  macros_per_100g: { calories: 325, protein_g: 40, carbs_g: 41, fat_g: 7 }
+  grams_per_unit: { count: 7 }
+  note: "one standard packet (2.25 tsp, ~7g); negligible contribution at that amount regardless of the dense per-100g figure."
+  source: usda
+
+baking soda:
+  macros_per_100g: { calories: 0, protein_g: 0, carbs_g: 0, fat_g: 0 }
+  grams_per_unit: { tsp: 4.6, cup: 220 }
+  source: usda
+
+red wine:
+  macros_per_100g: { calories: 85, protein_g: 0.1, carbs_g: 2.6, fat_g: 0 }
+  grams_per_unit: { cup: 236 }
+  source: usda
+
+beef stock:
+  macros_per_100g: { calories: 6, protein_g: 0.8, carbs_g: 0.4, fat_g: 0.2 }
+  note: "same low-cal ballpark as chicken/vegetable broth."
+  grams_per_unit: { cup: 240 }
+  source: usda
+
+pork shoulder:
+  macros_per_100g: { calories: 250, protein_g: 17, carbs_g: 0, fat_g: 20 }
+  note: "raw, untrimmed pork shoulder/butt roast."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+garlic powder:
+  macros_per_100g: { calories: 331, protein_g: 16.6, carbs_g: 72.9, fat_g: 0.7 }
+  grams_per_unit: { tsp: 3.1, tbsp: 9.3 }
+  note: "dense per 100g but negligible at the tsp amounts used."
+  source: usda
+
+cinnamon:
+  macros_per_100g: { calories: 247, protein_g: 4, carbs_g: 81, fat_g: 1.2 }
+  grams_per_unit: { tsp: 2.6 }
+  note: "negligible at 1 tsp or less."
+  source: usda
+
+balsamic vinegar:
+  macros_per_100g: { calories: 88, protein_g: 0.5, carbs_g: 17, fat_g: 0 }
+  note: "more caloric than plain vinegar due to residual sugar."
+  grams_per_unit: { cup: 250 }
+  source: usda
+
+quinoa:
+  macros_per_100g: { calories: 368, protein_g: 14.1, carbs_g: 64.2, fat_g: 6.1 }
+  note: "raw, dry."
+  grams_per_unit: { cup: 170 }
+  source: usda
+
+corn kernels:
+  macros_per_100g: { calories: 86, protein_g: 3.2, carbs_g: 19, fat_g: 1.2 }
+  note: "canned/frozen, drained."
+  grams_per_unit: { cup: 165 }
+  source: usda
+
+mexican diced tomatoes:
+  macros_per_100g: { calories: 21, protein_g: 0.9, carbs_g: 4.6, fat_g: 0.2 }
+  note: "canned diced tomatoes with green chilies (e.g. Rotel-style); close to plain canned diced tomatoes."
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+cheese:
+  macros_per_100g: { calories: 403, protein_g: 23, carbs_g: 1.3, fat_g: 33 }
+  note: "generic shredded cheese (cheddar/Mexican-blend ballpark) for recipes that just say 'cheese, to garnish' without naming a specific one."
+  grams_per_unit: { cup: 113 }
+  source: estimate
+
+andouille sausage:
+  macros_per_100g: { calories: 320, protein_g: 15, carbs_g: 3, fat_g: 28 }
+  note: "smoked pork sausage."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+canola oil:
+  macros_per_100g: { calories: 884, protein_g: 0, carbs_g: 0, fat_g: 100 }
+  note: "same pure-fat profile as other neutral oils."
+  grams_per_unit: { cup: 218, tbsp: 13.6, tsp: 4.5 }
+  source: usda
+
+creole seasoning:
+  macros_per_100g: { calories: 230, protein_g: 8, carbs_g: 40, fat_g: 5 }
+  note: "generic dry spice blend, same ballpark as the generic 'seasoning' entry; negligible at the tbsp amounts used."
+  grams_per_unit: { tbsp: 7 }
+  source: estimate
+
+cajun seasoning:
+  macros_per_100g: { calories: 230, protein_g: 8, carbs_g: 40, fat_g: 5 }
+  note: "generic dry spice blend, same ballpark as creole seasoning; negligible at the tbsp/tsp amounts used."
+  grams_per_unit: { tbsp: 7, tsp: 2.3 }
+  source: estimate
+
+cayenne pepper:
+  macros_per_100g: { calories: 318, protein_g: 12, carbs_g: 57, fat_g: 17.3 }
+  note: "canonical key for cayenne/cayenne pepper; dense per 100g but negligible at 1 tsp or less."
+  grams_per_unit: { tsp: 1.8 }
+  source: usda
+
+bay leaves:
+  macros_per_100g: { calories: 313, protein_g: 7.6, carbs_g: 75, fat_g: 8.4 }
+  grams_per_unit: { count: 0.1 }
+  note: "one dried leaf, ~0.1g; negligible, and typically removed before serving anyway."
+  source: usda
+
+file powder:
+  macros_per_100g: { calories: 280, protein_g: 7, carbs_g: 65, fat_g: 3 }
+  note: "ground sassafras leaves; niche enough that this is a rough dried-herb-like estimate, negligible at 1 tbsp."
+  grams_per_unit: { tbsp: 3 }
+  source: estimate
+
+white rice:
+  macros_per_100g: { calories: 365, protein_g: 7.1, carbs_g: 80, fat_g: 0.7 }
+  note: "raw, dry, long grain. Where a recipe calls for rice already cooked and served alongside (gumbo), the recipe's quantity is converted to the raw-equivalent so this same raw-basis entry still applies."
+  grams_per_unit: { cup: 185 }
+  source: usda
+
+clam juice:
+  macros_per_100g: { calories: 6, protein_g: 0.8, carbs_g: 0.6, fat_g: 0 }
+  grams_per_unit: { fl_oz: 29.6 }
+  source: usda
+
+red bell pepper:
+  macros_per_100g: { calories: 31, protein_g: 1, carbs_g: 6, fat_g: 0.3 }
+  note: "sweeter/more vitamin C than green, slightly more calories."
+  grams_per_unit: { count: 120 }
+  source: usda
+
+chipotle in adobo:
+  macros_per_100g: { calories: 133, protein_g: 4.3, carbs_g: 20, fat_g: 5 }
+  note: "canned chipotle peppers in adobo sauce."
+  grams_per_unit: { count: 8 }
+  source: usda
+
+cotija cheese:
+  macros_per_100g: { calories: 347, protein_g: 20, carbs_g: 3, fat_g: 26 }
+  grams_per_unit: { cup: 115 }
+  note: "crumbled."
+  source: usda
+
+broccoli:
+  macros_per_100g: { calories: 35, protein_g: 2.8, carbs_g: 7, fat_g: 0.4 }
+  note: "fresh; same ballpark as broccolini."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+frozen broccoli:
+  macros_per_100g: { calories: 35, protein_g: 2.8, carbs_g: 7, fat_g: 0.4 }
+  note: "same nutrition as fresh broccoli; separate item key per our join-key convention."
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+bread crumbs:
+  macros_per_100g: { calories: 395, protein_g: 13, carbs_g: 72, fat_g: 5 }
+  note: "plain, dry."
+  grams_per_unit: { tbsp: 7 }
+  source: usda
+
+bbq sauce:
+  macros_per_100g: { calories: 172, protein_g: 0.5, carbs_g: 40, fat_g: 0.5 }
+  grams_per_unit: { tbsp: 17 }
+  source: usda
+
+whole milk:
+  macros_per_100g: { calories: 61, protein_g: 3.2, carbs_g: 4.8, fat_g: 3.3 }
+  note: "distinct from the 2% 'milk' entry."
+  grams_per_unit: { cup: 244 }
+  source: usda
+
+walnuts:
+  macros_per_100g: { calories: 654, protein_g: 15.2, carbs_g: 13.7, fat_g: 65.2 }
+  grams_per_unit: { cup: 100 }
+  note: "chopped."
+  source: usda
+
+vanilla extract:
+  macros_per_100g: { calories: 288, protein_g: 0.1, carbs_g: 12.7, fat_g: 0.1 }
+  grams_per_unit: { tsp: 4.2 }
+  note: "negligible at 2-3 tsp."
+  source: usda
+
+vegetable oil:
+  macros_per_100g: { calories: 884, protein_g: 0, carbs_g: 0, fat_g: 100 }
+  note: "same pure-fat profile as other neutral oils."
+  grams_per_unit: { cup: 218, tbsp: 13.6 }
+  source: usda
+
+chili garlic sauce:
+  macros_per_100g: { calories: 90, protein_g: 1.5, carbs_g: 18, fat_g: 1 }
+  note: "similar tier to sriracha/gochujang-family chili pastes."
+  grams_per_unit: { cup: 240 }
+  source: estimate
+
+ramen noodles:
+  macros_per_100g: { calories: 135, protein_g: 4.6, carbs_g: 25, fat_g: 2 }
+  note: "cooked, seasoning packet discarded per the recipe."
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+pork breakfast chops:
+  macros_per_100g: { calories: 137, protein_g: 21, carbs_g: 0, fat_g: 5.4 }
+  note: "same lean raw pork loin value as the regular pork chop entry; thin-cut breakfast chops just weigh less each."
+  grams_per_unit: { count: 85 }
+  source: usda
+
+seasoned salt:
+  macros_per_100g: { calories: 15, protein_g: 0.5, carbs_g: 3, fat_g: 0.1 }
+  note: "canonical key for seasoned/seasoning salt (e.g. Lawry's); mostly salt with a little sugar/dried herb/MSG, negligible at a tsp or less."
+  grams_per_unit: { tsp: 6 }
+  source: estimate
+
+pork:
+  macros_per_100g: { calories: 250, protein_g: 17, carbs_g: 0, fat_g: 20 }
+  note: "generic cubed stew pork, no cut specified; same ballpark as pork shoulder."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+bacon:
+  macros_per_100g: { calories: 541, protein_g: 37, carbs_g: 1.4, fat_g: 42 }
+  note: "raw."
+  grams_per_unit: { count: 28 }
+  source: usda
+
+masa harina:
+  macros_per_100g: { calories: 365, protein_g: 9.4, carbs_g: 76, fat_g: 3.8 }
+  grams_per_unit: { tbsp: 8 }
+  source: usda
+
+sharp cheddar:
+  macros_per_100g: { calories: 403, protein_g: 25, carbs_g: 1.3, fat_g: 33 }
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+cauliflower:
+  macros_per_100g: { calories: 25, protein_g: 2, carbs_g: 5, fat_g: 0.3 }
+  note: "frozen florets, close to fresh."
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+heavy cream:
+  macros_per_100g: { calories: 340, protein_g: 2.1, carbs_g: 2.8, fat_g: 36 }
+  grams_per_unit: { cup: 240 }
+  source: usda
+
+garam masala:
+  macros_per_100g: { calories: 379, protein_g: 15, carbs_g: 55, fat_g: 15 }
+  note: "spice blend; dense per 100g but a small fraction of the dish at 2 tbsp."
+  grams_per_unit: { tbsp: 6 }
+  source: usda
+
+turmeric:
+  macros_per_100g: { calories: 354, protein_g: 7.8, carbs_g: 65, fat_g: 10 }
+  grams_per_unit: { tsp: 3 }
+  note: "negligible at 1 tsp or less."
+  source: usda
+
+white wine:
+  macros_per_100g: { calories: 82, protein_g: 0.1, carbs_g: 2.6, fat_g: 0 }
+  grams_per_unit: { cup: 235 }
+  source: usda
+
+banana:
+  macros_per_100g: { calories: 89, protein_g: 1.1, carbs_g: 23, fat_g: 0.3 }
+  grams_per_unit: { count: 118 }
+  note: "one medium banana."
+  source: usda

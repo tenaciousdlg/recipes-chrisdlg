@@ -1,48 +1,41 @@
 ---
-title: Pork Peanut Dragon Noodles
-description: Ground pork and noodles in a sweet-savory-spicy sauce with a fried-egg-optional finish, fast, funky, and squarely on the bright-heat spine.
+title: Pork and Peanut Dragon Noodles
+description: Ground pork and ramen in a three-ingredient sweet-salty-spicy dragon sauce (chili garlic, soy, brown sugar), finished with peanuts and scallion. Fast comfort, from Budget Bytes.
 cuisine: Asian
 source: budget-bytes
 tags: [stir-fry, weeknight]
-base_servings: 4
+base_servings: 3
 ingredients:
-  - { item: ground pork, qty: 1, unit: lb, primary: true, section: meat }
-  - { item: lo mein noodles, qty: 8, unit: oz, prep: or ramen/spaghetti, section: pantry }
-  - { item: brown sugar, qty: 3, unit: tbsp, section: pantry }
-  - { item: soy sauce, qty: 3, unit: tbsp, section: pantry }
-  - { item: fish sauce, qty: 1, unit: tsp, section: pantry }
-  - { item: sriracha, qty: 2, unit: tsp, prep: or to taste, scale: false, section: pantry }
-  - { item: garlic, qty: 3, unit: count, prep: minced, section: produce }
-  - { item: peanut butter, qty: 2, unit: tbsp, section: pantry }
-  - { item: butter, qty: 2, unit: tbsp, section: dairy }
-  - { item: lime, qty: 1, unit: count, prep: juiced, scale: false, section: produce }
-  - { item: peanuts, qty: 0.25, unit: cup, prep: chopped, scale: false, section: pantry }
-  - { item: cilantro, qty: 0.25, unit: cup, prep: chopped, scale: false, section: produce }
-  - { item: scallion, qty: 2, unit: count, prep: sliced, scale: false, section: produce }
+  - { item: ground pork, qty: 0.5, unit: lb, primary: true, section: meat }
+  - { item: ramen noodles, qty: 6, unit: oz, prep: 2 packs, seasoning discarded, section: pantry }
+  - { item: chili garlic sauce, qty: 0.25, unit: cup, section: pantry }
+  - { item: soy sauce, qty: 0.25, unit: cup, section: pantry }
+  - { item: brown sugar, qty: 0.25, unit: cup, section: pantry }
+  - { item: peanuts, qty: 0.25, unit: cup, prep: unsalted, chopped, scale: false, section: pantry }
+  - { item: scallion, qty: 3, unit: count, prep: sliced, scale: false, section: produce }
 steps:
-  - Cook the noodles per package, drain, reserve a splash of water.
-  - Brown the ground pork in a large skillet over medium-high, breaking it up, until cooked and a little crisp. Add garlic the last minute.
-  - "Whisk the sauce: brown sugar, soy, fish sauce, sriracha, peanut butter, and pour into the pork. Add the butter and let it melt into a glossy sauce, ~1-2 min."
-  - Add the drained noodles and toss to coat, loosening with reserved noodle water if tight.
-  - Off heat, hit with lime juice. Top with chopped peanuts, cilantro, and scallion. A fried egg on top is the classic move.
+  - "Combine the chili garlic sauce, soy sauce, and brown sugar in a bowl: that's the dragon sauce."
+  - Brown the ground pork in a skillet over medium until fully cooked. (25%-fat pork usually needs no extra oil; if there's excess grease, drain to ~1 tbsp.) Add the dragon sauce and chopped peanuts; simmer ~5 min until the sauce reduces by half.
+  - Meanwhile, boil the ramen noodles per package (discard the seasoning packets), then drain.
+  - Add the drained noodles to the skillet and toss until coated in sauce. Top with scallions and serve.
 macros_per_serving:
-  calories: 560
-  protein_g: 28
-  carbs_g: 52
-  fat_g: 27
+  calories: 656
+  protein_g: 26
+  carbs_g: 62
+  fat_g: 21
   source: manual
 notes: >
-  Anchor is ground pork (1 lb = clean pack). Dead-center the bright-heat/tangy-funky spine: fish
-  sauce + sriracha + peanut + lime, sweet-savory-spicy all at once. Not a cutting meal, it's a
-  comfort main (~560 cal, fat-forward from pork + PB + butter), which is fine in the rotation.
-  Sriracha/lime/garnishes scale:false. Swap ground turkey or chicken to lighten it. Macros
-  estimated from the standard Budget-Bytes-style build; treat as approximate until logged.
-  Best fresh but reheats okay with a splash of water.
+  Anchor is ground pork at 0.5 lb / 3 servings, this is the actual Budget Bytes recipe (replaced
+  an earlier estimated version). Macros are BB's published values (656 cal / 26g protein / 62g
+  carb / 21g fat / 5g fiber per serving). Note the sodium is very high (~3400mg) from the soy +
+  chili garlic sauce; cut soy or use low-sodium if that matters. Dead-center the bright-heat/
+  tangy spine. Comfort food, not a cut meal. Peanuts/scallion scale:false. A fried egg on top is
+  a great add. Source: budgetbytes.com/pork-peanut-dragon-noodles
 created: 2026-07-07
 made_log: []
 ---
 
 ## Origin
 
-A perfect palate match, the tangy-funky-sweet-heat profile in noodle form. Budget Bytes' dragon
-noodles are the well-known version; pork + peanut + fish sauce + lime is the flavor engine.
+The real Budget Bytes version (three-ingredient sauce, ramen). Sweet-salty-spicy-crunchy, exactly
+the quizzed palate. Fast, cheap, indulgent weeknight comfort.
