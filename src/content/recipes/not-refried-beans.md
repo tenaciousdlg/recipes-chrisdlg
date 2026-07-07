@@ -4,7 +4,7 @@ description: Slow-cooker pinto beans mashed into a creamy, flavorful spread with
 cuisine: Mexican
 category: base
 source: budget-bytes
-tags: [slow-cooker, batch-prep, vegetarian]
+tags: [slow-cooker, batch-prep, vegetarian, vegan]
 base_servings: 9
 ingredients:
   - { item: pinto beans, qty: 1, unit: lb, prep: dry, primary: true, section: pantry }

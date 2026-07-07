@@ -2,7 +2,7 @@
 title: Vietnamese Caramel Salmon (Cá Kho-style)
 description: Salmon simmered in a savory-sweet fish-sauce caramel with garlic, ginger, and chili. Deeply funky, glossy, and spooned over rice, the tangy-funky flavor you reach back for.
 cuisine: Vietnamese
-tags: [weeknight]
+tags: [weeknight, braise, spicy]
 base_servings: 4
 ingredients:
   - { item: salmon fillet, qty: 1.5, unit: lb, prep: skin-on, cut into 4, primary: true, section: meat }

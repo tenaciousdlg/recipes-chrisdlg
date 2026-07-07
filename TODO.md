@@ -168,3 +168,27 @@ ingredient-database re-validation after all additions: every item+unit pair acro
 recipes has gram-conversion coverage (caught and fixed one gap: `brown sugar` was missing a
 `tsp` conversion, needed by the marinara recipe). Meal-suggestion regression re-run at 2000
 trials with the new sauce-category recipe in the pool: zero violations.
+
+## Tag hygiene audit (2026-07-08)
+
+Cross-checked every recipe's tags against its title, ingredients, and steps (not just
+spot-checking) for three failure modes: a cooking-method tag missing despite the steps
+clearly using it, a vegetarian/vegan tag applied or withheld incorrectly, and a dish with
+real heat not tagged spicy. Found and fixed 5 gaps:
+
+- **Christine's Lasagna** had zero tags at all. Added `pasta` and `baking`.
+- **Greek Yogurt Banana Bread** was missing `vegetarian` (eggs and yogurt, no meat).
+- **(Not) Refried Beans** was missing `vegan` (dry beans, aromatics, water, salt, no animal
+  products anywhere, already had `vegetarian`).
+- **Harissa Chicken Bowls** was missing `braise` — its own steps say "reduce heat, braise
+  10-12 min," same technique as Pot Roast and Chicken with Lime, Garlic, and Cilantro, which
+  are tagged.
+- **Vietnamese Caramel Salmon** was missing both `braise` (its own steps say "Build the
+  braise") and `spicy` (uses a whole Thai chili, not just a background chili-powder amount).
+
+Checked and confirmed correct (no change needed): every recipe titled with a cooking method
+(Sheet Pan, Instant Pot, Air Fryer, Bowl, Tacos, Chili, Soup, Stir Fry) already carries the
+matching tag; dairy-containing vegetarian recipes correctly excluded from `vegan`; Turkey
+Chili vs. Three-Meat Chili's differing spicy tag reflects a real heat difference (plain chili
+powder vs. 4 tbsp sriracha), not an inconsistency; Spanish Rice correctly has no
+vegetarian/vegan tag despite being produce-heavy, since it uses chicken bouillon.

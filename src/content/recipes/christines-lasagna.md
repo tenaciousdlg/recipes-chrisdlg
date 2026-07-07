@@ -4,6 +4,7 @@ description: A family lasagna layered with a simple beef-and-tomato meat sauce, 
 cuisine: Italian
 source: family
 self_contained: true
+tags: [pasta, baking]
 base_servings: 8
 ingredients:
   - { item: ground beef, qty: 1, unit: lb, prep: grass-fed, primary: true, section: meat }

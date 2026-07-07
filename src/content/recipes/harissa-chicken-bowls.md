@@ -2,7 +2,7 @@
 title: Harissa Chicken Bowls
 description: Dutch-oven harissa chicken, seared then braised in harissa, garlic, ginger and lemon, served bowl-style with cucumber-yogurt sauce and quick-pickled red onions.
 cuisine: Mediterranean
-tags: [bowl, batch-prep]
+tags: [bowl, braise, batch-prep]
 base_servings: 6
 ingredients:
   - { item: chicken thigh, qty: 2, unit: lb, prep: boneless skinless, primary: true, section: meat }

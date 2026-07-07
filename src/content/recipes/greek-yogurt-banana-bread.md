@@ -4,7 +4,7 @@ description: Moist banana bread with Greek yogurt for extra tenderness and a lit
 cuisine: American
 category: snack
 source: web
-tags: [baking]
+tags: [baking, vegetarian]
 base_servings: 8
 ingredients:
   - { item: banana, qty: 3, unit: count, prep: very ripe, mashed, ~1.5 cups, primary: true, section: produce }
