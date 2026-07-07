@@ -53,3 +53,18 @@ Ragù) that skips the base pool and the base/side fallback-fill entirely,
 leaving room for just a side. Verified via 500 simulated trials against the
 real built data: every self-contained-main trial paired with a side only,
 never a base.
+
+Fixed 2026-07-07 (second pass): two more bad pairings reported. (1) "Beef
+and Cabbage Stir Fry with Orange Sauce (for chicken)" — Orange Sauce was
+mis-filed as `category: base` (its own notes even flagged this: "no
+dedicated sauce/component category yet"), so the widget treated a
+protein-glaze as if it were a side dish. Added a `sauce` category, excluded
+it from the pairing pool entirely (a sauce isn't served alongside a dish,
+it's tossed with a specific protein). (2) "Chicken with Lime, Garlic, and
+Cilantro with Mashed Potatoes and Cornbread" — the chicken was tagged
+`cuisine: American` as a default/catch-all, which pulled in Southern
+comfort-food sides that clash with its bright citrus-herb profile. Cleared
+its cuisine so it falls into the universal pool (jasmine rice, roasted
+veg) instead. Re-verified via 1000 simulated trials: zero sauce-as-pairing
+occurrences, and the lime chicken now only ever pairs with jasmine rice
+and/or roasted broccoli.

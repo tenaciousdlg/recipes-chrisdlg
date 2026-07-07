@@ -1,7 +1,6 @@
 ---
 title: Chicken with Lime, Garlic, and Cilantro
 description: Bone-in thighs seared then braised in a bright white-wine, lime, garlic, and honey sauce, finished with cilantro and scallion. Restaurant-feeling, one-pan.
-cuisine: American
 source: web
 tags: [braise]
 base_servings: 4

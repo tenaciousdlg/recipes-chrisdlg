@@ -33,7 +33,7 @@ const recipesForClient = recipes.map((r) => ({
   interface RecipeForPairing {
     id: string;
     title: string;
-    category: 'main' | 'base' | 'side' | 'snack';
+    category: 'main' | 'base' | 'side' | 'snack' | 'sauce';
     cuisine: string | null;
     isBreakfast: boolean;
     selfContained: boolean;
@@ -62,9 +62,14 @@ const recipesForClient = recipes.map((r) => ({
     if (!main) return null;
 
     // pairs with the same cuisine, or with no cuisine at all (a "goes with anything" side
-    // like plain rice or roasted vegetables); never suggest a snack as a meal component
+    // like plain rice or roasted vegetables); never suggest a snack or a sauce (a sauce is a
+    // component tossed with a specific protein, not a dish to serve alongside one)
     const pairPool = recipes.filter(
-      (r) => r.category !== 'main' && r.category !== 'snack' && (r.cuisine === main.cuisine || r.cuisine === null),
+      (r) =>
+        r.category !== 'main' &&
+        r.category !== 'snack' &&
+        r.category !== 'sauce' &&
+        (r.cuisine === main.cuisine || r.cuisine === null),
     );
 
     // a main that already brings its own starch (pasta, gnocchi, noodles) doesn't need

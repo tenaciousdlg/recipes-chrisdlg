@@ -36,9 +36,10 @@ const recipe = z.object({
   cuisine: z.string().optional(),
   // main = protein-forward dish; base = starchy anchor paired under a main (rice, beans,
   // potatoes); side = other accompaniment (vegetable, salad, bread); snack = snacks and
-  // condiments not meant to anchor a meal on their own.
+  // condiments not meant to anchor a meal on their own; sauce = a component tossed with a
+  // protein rather than a dish in its own right (never auto-paired as a base/side).
   // Drives shopping-list pairing and stops a side's macros being read as a full meal.
-  category: z.enum(['main', 'base', 'side', 'snack']).optional().default('main'),
+  category: z.enum(['main', 'base', 'side', 'snack', 'sauce']).optional().default('main'),
   // where the recipe came from. family marks personal/sentimental recipes (kept verbatim,
   // never "optimized") so they read differently from web/Budget Bytes pulls.
   source: z.enum(['original', 'budget-bytes', 'web', 'family']).optional().default('original'),
