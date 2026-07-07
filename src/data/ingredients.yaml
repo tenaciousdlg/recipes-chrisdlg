@@ -271,7 +271,7 @@ honey:
 
 sriracha:
   macros_per_100g: { calories: 93, protein_g: 2, carbs_g: 19, fat_g: 0.6 }
-  grams_per_unit: { tsp: 5 }
+  grams_per_unit: { tsp: 5, tbsp: 15 }
   note: "generic sriracha-style hot sauce; negligible at 1 tsp."
   source: usda
 
@@ -318,7 +318,7 @@ vinegar:
 
 sesame oil:
   macros_per_100g: { calories: 884, protein_g: 0, carbs_g: 0, fat_g: 100 }
-  grams_per_unit: { tsp: 4.5 }
+  grams_per_unit: { tsp: 4.5, tbsp: 13.5 }
   source: usda
 
 sesame seed:
@@ -328,7 +328,7 @@ sesame seed:
 
 smoked paprika:
   macros_per_100g: { calories: 282, protein_g: 14.1, carbs_g: 54, fat_g: 13 }
-  grams_per_unit: { tsp: 2.3 }
+  grams_per_unit: { tsp: 2.3, tbsp: 6.9 }
   note: "negligible at 1 tsp."
   source: usda
 
@@ -349,12 +349,12 @@ tomato paste:
 
 salt:
   macros_per_100g: { calories: 0, protein_g: 0, carbs_g: 0, fat_g: 0 }
-  grams_per_unit: { tsp: 6 }
+  grams_per_unit: { tsp: 6, pinch: 0.36 }
   source: usda
 
 black pepper:
   macros_per_100g: { calories: 251, protein_g: 10.4, carbs_g: 64, fat_g: 3.3 }
-  grams_per_unit: { tsp: 2.3 }
+  grams_per_unit: { tsp: 2.3, pinch: 0.36 }
   note: "negligible at 1 tsp or less."
   source: usda
 
@@ -448,4 +448,81 @@ thai chili:
   macros_per_100g: { calories: 40, protein_g: 2, carbs_g: 9, fat_g: 0.4 }
   grams_per_unit: { count: 2 }
   note: "tiny pepper, ~2g each; negligible at 1 chili."
+  source: usda
+
+# --- added for cabbage-soup, beef-cabbage-stir-fry, baked-pork-chops ---
+
+cabbage:
+  macros_per_100g: { calories: 25, protein_g: 1.3, carbs_g: 5.8, fat_g: 0.1 }
+  grams_per_unit: { count: 900 }
+  note: "green cabbage; count=900g approximates one whole head, so 'half head' resolves to ~450g."
+  source: usda
+
+carrot:
+  macros_per_100g: { calories: 41, protein_g: 0.9, carbs_g: 9.6, fat_g: 0.2 }
+  grams_per_unit: { count: 60, lb: 453.6 }
+  source: usda
+
+onion powder:
+  macros_per_100g: { calories: 341, protein_g: 10.4, carbs_g: 79, fat_g: 1 }
+  grams_per_unit: { tsp: 2.4 }
+  note: "dense per 100g like other dried spices but negligible at 1 tsp."
+  source: usda
+
+pork chop:
+  macros_per_100g: { calories: 137, protein_g: 21, carbs_g: 0, fat_g: 5.4 }
+  note: "raw, boneless pork loin chop, trimmed lean. count=170g (~6oz) matches a 3/4-1in thick chop. First draft used a fattier untrimmed-cut value (231cal/100g) at 200g/chop, computed 586cal vs. baked-pork-chops.md's published 335cal; corrected after that gap surfaced."
+  grams_per_unit: { count: 170 }
+  source: usda
+
+canned diced tomatoes:
+  macros_per_100g: { calories: 18, protein_g: 0.9, carbs_g: 4, fat_g: 0.2 }
+  note: "same as canned peeled tomatoes, separate item key per join-key convention."
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+tomato sauce:
+  macros_per_100g: { calories: 24, protein_g: 1.2, carbs_g: 5.3, fat_g: 0.2 }
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+green beans:
+  macros_per_100g: { calories: 31, protein_g: 1.8, carbs_g: 7, fat_g: 0.2 }
+  note: "frozen, same ballpark as fresh."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+celery:
+  macros_per_100g: { calories: 16, protein_g: 0.7, carbs_g: 3, fat_g: 0.2 }
+  grams_per_unit: { count: 40 }
+  note: "count = one stalk."
+  source: usda
+
+green bell pepper:
+  macros_per_100g: { calories: 20, protein_g: 0.9, carbs_g: 4.6, fat_g: 0.2 }
+  grams_per_unit: { count: 120 }
+  source: usda
+
+vegetable broth:
+  macros_per_100g: { calories: 3, protein_g: 0.3, carbs_g: 0.5, fat_g: 0.1 }
+  grams_per_unit: { cup: 237 }
+  note: "very low-cal, similar to chicken/beef broth."
+  source: usda
+
+parsley:
+  macros_per_100g: { calories: 36, protein_g: 3, carbs_g: 6.3, fat_g: 0.8 }
+  grams_per_unit: { cup: 60 }
+  note: "chopped, fresh."
+  source: usda
+
+thyme:
+  macros_per_100g: { calories: 276, protein_g: 9.1, carbs_g: 64, fat_g: 7.4 }
+  grams_per_unit: { tsp: 1 }
+  note: "dried; negligible at 1 tsp."
+  source: usda
+
+lemon juice:
+  macros_per_100g: { calories: 22, protein_g: 0.35, carbs_g: 6.9, fat_g: 0.24 }
+  note: "same as the 'lemon' item's juice basis; bottled/measured-by-tbsp here instead of juice-of-one-lemon."
+  grams_per_unit: { tbsp: 15.4 }
   source: usda
