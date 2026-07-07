@@ -213,3 +213,27 @@ bowl's "or a cool element like avocado/cucumber"), and prep-note alternatives al
 minor finding: Beef and Cabbage Stir Fry's step called its own listed "neutral oil" ingredient
 "cooking oil" instead of by name — fixed for consistency between the ingredient list and the
 step that uses it.
+
+## Search/sort/cooking-mode smoke test (2026-07-08)
+
+No real browser automation available in this environment, so instead of a manual click-through
+I extracted the actual bundled client-side scripts from a real build (not reimplemented logic)
+and ran them in Node's `vm` module against a simulated DOM, real card data pulled straight from
+the built homepage, and a mocked Wake Lock API covering the supported/unsupported/failure paths.
+This is the same technique that caught the `define:vars`/import bug, the `node:fs` bug, the
+cuisine-preference bug, and the search false-positive bug earlier in the project.
+
+21 tests, all passing on the real shipped code:
+- Search (4): case-insensitivity, no-results messaging, clearing resets to show all, and a
+  regression check that "chicken" still doesn't surface Broccoli Cheddar Soup via its background
+  chicken-broth ingredient.
+- Sort (9): all 8 sort modes produce the exact expected order against real protein/calorie/date
+  data, plus sorting-then-searching keeps the visible cards in sort order.
+- Cooking mode (8): enable/disable toggles the body class, button text, aria-pressed, and
+  localStorage correctly; wake-lock request success, failure, and unsupported-browser paths all
+  produce the right status text without crashing; state restores correctly from localStorage on
+  page load; visibilitychange re-acquisition runs without error.
+
+Two failures surfaced during development, both bugs in the test harness itself (a comparator
+reading `.dataset.x` on plain objects, a mock Wake Lock sentinel missing its `release()` method)
+rather than the site; fixed the harness and reran clean. No site bugs found in this pass.
