@@ -19,7 +19,9 @@
     - label: Christine's Lasagna
       recipe: christines-lasagna
     - label: Baked Ziti
-    - label: Homemade marinara and meatballs
+    - label: Homemade marinara
+      recipe: homemade-marinara
+    - label: Meatballs
     - label: Cauliflower and chickpea masala
       recipe: cauliflower-chickpea-masala
     - label: Beef and cabbage stir fry
@@ -42,7 +44,9 @@
     - label: BBQ
       recipe: sheet-pan-bbq-meatloaf
     - label: Fideo con pollo
+      recipe: fideo-con-pollo
     - label: Calabaza con pollo
+      recipe: calabaza-con-pollo
     - label: Burritos
     - label: Red beans and rice
 

@@ -143,3 +143,28 @@ produces clean, kitchen-measurable fractions everywhere except two spots:
 yeast" — not buyable or usable. Marked both `scale: false` (yeast dough is
 already forgiving of exact ratios, and egg wash coats any batch size), matching
 the site's existing convention for aromatics/salt.
+
+## Recipe additions (2026-07-08)
+
+Added four recipes toward the menu-tracking gaps:
+- **Abuelita's Sopa de Fideo** (`fideo-con-pollo`) — family recipe, chicken poached for
+  broth, toasted fideo in a tomato sauce. Added `chicken breast` and `fideo` to
+  `ingredients.yaml` (neither existed). Marked `self_contained` per the soup convention.
+- **Calabaza con Pollo** — Mexican chicken and squash stew from a web source with its own
+  published nutrition facts (used directly, not recomputed, same as the Budget Bytes
+  precedent). Added `calabaza squash`, `zucchini`, and `yellow squash` to the ingredient
+  database; none existed. Calabaza squash size varies a lot (2-15+ lb), so its `count`
+  conversion is a documented estimate (~2.5 lb peeled/cubed), not a precise figure.
+- **Homemade Marinara Sauce** (Budget Bytes) — filed as `category: sauce` like Orange Sauce,
+  so the meal-suggestion widget won't treat it as a pairable side. Menu list's old single
+  "Homemade marinara and meatballs" line was split into two separate items so partial
+  progress shows correctly; meatballs still open.
+- **Coleslaw**, converted from mayo to a vinegar-based dressing (cabbage, carrot, cider
+  vinegar, oil, sugar, celery seed) per request — lighter (105 vs. 152 cal/serving) and
+  holds up better sitting out at a cookout. Added `celery seed` to the ingredient database.
+
+Menu coverage now 28/39 (was 25/38; the marinara/meatballs split added a slot). Full
+ingredient-database re-validation after all additions: every item+unit pair across all 49
+recipes has gram-conversion coverage (caught and fixed one gap: `brown sugar` was missing a
+`tsp` conversion, needed by the marinara recipe). Meal-suggestion regression re-run at 2000
+trials with the new sauce-category recipe in the pool: zero violations.

@@ -226,7 +226,7 @@ tomatillo:
 
 brown sugar:
   macros_per_100g: { calories: 380, protein_g: 0, carbs_g: 98, fat_g: 0 }
-  grams_per_unit: { tbsp: 14, cup: 220 }
+  grams_per_unit: { tbsp: 14, cup: 220, tsp: 4.7 }
   source: usda
 
 canned peeled tomatoes:
@@ -238,8 +238,20 @@ canned peeled tomatoes:
 chicken bouillon:
   macros_per_100g: { calories: 125, protein_g: 5, carbs_g: 20, fat_g: 3 }
   note: "generic granulated bouillon (carne-con-papas doesn't name a brand, unlike spanish-rice's Knorr/Maggi) -- given the same negligible-at-1tsp treatment as the named caldos below."
-  grams_per_unit: { tsp: 4 }
+  grams_per_unit: { tsp: 4, tbsp: 12 }
   source: estimate
+
+chicken breast:
+  macros_per_100g: { calories: 120, protein_g: 22.5, carbs_g: 0, fat_g: 2.6 }
+  note: "boneless, skinless, raw. count=174g (~6oz), a standard single breast."
+  grams_per_unit: { count: 174 }
+  source: usda
+
+fideo:
+  macros_per_100g: { calories: 371, protein_g: 13, carbs_g: 75, fat_g: 1.5 }
+  note: "dry thin wheat vermicelli, standard dry-pasta basis. count=1 package (~7oz/198g, the common La Moderna/Ideal-style bag)."
+  grams_per_unit: { count: 198 }
+  source: usda
 
 chili powder:
   macros_per_100g: { calories: 282, protein_g: 13.5, carbs_g: 50, fat_g: 14.3 }
@@ -302,6 +314,12 @@ oregano:
   macros_per_100g: { calories: 265, protein_g: 9, carbs_g: 69, fat_g: 4.3 }
   grams_per_unit: { tsp: 1, count: 1 }
   note: "dried. negligible at 1-2 tsp. count=one fresh sprig, ~1g (used in tortilla-soup)."
+  source: usda
+
+basil:
+  macros_per_100g: { calories: 233, protein_g: 23, carbs_g: 48, fat_g: 4 }
+  grams_per_unit: { tsp: 0.7 }
+  note: "dried. negligible at 1/2-1 tsp."
   source: usda
 
 rice vinegar:
@@ -496,6 +514,12 @@ celery:
   macros_per_100g: { calories: 16, protein_g: 0.7, carbs_g: 3, fat_g: 0.2 }
   grams_per_unit: { count: 40, cup: 101 }
   note: "count = one stalk."
+  source: usda
+
+celery seed:
+  macros_per_100g: { calories: 392, protein_g: 18, carbs_g: 42, fat_g: 25 }
+  grams_per_unit: { tsp: 2 }
+  note: "dense per 100g but negligible at the tsp amounts used (vinegar slaw)."
   source: usda
 
 green bell pepper:
@@ -732,8 +756,30 @@ quinoa:
 
 corn kernels:
   macros_per_100g: { calories: 86, protein_g: 3.2, carbs_g: 19, fat_g: 1.2 }
-  note: "canned/frozen, drained."
-  grams_per_unit: { cup: 165 }
+  note: "canned/frozen, drained. oz is can-size shorthand (a 15oz can), not literal drained
+    weight -- same judgment call as black beans: ~255g drained from a nominal 15oz can."
+  grams_per_unit: { cup: 165, oz: 17 }
+  source: usda
+
+calabaza squash:
+  macros_per_100g: { calories: 40, protein_g: 1, carbs_g: 10, fat_g: 0.1 }
+  note: "raw, peeled, similar profile to butternut squash/pumpkin (no USDA calabaza-specific
+    entry). Calabaza squash size varies hugely (2-15+ lb); count=1134g (~2.5 lb) assumes a
+    moderate amount of peeled, cubed flesh relative to the rest of the dish, not a whole large
+    squash -- adjust if your squash runs bigger or smaller."
+  grams_per_unit: { count: 1134 }
+  source: estimate
+
+zucchini:
+  macros_per_100g: { calories: 17, protein_g: 1.2, carbs_g: 3.1, fat_g: 0.3 }
+  grams_per_unit: { count: 196 }
+  note: "raw. count = one medium zucchini."
+  source: usda
+
+yellow squash:
+  macros_per_100g: { calories: 16, protein_g: 1.2, carbs_g: 3.4, fat_g: 0.2 }
+  grams_per_unit: { count: 200 }
+  note: "raw. count = one medium summer squash."
   source: usda
 
 mexican diced tomatoes:
@@ -817,6 +863,12 @@ cotija cheese:
   macros_per_100g: { calories: 347, protein_g: 20, carbs_g: 3, fat_g: 26 }
   grams_per_unit: { cup: 115 }
   note: "crumbled."
+  source: usda
+
+queso fresco:
+  macros_per_100g: { calories: 264, protein_g: 18, carbs_g: 4.1, fat_g: 20 }
+  grams_per_unit: { cup: 132, tbsp: 8 }
+  note: "crumbled. Fresher and milder than cotija, so lower calorie/fat by weight."
   source: usda
 
 broccoli:
