@@ -9,7 +9,7 @@ const SECTIONS = ['meat', 'produce', 'dairy', 'pantry', 'frozen', 'bakery', 'oth
 // field too) so nothing gets tagged in two places. high-protein isn't here either: it's
 // computed from macros_per_serving.protein_g instead of applied by feel.
 const TAGS = [
-  'bowl', 'stew', 'stir-fry', 'pasta',
+  'bowl', 'stew', 'stir-fry', 'pasta', 'sheet-pan',
   'batch-prep', 'weeknight', 'slow-cooker', 'vegetarian', 'spicy',
 ] as const;
 

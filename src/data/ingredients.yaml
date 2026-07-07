@@ -1,0 +1,451 @@
+# Phase 2 ingredient database: normalized item -> per-100g macros + a gram
+# equivalent for each unit that item is actually used with across our recipes.
+# Recipe quantities are raw/as-purchased amounts (e.g. "2 lb ground turkey"
+# means 2 lb raw, before cooking), so macros here are on the same raw basis --
+# this matches how a recipe nutrition calculator (and our own hand-entered
+# macros) works: qty x per-unit macro, summed across ingredients.
+#
+# `source` on each entry:
+#   usda        - a standard commodity value that doesn't vary meaningfully by
+#                 brand or recipe context (USDA FoodData Central ballpark)
+#   brand:NAME  - a specific named product used in our recipes, sourced from
+#                 the manufacturer's published label (via nutritionvalue.org /
+#                 fatsecret / eatthismuch / mynetdiary aggregation)
+#   estimate    - no single authoritative source; a reasonable typical value
+#
+# DRAFT -- not yet wired into any macro computation. Meant for review first.
+#
+# Open questions flagged inline with a comment where a real judgment call was
+# made (canned-good "oz" = can size vs. drained weight, lemon/lime = juice
+# yield not whole-fruit weight since that's how our recipes use them, etc).
+
+# --- meat ---
+
+ground turkey:
+  macros_per_100g: { calories: 150, protein_g: 20, carbs_g: 0, fat_g: 8 }
+  note: "93/7 lean, raw. turkey-gnocchi-ragu's prep says '93/7 or 85/15' -- used the leaner figure since it's listed first and matches the explicit 93/7 used for ground beef elsewhere."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+ground beef:
+  macros_per_100g: { calories: 152, protein_g: 19, carbs_g: 0, fat_g: 8 }
+  note: "93/7 lean, raw, matching tex-mex-beef-bean-bowl's explicit prep."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+chicken thigh:
+  macros_per_100g: { calories: 121, protein_g: 20, carbs_g: 0, fat_g: 4 }
+  note: "boneless, skinless, raw -- the cut every one of our chicken thigh recipes specifies."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+chuck beef:
+  macros_per_100g: { calories: 205, protein_g: 19, carbs_g: 0, fat_g: 14 }
+  note: "beef chuck, trimmed, raw -- carne-con-papas just says 'cut into chunks', no lean % given since chuck isn't sold by lean % like ground beef."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+# --- beans / grains ---
+
+pinto beans:
+  macros_per_100g: { calories: 347, protein_g: 21, carbs_g: 63, fat_g: 1.2 }
+  note: "dry, raw -- not-refried-beans buys a 1lb bag of dry beans."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+black beans:
+  macros_per_100g: { calories: 132, protein_g: 8.9, carbs_g: 23.7, fat_g: 0.5 }
+  note: "canned, drained -- tex-mex-beef-bean-bowl's prep says 'no-salt, drained and rinsed'. Judgment call: our recipe records qty as '15 oz' meaning the can size (a shopping-list-friendly amount), not the literal drained weight, which is less than 15oz. Treated the can as ~270g of drained beans (a standard 15oz can's typical yield)."
+  grams_per_unit: { oz: 18 }
+  source: usda
+
+ranch style beans:
+  macros_per_100g: { calories: 110, protein_g: 4.7, carbs_g: 17.3, fat_g: 2.4 }
+  note: "Conagra Ranch Style Beans, undrained (our recipe's prep says 'undrained', unlike the black beans above) -- so the full can's weight applies here, not a drained-yield estimate."
+  grams_per_unit: { oz: 28.35 }
+  source: "brand:Ranch Style Beans (Conagra)"
+
+brown rice:
+  macros_per_100g: { calories: 370, protein_g: 7.9, carbs_g: 77, fat_g: 2.9 }
+  note: "raw, dry -- spanish-rice toasts the dry rice before adding liquid, so the '2 cup' quantity is dry rice, not cooked."
+  grams_per_unit: { cup: 185 }
+  source: usda
+
+potato gnocchi:
+  macros_per_100g: { calories: 156, protein_g: 3.6, carbs_g: 32, fat_g: 0.8 }
+  note: "shelf-stable packaged potato gnocchi (turkey-gnocchi-ragu's notes say '2x500g packages'), not fresh/homemade -- store-bought has a meaningfully different profile than a from-scratch potato-and-egg dough."
+  grams_per_unit: { g: 1 }
+  source: estimate
+
+# --- dairy ---
+
+butter:
+  macros_per_100g: { calories: 717, protein_g: 0.9, carbs_g: 0.1, fat_g: 81 }
+  grams_per_unit: { tbsp: 14.2 }
+  source: usda
+
+greek yogurt:
+  macros_per_100g: { calories: 59, protein_g: 10.2, carbs_g: 3.6, fat_g: 0.4 }
+  note: "nonfat -- greek-yogurt-chicken-thighs and harissa-chicken-bowls both specify nonfat/no fat qualifier is implied by the recipe's whole macro story (pushing protein-to-fat ratio up)."
+  grams_per_unit: { cup: 245 }
+  source: usda
+
+milk:
+  macros_per_100g: { calories: 50, protein_g: 3.3, carbs_g: 4.9, fat_g: 2 }
+  note: "2%, per turkey-gnocchi-ragu's prep."
+  grams_per_unit: { cup: 244 }
+  source: usda
+
+parmesan:
+  macros_per_100g: { calories: 392, protein_g: 35.8, carbs_g: 3.2, fat_g: 25.8 }
+  note: "grated."
+  grams_per_unit: { cup: 100 }
+  source: usda
+
+# --- produce ---
+
+avocado:
+  macros_per_100g: { calories: 160, protein_g: 2, carbs_g: 8.5, fat_g: 14.7 }
+  grams_per_unit: { count: 150 }
+  note: "edible flesh of one medium avocado, pit/skin excluded."
+  source: usda
+
+spinach:
+  macros_per_100g: { calories: 23, protein_g: 2.9, carbs_g: 3.6, fat_g: 0.4 }
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+baby spinach:
+  macros_per_100g: { calories: 23, protein_g: 2.9, carbs_g: 3.6, fat_g: 0.4 }
+  note: "same nutrition as spinach; kept as a separate item because it's a separate `item` key in our schema (join-key convention treats it as distinct from 'spinach')."
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+cilantro:
+  macros_per_100g: { calories: 23, protein_g: 2.1, carbs_g: 3.7, fat_g: 0.5 }
+  grams_per_unit: { cup: 16 }
+  note: "loosely packed leaves -- cilantro is very light by volume."
+  source: usda
+
+cucumber:
+  macros_per_100g: { calories: 15, protein_g: 0.65, carbs_g: 3.6, fat_g: 0.1 }
+  grams_per_unit: { count: 300 }
+  source: usda
+
+garlic:
+  macros_per_100g: { calories: 149, protein_g: 6.4, carbs_g: 33, fat_g: 0.5 }
+  grams_per_unit: { count: 3 }
+  note: "1 clove ~= 3g. Dense per 100g but negligible at the 1-6 clove amounts our recipes use."
+  source: usda
+
+ginger:
+  macros_per_100g: { calories: 80, protein_g: 1.8, carbs_g: 18, fat_g: 0.75 }
+  grams_per_unit: { tbsp: 6, tsp: 2 }
+  note: "grated, fresh."
+  source: usda
+
+jalapeno:
+  macros_per_100g: { calories: 29, protein_g: 0.9, carbs_g: 6.5, fat_g: 0.4 }
+  grams_per_unit: { count: 14 }
+  source: usda
+
+lemon:
+  macros_per_100g: { calories: 22, protein_g: 0.35, carbs_g: 6.9, fat_g: 0.24 }
+  grams_per_unit: { count: 46 }
+  note: "our recipes use lemon as 'zest + juice' or 'juiced', not the whole fruit -- 46g approximates the juice+zest yield of one lemon, not the whole lemon's weight. Values are for lemon juice specifically."
+  source: usda
+
+lime:
+  macros_per_100g: { calories: 25, protein_g: 0.4, carbs_g: 8.4, fat_g: 0.2 }
+  grams_per_unit: { count: 31 }
+  note: "same juice-yield-not-whole-fruit judgment call as lemon."
+  source: usda
+
+mini peppers:
+  macros_per_100g: { calories: 26, protein_g: 1, carbs_g: 6, fat_g: 0.2 }
+  note: "bell pepper nutrition -- mini/snacking peppers are the same species, just smaller."
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+onion:
+  macros_per_100g: { calories: 40, protein_g: 1.1, carbs_g: 9.3, fat_g: 0.1 }
+  grams_per_unit: { count: 110 }
+  source: usda
+
+yellow onion:
+  macros_per_100g: { calories: 40, protein_g: 1.1, carbs_g: 9.3, fat_g: 0.1 }
+  note: "same nutrition as onion; separate item key per our join-key convention."
+  grams_per_unit: { count: 110 }
+  source: usda
+
+red onion:
+  macros_per_100g: { calories: 40, protein_g: 1.1, carbs_g: 9.3, fat_g: 0.1 }
+  note: "same nutrition as onion; separate item key per our join-key convention."
+  grams_per_unit: { count: 110 }
+  source: usda
+
+potato:
+  macros_per_100g: { calories: 77, protein_g: 2, carbs_g: 17.5, fat_g: 0.1 }
+  grams_per_unit: { count: 213 }
+  note: "213g = one large russet, matching carne-con-papas' 'large, cubed' prep."
+  source: usda
+
+tomato:
+  macros_per_100g: { calories: 18, protein_g: 0.9, carbs_g: 3.9, fat_g: 0.2 }
+  grams_per_unit: { count: 123 }
+  source: usda
+
+roma tomato:
+  macros_per_100g: { calories: 18, protein_g: 0.9, carbs_g: 3.9, fat_g: 0.2 }
+  note: "same nutrition as tomato; roma is just smaller by count."
+  grams_per_unit: { count: 62 }
+  source: usda
+
+scallion:
+  macros_per_100g: { calories: 32, protein_g: 1.8, carbs_g: 7.3, fat_g: 0.2 }
+  grams_per_unit: { count: 15 }
+  source: usda
+
+serrano pepper:
+  macros_per_100g: { calories: 32, protein_g: 1.7, carbs_g: 7, fat_g: 0.4 }
+  grams_per_unit: { count: 6 }
+  source: usda
+
+stir-fry vegetables:
+  macros_per_100g: { calories: 35, protein_g: 2, carbs_g: 7, fat_g: 0.3 }
+  note: "frozen mixed stir-fry blend (broccoli/carrot/snap pea/etc) -- an average across typical blends, since the exact mix varies by bag."
+  grams_per_unit: { lb: 453.6 }
+  source: estimate
+
+tomatillo:
+  macros_per_100g: { calories: 32, protein_g: 1, carbs_g: 5.8, fat_g: 1 }
+  grams_per_unit: { count: 34 }
+  source: usda
+
+# --- pantry ---
+
+brown sugar:
+  macros_per_100g: { calories: 380, protein_g: 0, carbs_g: 98, fat_g: 0 }
+  grams_per_unit: { tbsp: 14 }
+  source: usda
+
+canned peeled tomatoes:
+  macros_per_100g: { calories: 18, protein_g: 0.9, carbs_g: 4, fat_g: 0.2 }
+  note: "canned whole/crushed tomatoes, roughly the same as fresh tomato nutrition."
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+chicken bouillon:
+  macros_per_100g: { calories: 125, protein_g: 5, carbs_g: 20, fat_g: 3 }
+  note: "generic granulated bouillon (carne-con-papas doesn't name a brand, unlike spanish-rice's Knorr/Maggi) -- given the same negligible-at-1tsp treatment as the named caldos below."
+  grams_per_unit: { tsp: 4 }
+  source: estimate
+
+chili powder:
+  macros_per_100g: { calories: 282, protein_g: 13.5, carbs_g: 50, fat_g: 14.3 }
+  grams_per_unit: { tsp: 2.7, tbsp: 8 }
+  note: "dense per 100g but negligible at the tsp/tbsp amounts used."
+  source: usda
+
+cornstarch:
+  macros_per_100g: { calories: 381, protein_g: 0.3, carbs_g: 91, fat_g: 0.1 }
+  grams_per_unit: { tsp: 2.9 }
+  source: usda
+
+cumin:
+  macros_per_100g: { calories: 375, protein_g: 17.7, carbs_g: 44, fat_g: 22 }
+  grams_per_unit: { tsp: 2.1, tbsp: 6 }
+  note: "dense per 100g but negligible at the tsp/tbsp amounts used."
+  source: usda
+
+gochujang:
+  macros_per_100g: { calories: 83, protein_g: 2, carbs_g: 16, fat_g: 0.5 }
+  note: "corrected to O Food brand (the user's actual pantry item), ~15 cal/tbsp per label. Earlier draft used a generic estimate roughly 2x too high."
+  grams_per_unit: { tbsp: 18 }
+  source: "brand:O Food Gochujang"
+
+honey:
+  macros_per_100g: { calories: 304, protein_g: 0.3, carbs_g: 82, fat_g: 0 }
+  grams_per_unit: { tbsp: 21 }
+  source: usda
+
+sriracha:
+  macros_per_100g: { calories: 93, protein_g: 2, carbs_g: 19, fat_g: 0.6 }
+  grams_per_unit: { tsp: 5 }
+  note: "generic sriracha-style hot sauce; negligible at 1 tsp."
+  source: usda
+
+knorr caldo de tomate:
+  macros_per_100g: { calories: 125, protein_g: 5, carbs_g: 20, fat_g: 0 }
+  note: "granulated tomato-chicken bouillon; label sources put it around 5 cal/tsp, dominated by sodium."
+  grams_per_unit: { tsp: 4 }
+  source: "brand:Knorr Caldo de Tomate"
+
+maggi caldo de pollo:
+  macros_per_100g: { calories: 125, protein_g: 5, carbs_g: 20, fat_g: 0 }
+  note: "granulated chicken bouillon; label sources put it around 5 cal/tsp, dominated by sodium."
+  grams_per_unit: { tsp: 4 }
+  source: "brand:Maggi Caldo de Pollo"
+
+harissa paste:
+  macros_per_100g: { calories: 67, protein_g: 1, carbs_g: 7, fat_g: 3 }
+  note: "Mina brand, mild -- ~10 cal / 0.5g fat per tablespoon per label."
+  grams_per_unit: { tbsp: 15 }
+  source: "brand:Mina Harissa"
+
+olive oil:
+  macros_per_100g: { calories: 884, protein_g: 0, carbs_g: 0, fat_g: 100 }
+  grams_per_unit: { tbsp: 13.5 }
+  source: usda
+
+oregano:
+  macros_per_100g: { calories: 265, protein_g: 9, carbs_g: 69, fat_g: 4.3 }
+  grams_per_unit: { tsp: 1 }
+  note: "dried. negligible at 1-2 tsp."
+  source: usda
+
+rice vinegar:
+  macros_per_100g: { calories: 3, protein_g: 0, carbs_g: 0.1, fat_g: 0 }
+  grams_per_unit: { tbsp: 15 }
+  note: "plain/unseasoned -- essentially calorie-free, same as white/cider vinegar."
+  source: usda
+
+vinegar:
+  macros_per_100g: { calories: 3, protein_g: 0, carbs_g: 0.1, fat_g: 0 }
+  note: "white/ACV/rice per harissa-chicken-bowls' prep -- all effectively calorie-free."
+  grams_per_unit: { cup: 237, tbsp: 15 }
+  source: usda
+
+sesame oil:
+  macros_per_100g: { calories: 884, protein_g: 0, carbs_g: 0, fat_g: 100 }
+  grams_per_unit: { tsp: 4.5 }
+  source: usda
+
+sesame seed:
+  macros_per_100g: { calories: 573, protein_g: 17.7, carbs_g: 23.4, fat_g: 49.7 }
+  grams_per_unit: { tbsp: 9 }
+  source: usda
+
+smoked paprika:
+  macros_per_100g: { calories: 282, protein_g: 14.1, carbs_g: 54, fat_g: 13 }
+  grams_per_unit: { tsp: 2.3 }
+  note: "negligible at 1 tsp."
+  source: usda
+
+soy sauce:
+  macros_per_100g: { calories: 53, protein_g: 8, carbs_g: 4.9, fat_g: 0.6 }
+  grams_per_unit: { tbsp: 16 }
+  source: usda
+
+sugar:
+  macros_per_100g: { calories: 387, protein_g: 0, carbs_g: 100, fat_g: 0 }
+  grams_per_unit: { tbsp: 12.5 }
+  source: usda
+
+tomato paste:
+  macros_per_100g: { calories: 82, protein_g: 4.3, carbs_g: 18.9, fat_g: 0.5 }
+  grams_per_unit: { tbsp: 16 }
+  source: usda
+
+salt:
+  macros_per_100g: { calories: 0, protein_g: 0, carbs_g: 0, fat_g: 0 }
+  grams_per_unit: { tsp: 6 }
+  source: usda
+
+black pepper:
+  macros_per_100g: { calories: 251, protein_g: 10.4, carbs_g: 64, fat_g: 3.3 }
+  grams_per_unit: { tsp: 2.3 }
+  note: "negligible at 1 tsp or less."
+  source: usda
+
+water:
+  macros_per_100g: { calories: 0, protein_g: 0, carbs_g: 0, fat_g: 0 }
+  grams_per_unit: { cup: 237 }
+  source: usda
+
+# --- added for al-pastor-chicken-thighs, chili-lime-shrimp-bowl,
+# gochujang-salmon-bowl, vietnamese-caramel-salmon ---
+
+pineapple:
+  macros_per_100g: { calories: 50, protein_g: 0.5, carbs_g: 13, fat_g: 0.1 }
+  grams_per_unit: { cup: 165 }
+  note: "fresh, diced."
+  source: usda
+
+achiote paste:
+  macros_per_100g: { calories: 70, protein_g: 2, carbs_g: 13, fat_g: 1 }
+  grams_per_unit: { tbsp: 15 }
+  note: "annatto-based Mexican seasoning paste; no single authoritative label, ground seeds + vinegar + spices so this leans on other paste condiments' typical profile."
+  source: estimate
+
+guajillo chili:
+  macros_per_100g: { calories: 280, protein_g: 9, carbs_g: 60, fat_g: 8 }
+  grams_per_unit: { count: 6 }
+  note: "dried chili pod; dense per 100g like other dried chilies but each pod is ~6g."
+  source: usda
+
+white vinegar:
+  macros_per_100g: { calories: 3, protein_g: 0, carbs_g: 0.1, fat_g: 0 }
+  grams_per_unit: { tbsp: 15 }
+  note: "same nutrition as vinegar/rice vinegar; separate item key per our join-key convention."
+  source: usda
+
+orange:
+  macros_per_100g: { calories: 45, protein_g: 0.7, carbs_g: 11, fat_g: 0.1 }
+  grams_per_unit: { count: 100 }
+  note: "our recipe uses orange as 'juiced', not the whole fruit -- 100g approximates the juice yield of one orange, same juice-not-whole-fruit judgment call as lemon/lime. Values are for orange juice specifically."
+  source: usda
+
+neutral oil:
+  macros_per_100g: { calories: 884, protein_g: 0, carbs_g: 0, fat_g: 100 }
+  grams_per_unit: { tbsp: 13.6 }
+  note: "canola/vegetable oil; same pure-fat profile as olive oil."
+  source: usda
+
+white onion:
+  macros_per_100g: { calories: 40, protein_g: 1.1, carbs_g: 9.3, fat_g: 0.1 }
+  note: "same nutrition as onion/yellow onion/red onion; separate item key per our join-key convention."
+  grams_per_unit: { count: 110 }
+  source: usda
+
+shrimp:
+  macros_per_100g: { calories: 85, protein_g: 20, carbs_g: 0.2, fat_g: 0.5 }
+  note: "raw, peeled and deveined."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+chili crisp:
+  macros_per_100g: { calories: 600, protein_g: 3, carbs_g: 8, fat_g: 62 }
+  grams_per_unit: { tbsp: 15 }
+  note: "oil-based chili condiment (e.g. Lao Gan Ma-style); calorie-dense mostly from the oil. No single brand named in the recipe, so this is a typical value across common chili crisp products."
+  source: estimate
+
+salmon fillet:
+  macros_per_100g: { calories: 208, protein_g: 20, carbs_g: 0, fat_g: 13 }
+  note: "raw, farmed Atlantic salmon, skin-on."
+  grams_per_unit: { lb: 453.6 }
+  source: usda
+
+broccolini:
+  macros_per_100g: { calories: 35, protein_g: 2.8, carbs_g: 7, fat_g: 0.4 }
+  note: "same ballpark as broccoli."
+  grams_per_unit: { oz: 28.35 }
+  source: usda
+
+fish sauce:
+  macros_per_100g: { calories: 35, protein_g: 5, carbs_g: 3.6, fat_g: 0 }
+  grams_per_unit: { tbsp: 18 }
+  note: "low-cal, high-sodium, small amount of protein/sugar from fermentation."
+  source: usda
+
+shallot:
+  macros_per_100g: { calories: 72, protein_g: 2.5, carbs_g: 17, fat_g: 0.1 }
+  grams_per_unit: { count: 25 }
+  note: "more calorie-dense than onion by weight, but small per-shallot amount."
+  source: usda
+
+thai chili:
+  macros_per_100g: { calories: 40, protein_g: 2, carbs_g: 9, fat_g: 0.4 }
+  grams_per_unit: { count: 2 }
+  note: "tiny pepper, ~2g each; negligible at 1 chili."
+  source: usda
