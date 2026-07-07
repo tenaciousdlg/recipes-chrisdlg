@@ -58,6 +58,8 @@ header.site-header .container {
   align-items: baseline;
 }
 header.site-header h1 { font-size: 1.4rem; margin: 0; }
+header.site-header .site-nav { display: flex; align-items: baseline; gap: 1.25rem; }
+header.site-header .site-nav a:not(.back) { font-size: 0.9rem; }
 header.site-header .back { font-size: 0.9rem; color: var(--text-dim); }
 
 .box {
@@ -122,6 +124,52 @@ header.site-header .back { font-size: 0.9rem; color: var(--text-dim); }
 }
 
 .servings-out { color: var(--accent); font-weight: 600; }
+
+.picker-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.picker-row:last-child { border-bottom: none; }
+.picker-label { display: flex; align-items: center; gap: 0.5rem; }
+.picker-scale {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+.picker-scale input {
+  width: 4.5rem;
+  background: var(--bg);
+  border: 1px solid var(--border-bright);
+  color: var(--text-bright);
+  border-radius: 6px;
+  padding: 0.3em 0.5em;
+  font-size: 0.9rem;
+}
+
+.list-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.list-actions button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5em 1em;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.list-actions button:hover { background: var(--accent-bright); }
+.copy-confirm { font-size: 0.85rem; color: var(--accent); }
 
 .ingredient-group h3 {
   font-size: 0.85rem;

@@ -1,0 +1,183 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { getPrimaryIngredient } from '../lib/scale';
+
+const recipes = (await getCollection('recipes')).sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const recipesForClient = recipes.map((r) => {
+  const primary = getPrimaryIngredient(r.data.ingredients);
+  return {
+    id: r.id,
+    title: r.data.title,
+    primaryQty: primary.qty,
+    primaryUnit: primary.unit,
+    primaryItem: primary.item,
+    ingredients: r.data.ingredients.map((i) => ({
+      item: i.item,
+      qty: i.qty,
+      unit: i.unit,
+      primary: i.primary,
+      scale: i.scale,
+      section: i.section,
+    })),
+  };
+});
+---
+
+<Layout title="Shopping List" description="Aggregate scaled ingredients from selected recipes into a store-section shopping list.">
+  <a href="/">&larr; all recipes</a>
+  <h1>Shopping List</h1>
+  <p>Check off what you're making and adjust each to how much, ingredients aggregate below by store section.</p>
+
+  <div class="box" id="recipe-picker">
+    {recipesForClient.map((r) => (
+      <div class="picker-row">
+        <label class="picker-label">
+          <input type="checkbox" class="recipe-check" data-id={r.id} />
+          {r.title}
+        </label>
+        <span class="picker-scale">
+          <input type="number" step="any" min="0" class="recipe-qty" data-id={r.id} value={r.primaryQty} />
+          {r.primaryUnit} {r.primaryItem}
+        </span>
+      </div>
+    ))}
+  </div>
+
+  <div class="list-actions">
+    <button id="copy-list" type="button">Copy list</button>
+    <span id="copy-confirm" class="copy-confirm"></span>
+  </div>
+
+  <p id="empty-state" class="recipe-meta">No recipes selected yet.</p>
+  <div id="shopping-list-output"></div>
+
+  <script type="application/json" id="recipes-data" set:html={JSON.stringify(recipesForClient)} />
+</Layout>
+
+<script>
+  import { aggregateIngredients, groupBySection, type SelectedRecipe } from '../lib/shoppingList';
+  import { formatQty } from '../lib/scale';
+  import type { ScalableIngredient } from '../lib/scale';
+
+  interface RecipeForClient {
+    id: string;
+    title: string;
+    primaryQty: number;
+    primaryUnit: string;
+    primaryItem: string;
+    ingredients: ScalableIngredient[];
+  }
+
+  interface RowState {
+    checked: boolean;
+    qty: number;
+  }
+
+  const dataEl = document.getElementById('recipes-data')!;
+  const recipesForClient: RecipeForClient[] = JSON.parse(dataEl.textContent!);
+  const STORAGE_KEY = 'recipes-chrisdlg:shopping-list';
+
+  const picker = document.getElementById('recipe-picker')!;
+  const output = document.getElementById('shopping-list-output')!;
+  const emptyState = document.getElementById('empty-state')!;
+  const copyBtn = document.getElementById('copy-list')!;
+  const copyConfirm = document.getElementById('copy-confirm')!;
+
+  function loadState(): Record<string, RowState> {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    } catch {
+      return {};
+    }
+  }
+
+  function currentState(): Record<string, RowState> {
+    const state: Record<string, RowState> = {};
+    picker.querySelectorAll<HTMLInputElement>('.recipe-check').forEach((cb) => {
+      const id = cb.dataset.id!;
+      const qtyInput = picker.querySelector<HTMLInputElement>(`.recipe-qty[data-id="${id}"]`)!;
+      state[id] = { checked: cb.checked, qty: parseFloat(qtyInput.value) };
+    });
+    return state;
+  }
+
+  function selectedFromState(state: Record<string, RowState>): SelectedRecipe[] {
+    return recipesForClient
+      .filter((r) => state[r.id]?.checked && !Number.isNaN(state[r.id].qty))
+      .map((r) => ({
+        title: r.title,
+        primaryQty: r.primaryQty,
+        targetQty: state[r.id].qty,
+        ingredients: r.ingredients,
+      }));
+  }
+
+  function render() {
+    const state = currentState();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
+    const selected = selectedFromState(state);
+    if (selected.length === 0) {
+      output.innerHTML = '';
+      emptyState.style.display = 'block';
+      return;
+    }
+    emptyState.style.display = 'none';
+
+    const groups = groupBySection(aggregateIngredients(selected));
+    output.innerHTML = groups
+      .map(
+        (g) => `
+      <div class="ingredient-group">
+        <h3>${g.section}</h3>
+        <ul class="ingredient-list">
+          ${g.lines
+            .map(
+              (l) => `
+            <li>
+              <span class="qty">${formatQty(l.qty)} ${l.unit}</span>
+              <span>${l.item} <span class="fixed-note">(${l.recipes.join(', ')})</span></span>
+            </li>`,
+            )
+            .join('')}
+        </ul>
+      </div>`,
+      )
+      .join('');
+  }
+
+  function applyState(state: Record<string, RowState>) {
+    picker.querySelectorAll<HTMLInputElement>('.recipe-check').forEach((cb) => {
+      const id = cb.dataset.id!;
+      if (!state[id]) return;
+      cb.checked = !!state[id].checked;
+      const qtyInput = picker.querySelector<HTMLInputElement>(`.recipe-qty[data-id="${id}"]`)!;
+      if (state[id].qty != null && !Number.isNaN(state[id].qty)) qtyInput.value = String(state[id].qty);
+    });
+  }
+
+  applyState(loadState());
+  render();
+
+  picker.addEventListener('input', render);
+  picker.addEventListener('change', render);
+
+  copyBtn.addEventListener('click', () => {
+    const selected = selectedFromState(currentState());
+    const groups = groupBySection(aggregateIngredients(selected));
+    const text = groups
+      .map(
+        (g) =>
+          `${g.section.toUpperCase()}\n` + g.lines.map((l) => `- ${formatQty(l.qty)} ${l.unit} ${l.item}`).join('\n'),
+      )
+      .join('\n\n');
+    navigator.clipboard.writeText(text).then(() => {
+      copyConfirm.textContent = 'Copied';
+      setTimeout(() => {
+        copyConfirm.textContent = '';
+      }, 2000);
+    });
+  });
+</script>
