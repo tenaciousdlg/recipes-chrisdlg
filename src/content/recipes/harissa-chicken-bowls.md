@@ -27,19 +27,20 @@ steps:
   - Mix harissa, minced garlic, grated ginger, and lemon juice; pour over the chicken. Cover, reduce heat, braise 10-12 min until 165F internal. Rest, then slice or shred.
   - "Build bowls: chicken over rice or couscous, topped with raw sliced cucumber, pickled red onion, and the cucumber-yogurt sauce. Extra harissa or sriracha for more heat."
 macros_per_serving:
-  calories: 400
-  protein_g: 44
-  carbs_g: 10
-  fat_g: 20
-  source: manual
+  calories: 290
+  protein_g: 35.5
+  carbs_g: 11.5
+  fat_g: 11
+  source: computed
 notes: >
   Scaling anchor is chicken thigh at 2 lb / 6 servings: thighs sell close to 2-lb packs and
   batch/reheat better than the breast the dish was first cooked with (breast works, just drier
   reheated). Macros are chicken + sauce + toppings, NO grain base (add ~200 cal / 44g carb per
-  cup cooked couscous, or ~250 / 55g for rice). With couscous the full bowl lands near the
-  ~595 cal / 51g protein figure from earlier planning. Pickle and yogurt sauce make enough for
+  cup cooked couscous, or ~250 / 55g for rice). Pickle and yogurt sauce make enough for
   the batch; both keep, so they're worth making in full even for a smaller chicken scale.
   Sauce garlic, sugar, oil, and salt are scale:false; they don't need to multiply with the meat.
+  Recomputed from ingredients.yaml; the earlier hand-entered figure (400 cal / 44g protein) ran
+  well ahead of what 2 lb of chicken across 6 servings actually works out to.
 created: 2026-06-25
 made_log: [2026-06-25]
 ---

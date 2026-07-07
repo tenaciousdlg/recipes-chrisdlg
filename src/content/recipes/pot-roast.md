@@ -25,16 +25,18 @@ steps:
   - Return the roast, add the beef stock, potatoes, thyme, and rosemary. Simmer on low until the meat is falling apart, ~3 hours (or braise covered at 300F).
   - "When nearly ready, make a roux: cook 3 tbsp flour with 2 tbsp butter in a separate pan until medium-brown, then whisk into the pot to thicken into gravy. Salt to taste."
 macros_per_serving:
-  calories: 450
-  protein_g: 36
-  carbs_g: 22
-  fat_g: 24
-  source: manual
+  calories: 660
+  protein_g: 40.5
+  carbs_g: 32.5
+  fat_g: 34.5
+  source: computed
 notes: >
   Anchor is chuck roast at 2.5 lb / 6 servings (sells by weight, buys clean). Cold-season Sunday
-  cooking, a 3-hour braise, whole meal with the veg. Herbs/salt/butter scale:false. Macros
-  estimated from chuck + veg + gravy; approximate until logged. Leftovers are gold, shred for
-  sandwiches, tacos, or over the mashed potatoes. Cooks mostly hands-off once it's in.
+  cooking, a 3-hour braise, whole meal with the veg. Herbs/salt/butter scale:false. Recomputed
+  from ingredients.yaml: nothing in the pot gets drained (the butter, wine, and stock all reduce
+  into the gravy), so 2.5 lb of chuck plus a buttery flour-thickened gravy lands well above the
+  earlier placeholder estimate. Leftovers are gold, shred for sandwiches, tacos, or over the
+  mashed potatoes. Cooks mostly hands-off once it's in.
 created: 2026-07-07
 made_log: []
 ---

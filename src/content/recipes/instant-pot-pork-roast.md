@@ -33,18 +33,20 @@ steps:
   - Return the onion and garlic, add rosemary, set the trivet, place the pork on top. Seal and cook manual high pressure 70 min. Add carrots and potatoes for the last portion (or natural-release then pressure-cook the veg briefly).
   - "Make the sauce: strain some cooking liquid, stir in the balsamic and a cornstarch slurry, simmer to thicken. Shred the pork and serve with the veg and sauce."
 macros_per_serving:
-  calories: 420
-  protein_g: 34
-  carbs_g: 24
-  fat_g: 21
-  source: manual
+  calories: 590
+  protein_g: 28
+  carbs_g: 27
+  fat_g: 39.5
+  source: computed
 notes: >
   Anchor is pork shoulder at 2 lb / 6 servings. Cold-season comfort, a full meal (protein +
   carrots + potatoes) in one pot. Spices/oil/rosemary scale:false. Balsamic amount is to taste
   (1/4-1/2 cup in the original). Batches and reheats well; the shredded pork is versatile for
-  tacos/bowls after. Macros estimated from pork shoulder + veg + sauce; approximate until
-  logged. Pork shoulder sells by weight, so the 2-lb anchor buys clean. Source: adapted from
-  Linley Hanson's recipe (web).
+  tacos/bowls after. Recomputed from ingredients.yaml: pork shoulder is a fattier cut than the
+  loin chops elsewhere on this site, and the sealed pressure-cook keeps the searing oil and
+  braising liquid in the pot rather than draining it, both pushing well past the earlier
+  placeholder estimate. Pork shoulder sells by weight, so the 2-lb anchor buys clean. Source:
+  adapted from Linley Hanson's recipe (web).
 created: 2026-07-07
 made_log: []
 ---

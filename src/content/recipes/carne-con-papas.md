@@ -26,11 +26,11 @@ steps:
   - "Braise: pour the blended salsa over the beef. Add water, bouillon, oregano, and cumin. Bring to a boil, reduce to medium-low, cover, simmer 20 min."
   - "Finish with potatoes: add the cubed potato, simmer uncovered another 15-20 min until fork-tender and the broth thickens slightly. Taste and adjust salt."
 macros_per_serving:
-  calories: 380
-  protein_g: 34
-  carbs_g: 18
-  fat_g: 18
-  source: manual
+  calories: 495
+  protein_g: 40.5
+  carbs_g: 18.5
+  fat_g: 28.5
+  source: computed
 notes: >
   Scaling anchor is chuck beef at 1.75 lb / 4 servings (diezmillo de res / chuck roll, standard
   beef chuck). NOTE: chuck sells by weight, not fixed packs, so the 1.75 lb odd anchor is fine to
@@ -38,7 +38,9 @@ notes: >
   and spices are scale:false; a bigger batch of beef doesn't need proportionally more cumin or
   cilantro. For more heat use serranos or an extra pepper. Macros are the stew itself; it already
   contains potato so it's more carb-complete than the bowl recipes, but you can still serve over
-  rice (+~250 cal / 55g carb per cup) or with tortillas.
+  rice (+~250 cal / 55g carb per cup) or with tortillas. Recomputed from ingredients.yaml: nearly
+  2 lb of chuck (a fattier cut than a trimmed loin) simmered whole, nothing drained, runs higher
+  than the earlier hand-entered figure.
 created: 2026-06-20
 made_log: [2026-06-20]
 ---

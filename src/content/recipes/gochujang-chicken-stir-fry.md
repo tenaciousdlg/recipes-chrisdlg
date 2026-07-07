@@ -28,16 +28,18 @@ steps:
   - Separately, stir-fry the frozen vegetables in a screaming-hot pan (in batches if over ~1 lb) until the water cooks off and they take color. Salt lightly.
   - Fold chicken and veg together to reunite, 1-2 min. Finish with scallion and sesame seed. If tight, loosen with a splash of water.
 macros_per_serving:
-  calories: 340
-  protein_g: 34
-  carbs_g: 14
-  fat_g: 16
-  source: manual
+  calories: 235
+  protein_g: 26
+  carbs_g: 17
+  fat_g: 6.5
+  source: computed
 notes: >
   Scaling anchor is chicken thigh. Salt/scallion/sesame are marked scale:false; bump them
   by feel, not by the multiplier. Heat is moderate-hot as written; drop sriracha for milder.
   Macros are sauce + chicken + veg per serving, no rice (add ~250 cal / 55g carb per cup cooked).
-  Cooking times do NOT scale: a double batch reduces slower, not twice as long.
+  Cooking times do NOT scale: a double batch reduces slower, not twice as long. Recomputed from
+  ingredients.yaml; the original hand-entered figure (340 cal) predated the gochujang database
+  correction to the actual O Food brand (much lower cal/tbsp than a generic estimate).
 created: 2026-07-06
 made_log: [2026-07-06]
 ---

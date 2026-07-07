@@ -873,8 +873,8 @@ chili garlic sauce:
   source: estimate
 
 ramen noodles:
-  macros_per_100g: { calories: 135, protein_g: 4.6, carbs_g: 25, fat_g: 2 }
-  note: "cooked, seasoning packet discarded per the recipe."
+  macros_per_100g: { calories: 440, protein_g: 9, carbs_g: 58, fat_g: 17 }
+  note: "dry noodle brick (pre-fried), seasoning packet discarded per the recipe. Recipe qty is purchased/dry weight (2 packs = 6oz), so this has to be a dry-basis value -- an earlier draft used a cooked-basis value (135cal/100g) against the dry weight and undercounted by roughly half."
   grams_per_unit: { oz: 28.35 }
   source: usda
 

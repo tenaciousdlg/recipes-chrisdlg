@@ -29,17 +29,19 @@ steps:
   - Nestle the chicken back in, cook ~30 min until cooked through. Remove chicken, shred into bite pieces.
   - Stir the shrimp and sausage into the rice, cover, cook over low 3 min. Off heat, let stand until the shrimp are done and rice is tender. Stir in the shredded chicken and parsley; salt to taste.
 macros_per_serving:
-  calories: 520
-  protein_g: 38
-  carbs_g: 48
-  fat_g: 20
-  source: manual
+  calories: 700
+  protein_g: 48.5
+  carbs_g: 60
+  fat_g: 29
+  source: computed
 notes: >
   Anchor is chicken thigh at 1 lb / 6 servings (a three-protein dish, chicken + shrimp +
   andouille). A big-batch Cajun one-pot. Cajun seasoning/oil/salt/parsley scale:false. Rinsing
   the rice keeps it from going mushy (the source notes it's a touch mushy unrinsed). Chicken and
   sausage batch/reheat well; shrimp is best fresh, so consider adding shrimp per-portion when
-  reheating. Macros estimated across the three proteins + rice; approximate until logged.
+  reheating. Recomputed from ingredients.yaml: three proteins (1 lb each of chicken, shrimp, and
+  fatty andouille) plus 2 cups of rice for only 6 servings is a genuinely generous, calorie-dense
+  batch, well past the earlier placeholder estimate.
 created: 2026-07-07
 made_log: []
 ---

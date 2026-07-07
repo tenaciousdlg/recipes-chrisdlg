@@ -3,6 +3,7 @@ title: Mexican Quinoa Skillet
 description: A one-pan simmer of quinoa, black beans, corn, and Mexican tomatoes with jalapeno and warm spices. Vegetarian, high-fiber, and hands-off. Hot-season friendly.
 cuisine: Mexican
 season: hot
+self_contained: true
 tags: [vegetarian, batch-prep]
 base_servings: 8
 ingredients:

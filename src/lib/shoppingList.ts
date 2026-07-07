@@ -27,6 +27,14 @@ export interface SectionGroup {
 // duplicates only kicks in when this is provided and covers the units involved.
 export type GramConversions = Record<string, Record<string, number>>;
 
+// g/kg are never listed in ingredients.yaml's grams_per_unit (they'd just be {g: 1}),
+// so resolve them implicitly instead of requiring every item to spell it out.
+function gramsPerUnit(itemConversions: Record<string, number> | undefined, unit: string): number | undefined {
+  if (unit === 'g') return 1;
+  if (unit === 'kg') return 1000;
+  return itemConversions?.[unit];
+}
+
 // sums quantities across recipes for the same item+unit pair first (e.g. two recipes
 // both using garlic by count just add). If the same item shows up in different units
 // across recipes (e.g. ginger by tbsp in one, tsp in another), those stay as separate
@@ -68,20 +76,20 @@ export function aggregateIngredients(selected: SelectedRecipe[], conversions?: G
       continue;
     }
     const itemConversions = conversions?.[lines[0].item];
-    const canReconcile = itemConversions && lines.every((l) => itemConversions[l.unit] !== undefined);
+    const canReconcile = lines.every((l) => gramsPerUnit(itemConversions, l.unit) !== undefined);
     if (!canReconcile) {
       result.push(...lines);
       continue;
     }
-    const totalGrams = lines.reduce((sum, l) => sum + l.qty * itemConversions[l.unit], 0);
+    const totalGrams = lines.reduce((sum, l) => sum + l.qty * gramsPerUnit(itemConversions, l.unit)!, 0);
     const finestUnit = lines
       .map((l) => l.unit)
-      .reduce((a, b) => (itemConversions[a] <= itemConversions[b] ? a : b));
+      .reduce((a, b) => (gramsPerUnit(itemConversions, a)! <= gramsPerUnit(itemConversions, b)! ? a : b));
     const recipes = [...new Set(lines.flatMap((l) => l.recipes))];
     result.push({
       item: lines[0].item,
       unit: finestUnit,
-      qty: totalGrams / itemConversions[finestUnit],
+      qty: totalGrams / gramsPerUnit(itemConversions, finestUnit)!,
       section: lines[0].section,
       recipes,
     });

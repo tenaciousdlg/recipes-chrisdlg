@@ -23,16 +23,16 @@ steps:
   - Cook 1-2 min until thickened and glossy.
   - "Taste and adjust: more soy for salt, more honey for sweet, more vinegar for brightness. Toss with cooked protein."
 macros_per_serving:
-  calories: 45
-  protein_g: 1
-  carbs_g: 10
+  calories: 30
+  protein_g: 0.5
+  carbs_g: 7
   fat_g: 0
-  source: manual
+  source: computed
 notes: >
   A sauce component, not a standalone dish; makes enough to glaze ~2 lbs of chicken (or salmon,
   shrimp, tofu, it's a platform sauce like the gochujang base used elsewhere on this site).
   Anchor is orange juice. Garlic/ginger/chili scale:false. Macros are the sauce alone per ~6
-  portions (adds ~45 cal / 10g carb to whatever protein it coats); the chili flakes keep it
+  portions (adds ~30 cal / 7g carb to whatever protein it coats); the chili flakes keep it
   medium-mild, add more for heat.
 created: 2026-07-07
 made_log: []

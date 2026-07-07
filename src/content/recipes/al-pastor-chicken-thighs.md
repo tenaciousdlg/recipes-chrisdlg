@@ -26,19 +26,20 @@ steps:
   - Char pineapple. In the same pan, blister a handful of extra pineapple pieces until browned at the edges.
   - Rest, then chop the chicken into bite pieces. Serve over rice or in tortillas with the charred pineapple, diced white onion, cilantro, and lime.
 macros_per_serving:
-  calories: 380
-  protein_g: 42
-  carbs_g: 12
-  fat_g: 17
-  source: manual
+  calories: 295
+  protein_g: 39
+  carbs_g: 10.5
+  fat_g: 10.5
+  source: computed
 notes: >
   Anchor is chicken thigh at 2.5 lb / 6 servings. Your #1 quiz pick (al pastor / carnitas) built
   as a batchable thigh recipe; the pineapple-achiote-chili-acid combo is the smoky-sweet-acidic
   profile you named. Traditionally pork on a trompo; thighs seared hard replicate the char at home.
   Oregano, salt, cilantro, lime scale:false. Macros are chicken + marinade, no base (add rice/
-  tortillas). Estimated from thigh base (~44g protein / half lb) minus a little for trimming; the
-  marinade adds minimal calories since most is discarded. Batches and reheats well; unlike the
-  seafood, this IS a Sunday-prep dish. Charring the pineapple fresh each time is worth it.
+  tortillas). Recomputed from ingredients.yaml; the earlier hand-entered figure assumed most of
+  the marinade got discarded, but the steps actually sear it onto the meat as the char, so it's
+  fully eaten rather than poured off. Batches and reheats well; unlike the seafood, this IS a
+  Sunday-prep dish. Charring the pineapple fresh each time is worth it.
 created: 2026-07-07
 made_log: []
 ---

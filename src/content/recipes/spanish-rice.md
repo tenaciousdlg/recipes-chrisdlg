@@ -27,18 +27,20 @@ steps:
   - Add the water/broth, both caldos, cumin, and chili powder. Stir, bring to a boil, then reduce to low, cover, and simmer until liquid is absorbed and rice is tender; brown rice runs ~40-45 min (longer than white).
   - Off heat, rest covered 5-10 min. Fluff, fold in cilantro, and finish with a squeeze of lime.
 macros_per_serving:
-  calories: 260
-  protein_g: 5
-  carbs_g: 48
-  fat_g: 7
-  source: manual
+  calories: 305
+  protein_g: 5.5
+  carbs_g: 51.5
+  fat_g: 8.5
+  source: computed
 notes: >
   This is a BASE/side, not a protein main: pairs under carne con papas, the Tex-Mex beef bowl,
   or any Mexican-lane protein. Scaling anchor is brown rice; the caldos and spices are scale:false
   since a bigger pot of rice doesn't need proportionally more bouillon (they're salt-heavy, adjust
   by taste, not multiplier). Brown rice needs ~40-45 min vs white's ~20 and a touch more liquid.
   Seeds in the serrano = more heat. Uses the specific caldo pantry (Knorr caldo de tomate, Maggi
-  caldo de pollo) rather than generic bouillon.
+  caldo de pollo) rather than generic bouillon. Recomputed from ingredients.yaml; the 3 tbsp
+  olive oil the rice toasts in is fully absorbed, not drained, and pushed the total a bit past
+  the earlier hand-entered figure.
 created: 2026-04-08
 made_log: [2026-04-08]
 ---

@@ -68,3 +68,78 @@ its cuisine so it falls into the universal pool (jasmine rice, roasted
 veg) instead. Re-verified via 1000 simulated trials: zero sauce-as-pairing
 occurrences, and the lime chicken now only ever pairs with jasmine rice
 and/or roasted broccoli.
+
+Fixed 2026-07-07 (third pass): exhaustively enumerated every main's possible
+pairings (not just random sampling) and found Mexican Quinoa Skillet had the
+same bug as the gnocchi/lasagna/noodles case — quinoa is its primary
+ingredient (plus black beans already in the pot), so it could still get
+Spanish Rice or Refried Beans stacked on top. Marked it `self_contained`
+too. Scanned every other main's primary ingredient for grain/starch keywords
+(rice, pasta, noodle, couscous, etc.) and found no other gaps. 2000-trial
+regression: zero violations across both the sauce-pairing and
+self-contained-base rules.
+
+Open question, not fixed: Broccoli Cheddar Soup and Cabbage Soup can still
+draw Mashed Potatoes as a base (they're `cuisine: American`, same bucket as
+the pork-chop/pot-roast/meatloaf lane). A soup is already a complete bowl,
+so "cabbage soup with a side of mashed potatoes" reads a little odd, though
+it's not absurd the way sauce-as-a-side or double-starch was. `self_contained`
+as currently written means "has its own starch baked in," which isn't
+literally true for either soup, so reusing that flag would overstate the
+reason. Left alone pending a decision on whether soups should skip the base
+pool on general principle.
+
+## Macro-accuracy and shopping-list hardening audit
+
+DONE 2026-07-07: cross-checked every recipe's hand-entered `macros_per_serving`
+against a from-scratch computation off `ingredients.yaml`, using each
+recipe's own steps to judge whether a manual estimate was a rough placeholder
+or already correctly accounted for (fry oil not absorbed, fat skimmed off a
+braise, an externally-sourced published nutrition label).
+
+Found and fixed a real ingredient-database bug: `ramen noodles` was priced on
+a cooked-weight basis (135 cal/100g) but every recipe measures it by
+purchased/dry package weight, undercounting Pork and Peanut Dragon Noodles by
+roughly half. Corrected to a dry pre-fried-noodle-brick basis (440 cal/100g).
+
+Recomputed and corrected 10 recipes whose manual macros were unbacked
+placeholders (several notes literally said "approximate until logged"):
+Orange Sauce, Gochujang Chicken Stir-Fry, Harissa Chicken Bowls, Al
+Pastor-Style Chicken Thighs, Tex-Mex Beef & Bean Bowl, Carne con Papas,
+Spanish Rice, Pot Roast, Instant Pot Pork Roast, Jambalaya. Marked
+`source: computed` on each.
+
+Deliberately left four alone:
+- Pan-Fried Pork Chops and Chicken and Sausage Gumbo both have a real
+  discard step (shallow-fry oil mostly stays in the pan; gumbo's steps say
+  "skimming fat"), so a naive full-ingredient computation overstates them.
+  The manual figures are more trustworthy than my computation here.
+- "All You Can Eat" Cabbage Soup and Sheet Pan BBQ Meatloaf Dinner both use
+  Budget Bytes' own published nutrition facts verbatim, an external source
+  that outranks an internal recompute. Meatloaf's gap traces to the shared
+  `ground beef` DB entry being tuned to 93/7 (per tex-mex-beef-bean-bowl)
+  while this recipe calls for 80/20 — a database-granularity limitation
+  worth a `ground beef (80/20)` variant if more fatty-ground-beef recipes
+  get added, not urgent for one externally-sourced recipe.
+
+Also hardened `aggregateIngredients` in `shoppingList.ts`: the cross-unit
+merge required every unit to have an explicit `grams_per_unit` entry in
+ingredients.yaml, but `g`/`kg` are never listed there (they're implicit).
+Only one recipe currently measures anything in raw grams (Turkey Gnocchi
+Ragù's gnocchi), so this hadn't bitten yet, but the next gram-measured
+ingredient that also shows up in another recipe by a different unit would
+have silently failed to merge — the exact ginger/gochujang bug from
+earlier, resurfacing. Fixed by resolving g=1/kg=1000 implicitly instead of
+requiring them in the yaml. Verified against a synthetic 100g + 2 tbsp case
+(merges correctly now) plus a regression test on the original tbsp/tsp
+ginger case (still merges) and an unconvertible-unit case (still correctly
+stays split).
+
+Confirmed via a full sweep: every ingredient+unit pair actually used across
+all 46 recipes has gram-conversion coverage, and scaling to 0.5x/1.5x/2x/3x
+produces clean, kitchen-measurable fractions everywhere except two spots:
+`active dry yeast` and the egg wash in Soft Pretzels were unit `count`
+(whole packet / whole egg), so scaling produced things like "1.5 packets of
+yeast" — not buyable or usable. Marked both `scale: false` (yeast dough is
+already forgiving of exact ratios, and egg wash coats any batch size), matching
+the site's existing convention for aromatics/salt.

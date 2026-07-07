@@ -26,17 +26,19 @@ steps:
   - "Wilt spinach: stir in baby spinach and cook just until wilted, ~2 min."
   - "Finish & serve: off heat, top with diced avocado and a squeeze of lime. Serve over rice or in tortillas with extra lime wedges."
 macros_per_serving:
-  calories: 433
-  protein_g: 35
-  carbs_g: 38
-  fat_g: 16.5
-  source: manual
+  calories: 575
+  protein_g: 36
+  carbs_g: 51
+  fat_g: 27
+  source: computed
 notes: >
   Scaling anchor is ground beef at 1 lb / 4 servings: clean 1-lb pack, scales to 2 lb / 8 for a
-  Sunday batch. Macros are the bowl itself before a base: full batch ~1,730 cal / 140g protein /
-  153g carb / 66g fat; per serving ~433 cal / 35g protein. Beans drive the carbs and fiber. Add
-  rice (+~250 cal / 55g carb per cup) or a tortilla depending on pairing. Aromatics, oil, and salt
-  are scale:false. Ranch style beans are already salted, which is why the added salt stays modest.
+  Sunday batch. Macros are the bowl itself before a base. Beans drive the carbs and fiber; the
+  two full avocados and the tablespoon of olive oil (fully cooked in, not drained, since 93/7
+  leaves little fat to skim) push the fat and calories higher than the original hand-entered
+  figure accounted for. Add rice (+~250 cal / 55g carb per cup) or a tortilla depending on
+  pairing. Aromatics, oil, and salt are scale:false. Ranch style beans are already salted, which
+  is why the added salt stays modest.
   Uses the same Tex-Mex spice base (cumin + smoked paprika, no cinnamon) as the rest of that lane.
 created: 2026-06-29
 made_log: [2026-06-29]
