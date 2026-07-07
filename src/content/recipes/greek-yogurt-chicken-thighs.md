@@ -2,7 +2,7 @@
 title: Greek Yogurt-Marinated Chicken Thighs
 description: Boneless thighs marinated in nonfat Greek yogurt, lemon, garlic and oregano; the yogurt tenderizes and swaps in for most of the oil, pushing the protein-to-fat ratio up. Bakes or pan-sears.
 cuisine: Mediterranean
-tags: [chicken, greek, marinade, batch-prep, high-protein, mediterranean]
+tags: [batch-prep]
 base_servings: 6
 ingredients:
   - { item: chicken thigh, qty: 3, unit: lb, prep: boneless skinless, primary: true, section: meat }

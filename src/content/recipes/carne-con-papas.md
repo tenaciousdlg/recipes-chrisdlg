@@ -2,7 +2,7 @@
 title: Carne con Papas
 description: Classic Mexican beef and potato stew in a rich tomatillo-tomato salsa verde. Chuck beef seared then braised until tender, potatoes finished in the broth.
 cuisine: Mexican
-tags: [beef, stew, potato, salsa-verde, batch-prep, comfort]
+tags: [stew, batch-prep]
 base_servings: 4
 ingredients:
   - { item: chuck beef, qty: 1.75, unit: lb, prep: cut into 1.5-2in chunks, primary: true, section: meat }

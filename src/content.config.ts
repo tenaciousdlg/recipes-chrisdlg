@@ -3,6 +3,15 @@ import { glob } from 'astro/loaders';
 
 const UNITS = ['lb', 'oz', 'fl_oz', 'g', 'kg', 'ml', 'l', 'cup', 'tbsp', 'tsp', 'pinch', 'count'] as const;
 const SECTIONS = ['meat', 'produce', 'dairy', 'pantry', 'frozen', 'bakery', 'other'] as const;
+// controlled vocabulary only: dish format + objectively-checkable prep/dietary facts.
+// deliberately excludes protein/ingredient (redundant with the primary ingredient already
+// shown on the card), cuisine (its own field), and category (main/base/side is its own
+// field too) so nothing gets tagged in two places. high-protein isn't here either: it's
+// computed from macros_per_serving.protein_g instead of applied by feel.
+const TAGS = [
+  'bowl', 'stew', 'stir-fry', 'pasta',
+  'batch-prep', 'weeknight', 'slow-cooker', 'vegetarian', 'spicy',
+] as const;
 
 const ingredient = z.object({
   item: z.string(),
@@ -27,7 +36,7 @@ const recipe = z.object({
   // main = protein-forward dish; base/side = rice, beans, etc. paired under a main.
   // Drives shopping-list pairing and stops a side's macros being read as a full meal.
   category: z.enum(['main', 'base', 'side']).optional().default('main'),
-  tags: z.array(z.string()).optional().default([]),
+  tags: z.array(z.enum(TAGS)).optional().default([]),
   base_servings: z.number().optional().default(1),
   ingredients: z.array(ingredient).refine(
     (list) => list.filter((i) => i.primary).length === 1,

@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { getPrimaryIngredient } from '../../lib/scale';
+import { isHighProtein } from '../../lib/macros';
 
 export async function getStaticPaths() {
   const recipes = await getCollection('recipes');
@@ -36,6 +37,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
   </h1>
   <p>{recipe.data.description}</p>
   <div class="tags">
+    {isHighProtein(recipe.data.macros_per_serving) && <span class="tag">high-protein</span>}
     {recipe.data.tags.map((tag) => <span class="tag">{tag}</span>)}
   </div>
 

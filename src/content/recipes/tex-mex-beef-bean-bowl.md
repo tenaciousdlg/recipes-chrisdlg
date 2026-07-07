@@ -2,7 +2,7 @@
 title: Tex-Mex Beef & Bean Bowl
 description: Ground beef simmered with black beans and ranch style beans, peppers, and wilted spinach, finished with avocado and lime. Serve over rice or in tortillas.
 cuisine: Tex-Mex
-tags: [beef, beans, bowl, batch-prep, high-protein, weeknight]
+tags: [bowl, weeknight]
 base_servings: 4
 ingredients:
   - { item: ground beef, qty: 1, unit: lb, prep: 93/7, primary: true, section: meat }

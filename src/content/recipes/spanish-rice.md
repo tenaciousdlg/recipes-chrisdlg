@@ -3,7 +3,7 @@ title: Spanish Rice (Arroz Rojo)
 description: Toasted brown rice simmered in a blended tomato-chile broth, restaurant-style, built from the caldo pantry.
 cuisine: Mexican
 category: base
-tags: [rice, side, base, mexican, batch-prep]
+tags: [batch-prep]
 base_servings: 6
 ingredients:
   - { item: brown rice, qty: 2, unit: cup, prep: long grain, primary: true, section: pantry }

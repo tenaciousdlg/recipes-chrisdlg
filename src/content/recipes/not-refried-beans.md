@@ -3,7 +3,7 @@ title: (Not) Refried Beans
 description: Slow-cooker pinto beans mashed into a creamy, flavorful spread with almost no effort. Versatile, cheap, freezer-friendly. Budget Bytes recipe.
 cuisine: Mexican
 category: base
-tags: [beans, side, base, mexican, slow-cooker, batch-prep, vegetarian]
+tags: [slow-cooker, batch-prep, vegetarian]
 base_servings: 9
 ingredients:
   - { item: pinto beans, qty: 1, unit: lb, prep: dry, primary: true, section: pantry }

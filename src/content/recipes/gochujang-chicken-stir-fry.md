@@ -2,7 +2,7 @@
 title: Gochujang Chicken Stir-Fry
 description: Sticky, spicy Korean-style chicken with a glossy gochujang glaze. Braise-glaze method (marinade doubles as sauce).
 cuisine: Korean
-tags: [chicken, stir-fry, spicy, high-protein, weeknight]
+tags: [stir-fry, spicy, weeknight]
 base_servings: 5
 ingredients:
   - { item: chicken thigh, qty: 1.25, unit: lb, prep: cubed, primary: true, section: meat }
