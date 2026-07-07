@@ -1,5 +1,5 @@
 ---
-title: Abuelita's Sopa de Fideo
+title: Sopa de Fideo
 description: A quick tomato-based fideo noodle soup with poached shredded chicken, toasted fideo, garlic, onion, and cilantro. Made the way Abuelita makes it.
 cuisine: Mexican
 source: family

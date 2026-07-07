@@ -516,12 +516,6 @@ celery:
   note: "count = one stalk."
   source: usda
 
-celery seed:
-  macros_per_100g: { calories: 392, protein_g: 18, carbs_g: 42, fat_g: 25 }
-  grams_per_unit: { tsp: 2 }
-  note: "dense per 100g but negligible at the tsp amounts used (vinegar slaw)."
-  source: usda
-
 green bell pepper:
   macros_per_100g: { calories: 20, protein_g: 0.9, carbs_g: 4.6, fat_g: 0.2 }
   grams_per_unit: { count: 120 }
