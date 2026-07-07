@@ -32,10 +32,15 @@ Berries) and a `breakfast` tag, chipping into the menu-tracking gap above
 
 ## Meal suggestion widget on the homepage
 
-Randomized but realistic meal suggestions at the top of the recipe list
-(e.g. "Carne con Papas + Spanish Rice + (Not) Refried Beans"). No schema
-changes needed -- `cuisine` and `category` already support pairing a main to
-a base/snack in the same cuisine (or a small "goes with anything" allowlist
-for things like plain rice/roasted veg). Inventory is in much better shape
-now (5 base + 6 side vs. 3 before), enough to avoid repeating the same 2-3
-pairings constantly. Worth picking up next.
+DONE 2026-07-08: "Tonight's suggestion" box at the top of the homepage,
+picks a random main (breakfast excluded) plus a base and/or side, client-side
+so it re-randomizes per visit. Prefers same-cuisine pairings over the
+universal jasmine-rice/roasted-veg fallback, verified via a 200-trial script
+against real data. "Suggest something else" button re-rolls without a
+reload.
+
+Known shape it doesn't cover: it always tries for one base + one side rather
+than ever doubling up on two bases from the same cuisine (e.g. it won't
+suggest Spanish Rice + Refried Beans together, since Refried Beans is a
+base and Roasted Broccoli already fills the side slot). Produces a more
+balanced plate in practice; revisit only if that feels wrong in use.
