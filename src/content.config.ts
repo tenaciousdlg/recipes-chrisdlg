@@ -10,7 +10,7 @@ const SECTIONS = ['meat', 'produce', 'dairy', 'pantry', 'frozen', 'bakery', 'oth
 // computed from macros_per_serving.protein_g instead of applied by feel.
 const TAGS = [
   'bowl', 'stew', 'soup', 'chili', 'stir-fry', 'pasta', 'sheet-pan', 'tacos',
-  'air-fryer', 'instant-pot', 'braise', 'baking',
+  'air-fryer', 'instant-pot', 'braise', 'baking', 'breakfast',
   'batch-prep', 'weeknight', 'slow-cooker', 'vegetarian', 'vegan', 'spicy',
 ] as const;
 
@@ -34,8 +34,9 @@ const recipe = z.object({
   title: z.string(),
   description: z.string().optional(),
   cuisine: z.string().optional(),
-  // main = protein-forward dish; base/side = rice, beans, etc. paired under a main;
-  // snack = snacks and condiments not meant to anchor a meal on their own.
+  // main = protein-forward dish; base = starchy anchor paired under a main (rice, beans,
+  // potatoes); side = other accompaniment (vegetable, salad, bread); snack = snacks and
+  // condiments not meant to anchor a meal on their own.
   // Drives shopping-list pairing and stops a side's macros being read as a full meal.
   category: z.enum(['main', 'base', 'side', 'snack']).optional().default('main'),
   // where the recipe came from. family marks personal/sentimental recipes (kept verbatim,

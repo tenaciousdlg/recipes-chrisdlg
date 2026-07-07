@@ -81,7 +81,7 @@ potato gnocchi:
 
 butter:
   macros_per_100g: { calories: 717, protein_g: 0.9, carbs_g: 0.1, fat_g: 81 }
-  grams_per_unit: { tbsp: 14.2 }
+  grams_per_unit: { tbsp: 14.2, cup: 227 }
   source: usda
 
 greek yogurt:
@@ -186,7 +186,7 @@ red onion:
 
 potato:
   macros_per_100g: { calories: 77, protein_g: 2, carbs_g: 17.5, fat_g: 0.1 }
-  grams_per_unit: { count: 213 }
+  grams_per_unit: { count: 213, lb: 453.6 }
   note: "213g = one large russet, matching carne-con-papas' 'large, cubed' prep."
   source: usda
 
@@ -680,7 +680,7 @@ eggs:
 
 active dry yeast:
   macros_per_100g: { calories: 325, protein_g: 40, carbs_g: 41, fat_g: 7 }
-  grams_per_unit: { count: 7 }
+  grams_per_unit: { count: 7, tsp: 3.1 }
   note: "one standard packet (2.25 tsp, ~7g); negligible contribution at that amount regardless of the dense per-100g figure."
   source: usda
 
@@ -944,4 +944,72 @@ banana:
   macros_per_100g: { calories: 89, protein_g: 1.1, carbs_g: 23, fat_g: 0.3 }
   grams_per_unit: { count: 118 }
   note: "one medium banana."
+  source: usda
+
+# --- added for the sides/base rebalance: steamed-jasmine-rice, roasted-
+# broccoli-green-beans, mashed-potatoes, cornbread, greek-cucumber-tomato-
+# salad, naan, garlic-bread, coleslaw, oatmeal-peanut-butter-berries ---
+
+jasmine rice:
+  macros_per_100g: { calories: 365, protein_g: 7.1, carbs_g: 80, fat_g: 0.7 }
+  note: "raw, dry; same profile as other white rice, just the fragrant variety."
+  grams_per_unit: { cup: 185 }
+  source: usda
+
+baking powder:
+  macros_per_100g: { calories: 53, protein_g: 0, carbs_g: 28, fat_g: 0 }
+  grams_per_unit: { tsp: 4.6, tbsp: 13.8 }
+  note: "negligible at a tsp or two."
+  source: usda
+
+buttermilk:
+  macros_per_100g: { calories: 40, protein_g: 3.3, carbs_g: 4.8, fat_g: 0.9 }
+  grams_per_unit: { cup: 245 }
+  source: usda
+
+cornmeal:
+  macros_per_100g: { calories: 370, protein_g: 8, carbs_g: 79, fat_g: 3.6 }
+  grams_per_unit: { cup: 138 }
+  note: "dry."
+  source: usda
+
+kalamata olives:
+  macros_per_100g: { calories: 115, protein_g: 0.8, carbs_g: 6, fat_g: 11 }
+  grams_per_unit: { cup: 134 }
+  note: "pitted."
+  source: usda
+
+feta cheese:
+  macros_per_100g: { calories: 264, protein_g: 14.2, carbs_g: 4.1, fat_g: 21.3 }
+  grams_per_unit: { cup: 150 }
+  note: "crumbled."
+  source: usda
+
+red wine vinegar:
+  macros_per_100g: { calories: 3, protein_g: 0, carbs_g: 0.1, fat_g: 0 }
+  note: "same as other vinegars, effectively calorie-free."
+  grams_per_unit: { tbsp: 15 }
+  source: usda
+
+mayonnaise:
+  macros_per_100g: { calories: 680, protein_g: 1, carbs_g: 1, fat_g: 75 }
+  grams_per_unit: { cup: 220, tbsp: 14 }
+  source: usda
+
+baguette:
+  macros_per_100g: { calories: 274, protein_g: 9, carbs_g: 55, fat_g: 1.4 }
+  grams_per_unit: { count: 250 }
+  note: "one standard baguette, ~250g."
+  source: usda
+
+quick oats:
+  macros_per_100g: { calories: 389, protein_g: 16.9, carbs_g: 66, fat_g: 6.9 }
+  grams_per_unit: { cup: 81 }
+  note: "dry."
+  source: usda
+
+mixed berries:
+  macros_per_100g: { calories: 57, protein_g: 0.7, carbs_g: 14, fat_g: 0.3 }
+  note: "blueberry/blackberry average, fresh or frozen."
+  grams_per_unit: { cup: 148 }
   source: usda
