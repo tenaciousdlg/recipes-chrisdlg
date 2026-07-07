@@ -1,0 +1,98 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  recipes: CollectionEntry<'recipes'>[];
+}
+
+const { recipes } = Astro.props;
+
+// minimal data needed for pairing logic, computed at build time and picked client-side
+// so the suggestion actually randomizes per visit instead of freezing until next deploy
+const recipesForClient = recipes.map((r) => ({
+  id: r.id,
+  title: r.data.title,
+  category: r.data.category,
+  cuisine: r.data.cuisine ?? null,
+  isBreakfast: r.data.tags.includes('breakfast'),
+}));
+---
+
+<div class="box meal-suggestion" id="meal-suggestion">
+  <div class="meal-suggestion-label">Tonight's suggestion</div>
+  <div id="meal-suggestion-body">
+    <p class="recipe-meta">Loading...</p>
+  </div>
+  <button id="meal-suggestion-shuffle" type="button">Suggest something else</button>
+</div>
+
+<script type="application/json" id="meal-suggestion-data" set:html={JSON.stringify(recipesForClient)} />
+
+<script>
+  interface RecipeForPairing {
+    id: string;
+    title: string;
+    category: 'main' | 'base' | 'side' | 'snack';
+    cuisine: string | null;
+    isBreakfast: boolean;
+  }
+
+  const dataEl = document.getElementById('meal-suggestion-data')!;
+  const recipes: RecipeForPairing[] = JSON.parse(dataEl.textContent!);
+  const body = document.getElementById('meal-suggestion-body')!;
+  const shuffleBtn = document.getElementById('meal-suggestion-shuffle')!;
+
+  function pickRandom<T>(arr: T[]): T | undefined {
+    return arr.length ? arr[Math.floor(Math.random() * arr.length)] : undefined;
+  }
+
+  // prefers a same-cuisine match (e.g. Spanish Rice for a Mexican main) and only falls
+  // back to a "goes with anything" universal item (plain rice, roasted vegetables) when
+  // nothing in that cuisine is available
+  function pickPreferred(pool: RecipeForPairing[], cuisine: string | null): RecipeForPairing | undefined {
+    const sameCuisine = pool.filter((r) => r.cuisine === cuisine);
+    return pickRandom(sameCuisine.length ? sameCuisine : pool);
+  }
+
+  function pickMeal() {
+    const mains = recipes.filter((r) => r.category === 'main' && !r.isBreakfast);
+    const main = pickRandom(mains);
+    if (!main) return null;
+
+    // pairs with the same cuisine, or with no cuisine at all (a "goes with anything" side
+    // like plain rice or roasted vegetables); never suggest a snack as a meal component
+    const pairPool = recipes.filter(
+      (r) => r.category !== 'main' && r.category !== 'snack' && (r.cuisine === main.cuisine || r.cuisine === null),
+    );
+
+    const picks: RecipeForPairing[] = [];
+    const base = pickPreferred(pairPool.filter((r) => r.category === 'base'), main.cuisine);
+    if (base) picks.push(base);
+    const side = pickPreferred(pairPool.filter((r) => r.category === 'side'), main.cuisine);
+    if (side) picks.push(side);
+    if (picks.length < 2) {
+      const remaining = pickPreferred(
+        pairPool.filter((r) => !picks.includes(r)),
+        main.cuisine,
+      );
+      if (remaining) picks.push(remaining);
+    }
+
+    return { main, picks };
+  }
+
+  function render() {
+    const meal = pickMeal();
+    if (!meal) {
+      body.innerHTML = '<p class="recipe-meta">Not enough recipes yet.</p>';
+      return;
+    }
+    const mainLink = `<a href="/recipes/${meal.main.id}/">${meal.main.title}</a>`;
+    const pairLinks = meal.picks.map((p) => `<a href="/recipes/${p.id}/">${p.title}</a>`);
+    const withText = pairLinks.length ? ` with ${pairLinks.join(' and ')}` : '';
+    body.innerHTML = `<p class="meal-suggestion-text">${mainLink}${withText}</p>`;
+  }
+
+  shuffleBtn.addEventListener('click', render);
+  render();
+</script>

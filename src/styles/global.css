@@ -59,8 +59,7 @@ header.site-header .container {
 }
 header.site-header h1 { font-size: 1.4rem; margin: 0; }
 header.site-header .site-nav { display: flex; align-items: baseline; gap: 1.25rem; }
-header.site-header .site-nav a:not(.back) { font-size: 0.9rem; }
-header.site-header .back { font-size: 0.9rem; color: var(--text-dim); }
+header.site-header .site-nav a { font-size: 0.9rem; }
 
 .box {
   border: 1px solid var(--border);
@@ -279,3 +278,32 @@ body.cooking-mode ol {
 }
 body.cooking-mode .qty { font-size: 1.05em; }
 body.cooking-mode h2 { font-size: 1.6rem; }
+
+.meal-suggestion {
+  border-color: var(--accent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.meal-suggestion-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  margin-bottom: 0.3rem;
+}
+.meal-suggestion-text { font-size: 1.15rem; }
+.meal-suggestion-text a { font-weight: 600; }
+#meal-suggestion-shuffle {
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 6px;
+  padding: 0.5em 1em;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#meal-suggestion-shuffle:hover { background: var(--accent); color: #fff; }

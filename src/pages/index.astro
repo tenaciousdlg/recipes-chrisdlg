@@ -2,10 +2,12 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import RecipeGrid from '../components/RecipeGrid.astro';
+import MealSuggestion from '../components/MealSuggestion.astro';
 
 const recipes = await getCollection('recipes');
 ---
 
 <Layout title="Recipes">
+  <MealSuggestion recipes={recipes} />
   <RecipeGrid recipes={recipes} />
 </Layout>
