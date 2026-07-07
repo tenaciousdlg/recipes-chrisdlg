@@ -17,9 +17,13 @@ const sorted = [...recipes].sort((a, b) => b.data.created.getTime() - a.data.cre
     <label for="sort-select">Sort by</label>
     <select id="sort-select">
       <option value="newest">Newest</option>
-      <option value="title">Title (A-Z)</option>
+      <option value="oldest">Oldest</option>
+      <option value="title-asc">Title (A-Z)</option>
+      <option value="title-desc">Title (Z-A)</option>
       <option value="protein-desc">Protein (high to low)</option>
+      <option value="protein-asc">Protein (low to high)</option>
       <option value="calories-asc">Calories (low to high)</option>
+      <option value="calories-desc">Calories (high to low)</option>
     </select>
   </div>
 </div>
@@ -40,12 +44,20 @@ const sorted = [...recipes].sort((a, b) => b.data.created.getTime() - a.data.cre
     const cards = Array.from(grid.querySelectorAll<HTMLElement>('.recipe-card'));
     cards.sort((a, b) => {
       switch (mode) {
-        case 'title':
+        case 'title-asc':
           return a.dataset.title!.localeCompare(b.dataset.title!);
+        case 'title-desc':
+          return b.dataset.title!.localeCompare(a.dataset.title!);
         case 'protein-desc':
           return parseFloat(b.dataset.protein!) - parseFloat(a.dataset.protein!);
+        case 'protein-asc':
+          return parseFloat(a.dataset.protein!) - parseFloat(b.dataset.protein!);
         case 'calories-asc':
           return parseFloat(a.dataset.calories!) - parseFloat(b.dataset.calories!);
+        case 'calories-desc':
+          return parseFloat(b.dataset.calories!) - parseFloat(a.dataset.calories!);
+        case 'oldest':
+          return new Date(a.dataset.created!).getTime() - new Date(b.dataset.created!).getTime();
         case 'newest':
         default:
           return new Date(b.dataset.created!).getTime() - new Date(a.dataset.created!).getTime();
