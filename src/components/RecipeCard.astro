@@ -12,8 +12,10 @@ const primary = getPrimaryIngredient(recipe.data.ingredients);
 const calories = recipe.data.macros_per_serving?.calories ?? 0;
 const protein = recipe.data.macros_per_serving?.protein_g ?? 0;
 
-// searchable blob: title, description, cuisine/category/season, tags, and every
-// ingredient name, so typing e.g. "chicken thigh" or "cold" surfaces matching recipes
+// searchable blob: title, description, cuisine/category/season, tags, and the
+// primary ingredient only (not every ingredient) -- searching "chicken" should
+// surface dishes chicken defines (gumbo, jambalaya, al pastor), not a soup that
+// happens to use chicken broth or bouillon as a background ingredient.
 const searchIndex = [
   recipe.data.title,
   recipe.data.description ?? '',
@@ -21,7 +23,7 @@ const searchIndex = [
   recipe.data.category,
   recipe.data.season,
   ...recipe.data.tags,
-  ...recipe.data.ingredients.map((i) => i.item),
+  primary.item,
 ]
   .join(' ')
   .toLowerCase();
