@@ -20,11 +20,11 @@ ingredients:
   - { item: avocado, qty: 2, unit: count, prep: diced, section: produce }
   - { item: lime, qty: 2, unit: count, prep: juiced, plus wedges, section: produce }
 steps:
-  - Sauté aromatics & peppers — heat olive oil in a large skillet over medium. Sauté onion, garlic, and mini peppers until softened, ~5 min.
-  - Brown the beef — add ground beef, break apart, cook until browned, ~6-7 min. With 93/7 there's little fat to drain; with 85/15 drain the excess well.
-  - Add beans & spices — stir in cumin, smoked paprika, salt, pepper, then the black beans and ranch style beans. Simmer ~10 min to meld.
-  - Wilt spinach — stir in baby spinach and cook just until wilted, ~2 min.
-  - Finish & serve — off heat, top with diced avocado and a squeeze of lime. Serve over rice or in tortillas with extra lime wedges.
+  - "Sauté aromatics & peppers: heat olive oil in a large skillet over medium. Sauté onion, garlic, and mini peppers until softened, ~5 min."
+  - "Brown the beef: add ground beef, break apart, cook until browned, ~6-7 min. With 93/7 there's little fat to drain; with 85/15 drain the excess well."
+  - "Add beans & spices: stir in cumin, smoked paprika, salt, pepper, then the black beans and ranch style beans. Simmer ~10 min to meld."
+  - "Wilt spinach: stir in baby spinach and cook just until wilted, ~2 min."
+  - "Finish & serve: off heat, top with diced avocado and a squeeze of lime. Serve over rice or in tortillas with extra lime wedges."
 macros_per_serving:
   calories: 433
   protein_g: 35
@@ -32,7 +32,7 @@ macros_per_serving:
   fat_g: 16.5
   source: manual
 notes: >
-  Scaling anchor is ground beef at 1 lb / 4 servings — clean 1-lb pack, scales to 2 lb / 8 for a
+  Scaling anchor is ground beef at 1 lb / 4 servings: clean 1-lb pack, scales to 2 lb / 8 for a
   Sunday batch. Macros are the bowl itself before a base: full batch ~1,730 cal / 140g protein /
   153g carb / 66g fat; per serving ~433 cal / 35g protein. Beans drive the carbs and fiber. Add
   rice (+~250 cal / 55g carb per cup) or a tortilla depending on pairing. Aromatics, oil, and salt
@@ -44,7 +44,7 @@ made_log: [2026-06-29]
 
 ## Origin
 
-Built entirely from a photo of an HEB haul — black beans, ranch style beans, mini peppers, onion,
-avocado, lime, spinach, and 93/7 beef — with no additional shopping. Ranch style beans + black
+Built entirely from a photo of an HEB haul: black beans, ranch style beans, mini peppers, onion,
+avocado, lime, spinach, and 93/7 beef, with no additional shopping. Ranch style beans + black
 beans + beef + peppers is a classic Texas combo; the cumin/smoked-paprika base (skipping the
 cinnamon of the Moroccan version) keeps it firmly Tex-Mex.

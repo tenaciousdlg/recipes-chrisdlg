@@ -15,7 +15,7 @@ const { recipe } = Astro.props;
 const { Content } = await render(recipe);
 const primary = getPrimaryIngredient(recipe.data.ingredients);
 
-// group ingredients by recipe sub-component (sauce/pickle/etc); undefined = main dish, shown first
+// groups ingredients by recipe sub-component (sauce, pickle, etc); undefined = main dish, shown first
 const groups: Array<{ name: string | undefined; items: typeof recipe.data.ingredients }> = [];
 for (const ing of recipe.data.ingredients) {
   let group = groups.find((g) => g.name === ing.group);
@@ -54,7 +54,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
       <span>&rarr; <span id="servings-out" class="servings-out">{recipe.data.base_servings}</span> servings</span>
     </div>
     <div id="scale-note" class="note-banner">
-      Cooking times don't scale linearly with quantity — use the times in the steps below as a guide, not an exact multiple.
+      Cooking times don't scale linearly with quantity: use the times in the steps below as a guide, not an exact multiple.
     </div>
   </div>
 

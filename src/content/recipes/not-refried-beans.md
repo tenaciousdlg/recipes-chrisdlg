@@ -17,9 +17,9 @@ ingredients:
   - { item: salt, qty: 2.5, unit: tsp, prep: added AFTER cooking, scale: false, section: pantry }
 steps:
   - Spread the dry beans on a baking sheet and pick through for stones or bad pieces. Rinse in a colander under cool water.
-  - Dice the onion. Seed and dice the jalapeno, mince the garlic. Add onion, garlic, and jalapeno to the slow cooker with the cumin, chili powder, and black pepper. Do NOT add salt yet — salt slows the beans from softening.
-  - Add the rinsed beans and 6 cups water. Stir to distribute seasoning. Cover and cook on high 4-5 hrs or low 8. Longer is fine — they just mash easier.
-  - Remove ~1 cup of the cooking liquid and reserve. Mash the beans, adding reserved liquid back as needed. Make them slightly thinner than you want — they thicken as they cool.
+  - Dice the onion. Seed and dice the jalapeno, mince the garlic. Add onion, garlic, and jalapeno to the slow cooker with the cumin, chili powder, and black pepper. Do NOT add salt yet; salt slows the beans from softening.
+  - Add the rinsed beans and 6 cups water. Stir to distribute seasoning. Cover and cook on high 4-5 hrs or low 8. Longer is fine, they just mash easier.
+  - Remove ~1 cup of the cooking liquid and reserve. Mash the beans, adding reserved liquid back as needed. Make them slightly thinner than you want; they thicken as they cool.
   - NOW season with salt, starting with 1 tsp and adding to taste (recipe author used ~1 tbsp). Serve warm.
 macros_per_serving:
   calories: 180
@@ -28,9 +28,9 @@ macros_per_serving:
   fat_g: 1
   source: manual
 notes: >
-  A BASE/side, not a protein main — though at 11g protein / 1g fat per ~1/2 cup it's a genuinely
+  A BASE/side, not a protein main, though at 11g protein / 1g fat per ~1/2 cup it's a genuinely
   strong macro side. Pairs under Tex-Mex bowls, alongside Spanish rice, or as a dip with chips.
-  Scaling anchor is dry pinto beans (1 lb bag = clean anchor). Salt goes in AFTER cooking — added
+  Scaling anchor is dry pinto beans (1 lb bag = clean anchor). Salt goes in AFTER cooking: added
   early it keeps the beans from softening. Spices are scale:false. Freezer-friendly: portions well.
   Macros are Budget Bytes' published values (~180 cal / 11g protein / 34g carb / 1g fat per serving,
   9 servings of ~1/2 cup). Source: budgetbytes.com/not-refried-beans
@@ -40,6 +40,6 @@ made_log: []
 
 ## Origin
 
-A Budget Bytes staple you already like — dead-simple slow-cooker pinto beans that mash into a
+Dead-simple slow-cooker pinto beans that mash into a
 not-refried spread with no lard and almost no active effort. Strong protein-to-fat ratio for a
 bean side, and it freezes well, so it slots naturally into Sunday batch prep as a Tex-Mex base.

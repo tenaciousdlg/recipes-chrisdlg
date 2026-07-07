@@ -9,13 +9,13 @@ const ingredient = z.object({
   qty: z.number(),
   unit: z.enum(UNITS),
   prep: z.string().optional(),
-  // marks the ingredient the scale factor anchors on — exactly one per recipe
+  // marks the ingredient the scale factor anchors on: exactly one per recipe
   primary: z.boolean().optional().default(false),
   // false = fixed regardless of scale factor (aromatics-to-taste, salt, garnish)
   scale: z.boolean().optional().default(true),
   // store-aisle grouping, used later for the shopping-list generator (Phase 3)
   section: z.enum(SECTIONS),
-  // recipe sub-component this ingredient belongs to, e.g. "sauce", "pickle", "marinade" —
+  // recipe sub-component this ingredient belongs to, e.g. "sauce", "pickle", "marinade";
   // undefined means it's part of the main dish
   group: z.string().optional(),
 });
@@ -39,7 +39,7 @@ const recipe = z.object({
     protein_g: z.number(),
     carbs_g: z.number(),
     fat_g: z.number(),
-    // Phase 1: hand-entered. Phase 2: computed from ingredients.yaml — same shape either way.
+    // Phase 1: hand-entered. Phase 2: computed from ingredients.yaml, same shape either way.
     source: z.enum(['manual', 'computed']).optional().default('manual'),
   }).optional(),
   notes: z.string().optional(),
