@@ -4,6 +4,7 @@ description: A rich, cheesy broth full of chunky broccoli and carrot, built on a
 cuisine: American
 source: budget-bytes
 season: cold
+self_contained: true
 tags: [soup]
 base_servings: 4
 ingredients:

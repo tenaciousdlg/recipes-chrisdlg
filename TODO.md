@@ -79,15 +79,15 @@ too. Scanned every other main's primary ingredient for grain/starch keywords
 regression: zero violations across both the sauce-pairing and
 self-contained-base rules.
 
-Open question, not fixed: Broccoli Cheddar Soup and Cabbage Soup can still
-draw Mashed Potatoes as a base (they're `cuisine: American`, same bucket as
-the pork-chop/pot-roast/meatloaf lane). A soup is already a complete bowl,
-so "cabbage soup with a side of mashed potatoes" reads a little odd, though
-it's not absurd the way sauce-as-a-side or double-starch was. `self_contained`
-as currently written means "has its own starch baked in," which isn't
-literally true for either soup, so reusing that flag would overstate the
-reason. Left alone pending a decision on whether soups should skip the base
-pool on general principle.
+Resolved 2026-07-07: confirmed "a soup should be just a soup, or get a
+normal soup side" as a general principle, not just for the two odd-looking
+cases. Broadened `self_contained`'s meaning to cover both "already has its
+own starch" and "already a complete bowl on its own" (a side like cornbread
+is still fine either way, only the base pool is skipped), and applied it to
+all three soups for consistency: Broccoli Cheddar Soup, Cabbage Soup, and
+Chicken Tortilla Soup (the last wasn't reported as broken, but the same
+reasoning applies — no reason to single it out). 2000-trial regression:
+zero violations.
 
 ## Macro-accuracy and shopping-list hardening audit
 

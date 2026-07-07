@@ -3,6 +3,7 @@ title: "\"All You Can Eat\" Cabbage Soup"
 description: A hearty, freezer-friendly vegetarian vegetable soup built around a whole head of cabbage. Tastes incredible on its own, not a diet gimmick.
 cuisine: American
 source: budget-bytes
+self_contained: true
 tags: [soup, vegetarian, batch-prep]
 base_servings: 8
 ingredients:

@@ -4,6 +4,7 @@ description: A deeply-flavored soup built on a charred chile-tomato puree with p
 cuisine: Mexican
 source: web
 season: hot
+self_contained: true
 tags: [soup, batch-prep]
 base_servings: 6
 ingredients:

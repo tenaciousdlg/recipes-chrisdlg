@@ -45,8 +45,9 @@ const recipe = z.object({
   source: z.enum(['original', 'budget-bytes', 'web', 'family']).optional().default('original'),
   // when this gets cooked: any = year-round, hot/cold = seasonal
   season: z.enum(['any', 'hot', 'cold']).optional().default('any'),
-  // true for a main that already includes its own starch (pasta, gnocchi, noodles) so the
-  // meal-suggestion widget doesn't also pair it with a base like rice
+  // true for a main that shouldn't be paired with a starchy base: either it already
+  // includes its own (pasta, gnocchi, quinoa) or it's a soup, already a complete bowl on
+  // its own. A side (bread, slaw) is still fine either way; only the base pool is skipped.
   self_contained: z.boolean().optional().default(false),
   tags: z.array(z.enum(TAGS)).optional().default([]),
   base_servings: z.number().optional().default(1),
