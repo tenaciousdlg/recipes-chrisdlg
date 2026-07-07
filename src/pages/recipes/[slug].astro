@@ -33,7 +33,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
   <a href="/">&larr; all recipes</a>
   <h1>
     {recipe.data.title}
-    {recipe.data.category !== 'main' && <span class="tag category-tag">{recipe.data.category}</span>}
+    <span class="tag category-tag">{recipe.data.category}</span>
   </h1>
   <p>{recipe.data.description}</p>
   <div class="tags">
