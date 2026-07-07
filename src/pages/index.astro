@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { getPrimaryIngredient } from '../lib/scale';
+
+const recipes = (await getCollection('recipes')).sort(
+  (a, b) => b.data.created.getTime() - a.data.created.getTime(),
+);
+---
+
+<Layout title="Recipes">
+  <p style="color: var(--text-dim); margin-bottom: 1.5rem;">
+    {recipes.length} recipe{recipes.length === 1 ? '' : 's'}, scaled off whatever you're holding.
+  </p>
+  {
+    recipes.map((recipe) => {
+      const primary = getPrimaryIngredient(recipe.data.ingredients);
+      return (
+        <a class="recipe-card" href={`/recipes/${recipe.id}/`}>
+          <h2>{recipe.data.title}</h2>
+          <p>{recipe.data.description}</p>
+          <div class="recipe-meta">
+            {recipe.data.base_servings} servings from {primary.qty} {primary.unit} {primary.item}
+            {recipe.data.cuisine ? ` · ${recipe.data.cuisine}` : ''}
+          </div>
+          <div class="tags">
+            {recipe.data.tags.map((tag: string) => <span class="tag">{tag}</span>)}
+          </div>
+        </a>
+      );
+    })
+  }
+</Layout>

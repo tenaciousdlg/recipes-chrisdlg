@@ -1,0 +1,131 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { getPrimaryIngredient } from '../../lib/scale';
+
+export async function getStaticPaths() {
+  const recipes = await getCollection('recipes');
+  return recipes.map((recipe) => ({
+    params: { slug: recipe.id },
+    props: { recipe },
+  }));
+}
+
+const { recipe } = Astro.props;
+const { Content } = await render(recipe);
+const primary = getPrimaryIngredient(recipe.data.ingredients);
+
+// group ingredients by recipe sub-component (sauce/pickle/etc); undefined = main dish, shown first
+const groups: Array<{ name: string | undefined; items: typeof recipe.data.ingredients }> = [];
+for (const ing of recipe.data.ingredients) {
+  let group = groups.find((g) => g.name === ing.group);
+  if (!group) {
+    group = { name: ing.group, items: [] };
+    groups.push(group);
+  }
+  group.items.push(ing);
+}
+groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0));
+---
+
+<Layout title={recipe.data.title} description={recipe.data.description}>
+  <a href="/">&larr; all recipes</a>
+  <h1>{recipe.data.title}</h1>
+  <p>{recipe.data.description}</p>
+  <div class="tags">
+    {recipe.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+  </div>
+
+  <div class="box">
+    <div class="scale-control">
+      <label for="scale-input">Scale by {primary.item} ({primary.unit}):</label>
+      <input
+        id="scale-input"
+        type="number"
+        step="any"
+        min="0"
+        value={primary.qty}
+        data-base-qty={primary.qty}
+        data-base-servings={recipe.data.base_servings}
+      />
+      <span>&rarr; <span id="servings-out" class="servings-out">{recipe.data.base_servings}</span> servings</span>
+    </div>
+    <div id="scale-note" class="note-banner">
+      Cooking times don't scale linearly with quantity — use the times in the steps below as a guide, not an exact multiple.
+    </div>
+  </div>
+
+  {groups.map((group) => (
+    <div class="ingredient-group">
+      {group.name && <h3>{group.name}</h3>}
+      <ul class="ingredient-list">
+        {group.items.map((ing) => (
+          <li data-ingredient data-qty={ing.qty} data-scale={ing.scale ? '1' : '0'} data-unit={ing.unit}>
+            <span class="qty">{ing.qty} {ing.unit}</span>
+            <span>
+              {ing.item}
+              {ing.prep ? `, ${ing.prep}` : ''}
+              {!ing.scale ? <span class="fixed-note"> (fixed)</span> : null}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+
+  <h2>Steps</h2>
+  <ol>
+    {recipe.data.steps.map((step) => <li>{step}</li>)}
+  </ol>
+
+  <h2>Macros (per serving)</h2>
+  <div class="box macros">
+    <div><div class="val">{recipe.data.macros_per_serving.calories}</div><div class="label">cal</div></div>
+    <div><div class="val">{recipe.data.macros_per_serving.protein_g}g</div><div class="label">protein</div></div>
+    <div><div class="val">{recipe.data.macros_per_serving.carbs_g}g</div><div class="label">carbs</div></div>
+    <div><div class="val">{recipe.data.macros_per_serving.fat_g}g</div><div class="label">fat</div></div>
+  </div>
+  <p class="recipe-meta">
+    {recipe.data.macros_per_serving.source === 'manual' ? 'hand-entered' : 'computed'} · per serving, does not rescale with batch size
+  </p>
+
+  {recipe.data.notes && (
+    <>
+      <h2>Notes</h2>
+      <p>{recipe.data.notes}</p>
+    </>
+  )}
+
+  <Content />
+</Layout>
+
+<script>
+  import { scaleFactor, scaledServings, formatQty } from '../../lib/scale';
+
+  const input = document.getElementById('scale-input') as HTMLInputElement;
+  const servingsOut = document.getElementById('servings-out')!;
+  const note = document.getElementById('scale-note')!;
+  const rows = document.querySelectorAll<HTMLLIElement>('[data-ingredient]');
+
+  function update() {
+    const target = parseFloat(input.value);
+    if (Number.isNaN(target) || target < 0) return;
+
+    const baseQty = parseFloat(input.dataset.baseQty!);
+    const baseServings = parseFloat(input.dataset.baseServings!);
+    const factor = scaleFactor(baseQty, target);
+
+    rows.forEach((row) => {
+      const qtyEl = row.querySelector('.qty')!;
+      const baseIngQty = parseFloat(row.dataset.qty!);
+      const doesScale = row.dataset.scale === '1';
+      const newQty = doesScale ? baseIngQty * factor : baseIngQty;
+      qtyEl.textContent = `${formatQty(newQty)} ${row.dataset.unit}`;
+    });
+
+    servingsOut.textContent = formatQty(scaledServings(baseServings, factor));
+    note.classList.toggle('visible', Math.abs(factor - 1) > 0.001);
+  }
+
+  input.addEventListener('input', update);
+</script>
