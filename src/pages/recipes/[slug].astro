@@ -41,6 +41,11 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
     {recipe.data.tags.map((tag) => <a class="tag" href={`/tags/${tag}/`}>{tag}</a>)}
   </div>
 
+  <div class="cooking-mode-control">
+    <button id="cooking-mode-toggle" type="button" aria-pressed="false">Cooking Mode</button>
+    <span id="cooking-mode-status" class="recipe-meta"></span>
+  </div>
+
   <div class="box">
     <div class="scale-control">
       <label for="scale-input">Scale by {primary.item} ({primary.unit}):</label>
@@ -137,4 +142,66 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
   }
 
   input.addEventListener('input', update);
+</script>
+
+<script>
+  // Cooking Mode: bigger, easier-to-read text and (where supported) keeps the
+  // screen from locking so you're not re-unlocking your phone with wet hands.
+  const STORAGE_KEY = 'recipes-chrisdlg:cooking-mode';
+  const button = document.getElementById('cooking-mode-toggle')!;
+  const status = document.getElementById('cooking-mode-status')!;
+  const supportsWakeLock = 'wakeLock' in navigator;
+
+  let wakeLock: WakeLockSentinel | null = null;
+
+  async function requestWakeLock() {
+    if (!supportsWakeLock) return;
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => {
+        wakeLock = null;
+      });
+    } catch {
+      // permission denied or transient failure; cooking mode still works, just without the wake lock
+    }
+  }
+
+  function setStatus() {
+    if (!supportsWakeLock) {
+      status.textContent = "bigger text (this browser can't keep the screen awake)";
+    } else {
+      status.textContent = wakeLock ? 'screen will stay on' : 'bigger text';
+    }
+  }
+
+  function enable() {
+    document.body.classList.add('cooking-mode');
+    button.textContent = 'Exit Cooking Mode';
+    button.setAttribute('aria-pressed', 'true');
+    localStorage.setItem(STORAGE_KEY, '1');
+    requestWakeLock().then(setStatus);
+    setStatus();
+  }
+
+  function disable() {
+    document.body.classList.remove('cooking-mode');
+    button.textContent = 'Cooking Mode';
+    button.setAttribute('aria-pressed', 'false');
+    status.textContent = '';
+    localStorage.setItem(STORAGE_KEY, '0');
+    if (wakeLock) wakeLock.release();
+  }
+
+  button.addEventListener('click', () => {
+    document.body.classList.contains('cooking-mode') ? disable() : enable();
+  });
+
+  // wake locks are released automatically when the tab is hidden; re-acquire on return
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && document.body.classList.contains('cooking-mode') && !wakeLock) {
+      requestWakeLock().then(setStatus);
+    }
+  });
+
+  if (localStorage.getItem(STORAGE_KEY) === '1') enable();
 </script>

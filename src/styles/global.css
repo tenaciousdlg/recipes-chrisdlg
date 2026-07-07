@@ -249,3 +249,33 @@ a.tag:hover { border-color: var(--accent); color: var(--accent); text-decoration
 .macros div { text-align: center; }
 .macros .val { font-size: 1.3rem; color: var(--accent); font-weight: 600; }
 .macros .label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; }
+
+.cooking-mode-control {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+#cooking-mode-toggle {
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 6px;
+  padding: 0.5em 1em;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+#cooking-mode-toggle[aria-pressed="true"] {
+  background: var(--accent);
+  color: #fff;
+}
+#cooking-mode-toggle:hover { background: var(--accent-bright); border-color: var(--accent-bright); color: #fff; }
+
+/* Cooking Mode: bigger, easier to read from across the kitchen */
+body.cooking-mode .ingredient-list,
+body.cooking-mode ol {
+  font-size: 1.25em;
+  line-height: 2;
+}
+body.cooking-mode .qty { font-size: 1.05em; }
+body.cooking-mode h2 { font-size: 1.6rem; }
