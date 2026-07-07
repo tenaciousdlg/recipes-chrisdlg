@@ -2,6 +2,7 @@
 title: Beef and Cabbage Stir Fry
 description: Ground beef seared with garlic and ginger, tossed with shredded cabbage and carrot in a sriracha-sesame sauce. A fast, cabbage-roll-in-a-bowl weeknight stir-fry.
 cuisine: Asian
+source: budget-bytes
 tags: [stir-fry, weeknight]
 base_servings: 4
 ingredients:

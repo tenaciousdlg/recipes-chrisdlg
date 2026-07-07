@@ -2,6 +2,7 @@
 title: Easy Baked Pork Chops
 description: Boneless pork chops rubbed with a simple smoked paprika and onion powder blend, then baked until juicy. Only a handful of pantry spices needed.
 cuisine: American
+source: web
 tags: [sheet-pan, weeknight]
 base_servings: 4
 ingredients:

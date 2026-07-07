@@ -17,7 +17,7 @@ const recipes = (await getCollection('recipes')).sort(
         <a class="recipe-card" href={`/recipes/${recipe.id}/`}>
           <h2>
             {recipe.data.title}
-            {recipe.data.category === 'base' && <span class="tag category-tag">base</span>}
+            {recipe.data.category !== 'main' && <span class="tag category-tag">{recipe.data.category}</span>}
           </h2>
           <p>{recipe.data.description}</p>
           <div class="recipe-meta">
