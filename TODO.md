@@ -8,19 +8,40 @@ B+. The items below are what would move each grade up, grouped by dimension and 
 ordered by priority within each. Nothing here is committed work, just the backlog this
 project's own assessment pointed at.
 
-### Content breadth (B- -> A): close the remaining menu gaps
+### Content breadth (B- -> A): cuisine and side coverage, not menu-list checkboxes
 
-11 items still open out of 39 tracked on `/menu/`:
-- Breakfast (1/5): bagel with whipped cream cheese, eggs with breakfast meat/veggies,
-  pancakes, smoothies (peanut butter banana / berry).
-- Lunch/Dinner (14/20): roasted chicken thighs with potatoes and veggies, baked ziti,
-  meatballs (marinara itself is done), King Ranch chicken, burritos, red beans and rice.
-- Cold season (7/8): goulash.
+The `/menu/` list was a brain-dump of "what do we eat," not a spec — items like "eggs with
+breakfast meat" or "bagel with cream cheese" don't need a structured recipe card in the app's
+current form, so raw menu-gap count isn't the real signal. Pulling the actual distribution
+across all 49 recipes surfaced the real issues instead:
 
-These just need real recipes dictated/pasted in, same process as fideo/calabaza/marinara.
+- **Two cuisine lanes dominate.** American (13) + Mexican/Tex-Mex (14) = 27 of 49 recipes,
+  55% of the whole site. Everything else is thin: Asian 4, Italian 4, Mediterranean 3,
+  Indian 2, Korean 2, Cajun 2, Vietnamese 1.
+- **Mains outnumber pairing partners badly.** 33 mains against only 6 sides + 4 bases.
+  **Asian, Korean, Cajun, Tex-Mex, and Vietnamese mains have zero dedicated side** — they all
+  fall back to the same universal jasmine rice / roasted broccoli, so those cuisines never
+  actually get a lane-specific pairing the way Mexican or American mains do.
+- **Tex-Mex mains never pair with Mexican sides, and probably should.** The meal-suggestion
+  widget matches cuisine by exact string, so a `cuisine: Tex-Mex` main doesn't count as a
+  match for `cuisine: Mexican` sides (Spanish Rice, Refried Beans) even though they're a
+  completely natural real-world pairing. Cheap fix, worth doing before adding any new recipes:
+  either relabel the 3 Tex-Mex recipes to `Mexican` if the distinction isn't load-bearing
+  elsewhere, or teach the pairing logic a small cuisine-affinity map.
+- **Chicken thigh is the primary ingredient in 10 of 49 recipes (20%).** The dishes themselves
+  are genuinely differentiated (Mexican al pastor, Cajun gumbo, Korean stir-fry, Mediterranean
+  bowl-braise), so this reads more as grocery-list repetition than eating-experience
+  repetition — lower priority than the cuisine/side gaps above, but worth knowing about when
+  picking what to add next.
 
 ### Intelligence / personalization (C+ -> B+): the actual weak spot
 
+- **No sauce-to-protein combinator.** Orange Sauce and Homemade Marinara are already built as
+  swappable platform sauces (Orange Sauce's own notes say "swap chicken for salmon, shrimp, or
+  tofu with no change to the sauce"), but there's no system support for that pattern — no way
+  to say "pick a sauce, pick a protein, get a meal" the way the meal-suggestion widget does for
+  main+side. This is a genuinely different feature than "add more recipes": a component-based
+  meal builder, extending the same pairing-engine idea to sauce+protein as the combinable units.
 - **Meal-suggestion widget is single-shot, not a planner.** It re-rolls one random
   suggestion per visit; it doesn't plan a week, avoid repeats across days, or balance
   nutrition across a stretch of meals.
