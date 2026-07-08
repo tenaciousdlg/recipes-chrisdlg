@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { getPrimaryIngredient } from '../../lib/scale';
+import { getPrimaryIngredient, formatQty } from '../../lib/scale';
 import { isHighProtein } from '../../lib/macros';
 
 export async function getStaticPaths() {
@@ -71,7 +71,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
       <ul class="ingredient-list">
         {group.items.map((ing) => (
           <li data-ingredient data-qty={ing.qty} data-scale={ing.scale ? '1' : '0'} data-unit={ing.unit}>
-            <span class="qty">{ing.qty} {ing.unit}</span>
+            <span class="qty">{formatQty(ing.qty)} {ing.unit}</span>
             <span>
               {ing.item}
               {ing.prep ? `, ${ing.prep}` : ''}
