@@ -48,11 +48,24 @@ const recipesForClient = recipes.map((r) => ({
     return arr.length ? arr[Math.floor(Math.random() * arr.length)] : undefined;
   }
 
-  // prefers a same-cuisine match (e.g. Spanish Rice for a Mexican main) and only falls
-  // back to a "goes with anything" universal item (plain rice, roasted vegetables) when
-  // nothing in that cuisine is available
+  // cuisines close enough in practice to share sides/bases even though they're labeled
+  // distinctly (Tex-Mex chili is genuinely different from Mexican mole, but Spanish Rice
+  // and Refried Beans are a completely natural pairing for either)
+  const CUISINE_AFFINITY: Record<string, string[]> = {
+    'Tex-Mex': ['Mexican'],
+  };
+
+  function sameLane(sideCuisine: string | null, mainCuisine: string | null): boolean {
+    if (sideCuisine === mainCuisine) return true;
+    if (mainCuisine === null || sideCuisine === null) return false;
+    return (CUISINE_AFFINITY[mainCuisine] ?? []).includes(sideCuisine);
+  }
+
+  // prefers a same-lane match (e.g. Spanish Rice for a Mexican or Tex-Mex main) and only
+  // falls back to a "goes with anything" universal item (plain rice, roasted vegetables)
+  // when nothing in that lane is available
   function pickPreferred(pool: RecipeForPairing[], cuisine: string | null): RecipeForPairing | undefined {
-    const sameCuisine = pool.filter((r) => r.cuisine === cuisine);
+    const sameCuisine = pool.filter((r) => sameLane(r.cuisine, cuisine));
     return pickRandom(sameCuisine.length ? sameCuisine : pool);
   }
 
@@ -61,15 +74,16 @@ const recipesForClient = recipes.map((r) => ({
     const main = pickRandom(mains);
     if (!main) return null;
 
-    // pairs with the same cuisine, or with no cuisine at all (a "goes with anything" side
-    // like plain rice or roasted vegetables); never suggest a snack or a sauce (a sauce is a
-    // component tossed with a specific protein, not a dish to serve alongside one)
+    // pairs with the same (or affine) cuisine, or with no cuisine at all (a "goes with
+    // anything" side like plain rice or roasted vegetables); never suggest a snack or a
+    // sauce (a sauce is a component tossed with a specific protein, not a dish to serve
+    // alongside one)
     const pairPool = recipes.filter(
       (r) =>
         r.category !== 'main' &&
         r.category !== 'snack' &&
         r.category !== 'sauce' &&
-        (r.cuisine === main.cuisine || r.cuisine === null),
+        (sameLane(r.cuisine, main.cuisine) || r.cuisine === null),
     );
 
     // a main that already brings its own starch (pasta, gnocchi, noodles) doesn't need

@@ -22,12 +22,12 @@ across all 49 recipes surfaced the real issues instead:
   **Asian, Korean, Cajun, Tex-Mex, and Vietnamese mains have zero dedicated side** — they all
   fall back to the same universal jasmine rice / roasted broccoli, so those cuisines never
   actually get a lane-specific pairing the way Mexican or American mains do.
-- **Tex-Mex mains never pair with Mexican sides, and probably should.** The meal-suggestion
-  widget matches cuisine by exact string, so a `cuisine: Tex-Mex` main doesn't count as a
-  match for `cuisine: Mexican` sides (Spanish Rice, Refried Beans) even though they're a
-  completely natural real-world pairing. Cheap fix, worth doing before adding any new recipes:
-  either relabel the 3 Tex-Mex recipes to `Mexican` if the distinction isn't load-bearing
-  elsewhere, or teach the pairing logic a small cuisine-affinity map.
+- ~~Tex-Mex mains never pair with Mexican sides~~ FIXED 2026-07-08: added a small
+  `CUISINE_AFFINITY` map (`Tex-Mex -> Mexican`) to the meal-suggestion widget rather than
+  relabeling the 3 Tex-Mex recipes, so the distinct cuisine label is preserved for anything
+  else that reads it. Verified via 3000 simulated trials: Tex-Mex mains now draw Spanish Rice
+  and Refried Beans alongside the universal roasted broccoli fallback, with zero regressions
+  on the sauce-pairing and self-contained-base rules.
 - **Chicken thigh is the primary ingredient in 10 of 49 recipes (20%).** The dishes themselves
   are genuinely differentiated (Mexican al pastor, Cajun gumbo, Korean stir-fry, Mediterranean
   bowl-braise), so this reads more as grocery-list repetition than eating-experience
