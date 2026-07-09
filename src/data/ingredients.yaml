@@ -127,6 +127,18 @@ cilantro:
   note: "loosely packed leaves -- cilantro is very light by volume. count=one sprig, ~2g."
   source: usda
 
+fresh oregano:
+  macros_per_100g: { calories: 66, protein_g: 2.2, carbs_g: 17, fat_g: 1.1 }
+  grams_per_unit: { count: 1 }
+  note: "count=one sprig, ~1g; negligible at recipe quantities. no clean USDA fresh-oregano entry, so derived from the dried figure at ~25% dry matter. split from dried 'oregano' (used in tortilla-soup)."
+  source: estimate
+
+fresh thyme:
+  macros_per_100g: { calories: 101, protein_g: 5.6, carbs_g: 24.5, fat_g: 1.7 }
+  grams_per_unit: { count: 1 }
+  note: "count=one sprig, ~1g; negligible at a few sprigs, usually stripped/removed before serving. split from dried 'thyme' (used in pot-roast)."
+  source: usda
+
 cucumber:
   macros_per_100g: { calories: 15, protein_g: 0.65, carbs_g: 3.6, fat_g: 0.1 }
   grams_per_unit: { count: 300 }
@@ -312,8 +324,8 @@ olive oil:
 
 oregano:
   macros_per_100g: { calories: 265, protein_g: 9, carbs_g: 69, fat_g: 4.3 }
-  grams_per_unit: { tsp: 1, count: 1 }
-  note: "dried. negligible at 1-2 tsp. count=one fresh sprig, ~1g (used in tortilla-soup)."
+  grams_per_unit: { tsp: 1 }
+  note: "dried. negligible at 1-2 tsp. fresh sprigs are their own 'fresh oregano' item (same join-key convention as spinach/baby spinach) so the shopping list never merges two different grocery products."
   source: usda
 
 basil:
@@ -535,8 +547,8 @@ parsley:
 
 thyme:
   macros_per_100g: { calories: 276, protein_g: 9.1, carbs_g: 64, fat_g: 7.4 }
-  grams_per_unit: { tsp: 1, count: 1 }
-  note: "dried; negligible at 1 tsp. count=one fresh sprig, ~1g."
+  grams_per_unit: { tsp: 1 }
+  note: "dried; negligible at 1 tsp. fresh sprigs are their own 'fresh thyme' item (same join-key convention as spinach/baby spinach) so the shopping list never merges two different grocery products."
   source: usda
 
 rosemary:

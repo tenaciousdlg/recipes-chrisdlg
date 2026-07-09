@@ -16,7 +16,7 @@ ingredients:
   - { item: chipotle in adobo, qty: 1, unit: count, prep: plus 1 tsp adobo, section: pantry }
   - { item: chicken broth, qty: 8, unit: cup, prep: low sodium, section: pantry }
   - { item: cilantro, qty: 8, unit: count, prep: sprigs, scale: false, section: produce }
-  - { item: oregano, qty: 1, unit: count, prep: fresh sprig, scale: false, section: produce }
+  - { item: fresh oregano, qty: 1, unit: count, prep: sprig, scale: false, section: produce }
   - { item: canola oil, qty: 1, unit: tbsp, scale: false, section: pantry }
   - { item: salt, qty: 0.5, unit: tsp, prep: kosher, scale: false, section: pantry }
   - { item: corn tortillas, qty: 8, unit: count, prep: cut in 1/2-inch strips, group: toppings, section: pantry }
@@ -25,7 +25,7 @@ ingredients:
   - { item: cotija cheese, qty: 0.5, unit: cup, prep: crumbled, group: toppings, section: dairy }
 steps:
   - "Tortilla strips: heat oven to 425F. Toss the strips with 1 tbsp oil on a sheet pan, bake ~14 min until golden, shaking halfway. Salt lightly, drain on paper towels."
-  - Poach the chicken. Simmer the chicken with 2 onion quarters, 2 garlic cloves, the broth, cilantro sprigs, oregano, and salt, covered, ~20 min until 165F. Remove chicken; strain the broth and discard solids. Shred the chicken.
+  - Poach the chicken. Simmer the chicken with 2 onion quarters, 2 garlic cloves, the broth, cilantro sprigs, fresh oregano, and salt, covered, ~20 min until 165F. Remove chicken; strain the broth and discard solids. Shred the chicken.
   - "Char-puree: blend the remaining 2 onion quarters and 2 garlic cloves with the tomatoes, jalapeno, and the chipotle plus adobo."
   - Cook the puree. Heat 1 tbsp oil in a Dutch oven until shimmering, add the puree and a pinch of salt, cook stirring until it darkens.
   - Add the strained broth, boil, then simmer 15 min. Taste; add up to 2 tsp more adobo for heat/smoke. Add the shredded chicken and warm through.

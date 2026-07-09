@@ -14,7 +14,7 @@ ingredients:
   - { item: red wine, qty: 2, unit: cup, section: pantry }
   - { item: beef stock, qty: 3, unit: cup, section: pantry }
   - { item: potato, qty: 3, unit: count, prep: gold/Yukon, chopped, section: produce }
-  - { item: thyme, qty: 3, unit: count, prep: fresh sprigs, scale: false, section: produce }
+  - { item: fresh thyme, qty: 3, unit: count, prep: sprigs, scale: false, section: produce }
   - { item: rosemary, qty: 3, unit: count, prep: fresh sprigs, scale: false, section: produce }
   - { item: all-purpose flour, qty: 3, unit: tbsp, section: pantry }
   - { item: salt, qty: 1, unit: tsp, prep: to taste, scale: false, section: pantry }
@@ -22,7 +22,7 @@ steps:
   - Heat a Dutch oven over medium-high with 2 tbsp butter. Sear the seasoned chuck roast on all sides. Remove and set aside.
   - In the remaining fat, sweat the carrots, onions, and garlic.
   - Deglaze with the red wine, scraping the bottom.
-  - Return the roast, add the beef stock, potatoes, thyme, and rosemary. Simmer on low until the meat is falling apart, ~3 hours (or braise covered at 300F).
+  - Return the roast, add the beef stock, potatoes, fresh thyme, and rosemary. Simmer on low until the meat is falling apart, ~3 hours (or braise covered at 300F).
   - "When nearly ready, make a roux: cook 3 tbsp flour with 2 tbsp butter in a separate pan until medium-brown, then whisk into the pot to thicken into gravy. Salt to taste."
 macros_per_serving:
   calories: 660
