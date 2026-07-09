@@ -7,7 +7,7 @@ base_servings: 6
 ingredients:
   - { item: chicken thigh, qty: 3, unit: lb, prep: boneless skinless, primary: true, section: meat }
   - { item: greek yogurt, qty: 0.75, unit: cup, prep: nonfat, section: dairy }
-  - { item: lemon, qty: 1, unit: count, prep: zest + juice, section: produce }
+  - { item: lemon, qty: 1, unit: count, prep: zested and juiced, section: produce }
   - { item: garlic, qty: 4, unit: count, prep: minced, section: produce }
   - { item: olive oil, qty: 1, unit: tbsp, scale: false, section: pantry }
   - { item: oregano, qty: 2, unit: tsp, prep: dried, section: pantry }
