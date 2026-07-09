@@ -42,6 +42,20 @@ const FRACTIONS: Array<[number, string]> = [
   [7 / 8, '7/8'],
 ];
 
+// how the unit reads to a human: 'count' disappears entirely ("1 lemon", not
+// "1 count lemon") and fl_oz gets its space back; everything else is already fine
+export function unitLabel(unit: string): string {
+  if (unit === 'count') return '';
+  if (unit === 'fl_oz') return 'fl oz';
+  return unit;
+}
+
+// quantity + unit as a person reads it: "1 1/4 lb", "3 tbsp", or a bare "2" for count items
+export function formatMeasure(qty: number, unit: string): string {
+  const label = unitLabel(unit);
+  return label ? `${formatQty(qty)} ${label}` : formatQty(qty);
+}
+
 // trims float noise (2.0000000001 -> 2) and displays as a mixed-number fraction when the
 // fractional part is close to a standard kitchen measurement (1/2, 1/3, 1/4, ...); falls
 // back to a decimal, capped at 2 places, for anything that doesn't land near one of those

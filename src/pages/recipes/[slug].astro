@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { getPrimaryIngredient, formatQty } from '../../lib/scale';
+import { getPrimaryIngredient, formatMeasure } from '../../lib/scale';
 import { isHighProtein } from '../../lib/macros';
 
 export async function getStaticPaths() {
@@ -71,10 +71,9 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
       <ul class="ingredient-list">
         {group.items.map((ing) => (
           <li data-ingredient data-qty={ing.qty} data-scale={ing.scale ? '1' : '0'} data-unit={ing.unit}>
-            <span class="qty">{formatQty(ing.qty)} {ing.unit}</span>
+            <span class="qty">{formatMeasure(ing.qty, ing.unit)}</span>
             <span>
-              {ing.item}
-              {ing.prep ? `, ${ing.prep}` : ''}
+              {ing.prep ? `${ing.item}, ${ing.prep}` : ing.item}
               {!ing.scale ? <span class="fixed-note"> (fixed)</span> : null}
             </span>
           </li>
@@ -114,7 +113,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
 </Layout>
 
 <script>
-  import { scaleFactor, scaledServings, formatQty } from '../../lib/scale';
+  import { scaleFactor, scaledServings, formatQty, formatMeasure } from '../../lib/scale';
 
   const input = document.getElementById('scale-input') as HTMLInputElement;
   const servingsOut = document.getElementById('servings-out')!;
@@ -134,7 +133,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
       const baseIngQty = parseFloat(row.dataset.qty!);
       const doesScale = row.dataset.scale === '1';
       const newQty = doesScale ? baseIngQty * factor : baseIngQty;
-      qtyEl.textContent = `${formatQty(newQty)} ${row.dataset.unit}`;
+      qtyEl.textContent = formatMeasure(newQty, row.dataset.unit!);
     });
 
     servingsOut.textContent = formatQty(scaledServings(baseServings, factor));

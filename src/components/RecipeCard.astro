@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { getPrimaryIngredient, formatQty } from '../lib/scale';
+import { getPrimaryIngredient, formatMeasure } from '../lib/scale';
 import { isHighProtein } from '../lib/macros';
 
 interface Props {
@@ -44,7 +44,7 @@ const searchIndex = [
     </h2>
     <p>{recipe.data.description}</p>
     <div class="recipe-meta">
-      {recipe.data.base_servings} servings from {formatQty(primary.qty)} {primary.unit} {primary.item}
+      {recipe.data.base_servings} servings from {formatMeasure(primary.qty, primary.unit)} {primary.item}
       {recipe.data.cuisine ? ` · ${recipe.data.cuisine}` : ''}
     </div>
   </a>
