@@ -82,6 +82,34 @@ Keep applying the same rigor to whatever gets built from the list above.
 ## Completed
 
 <details>
+<summary>Review-pass fixes: fresh/dried herb split, data check script, schema + qty hardening — DONE 2026-07-09</summary>
+
+A README + whole-app review pass found one real bug and two smaller gaps, all fixed:
+
+- **Fresh vs. dried herbs merged on the shopping list.** `oregano` and `thyme` each existed
+  as dried tsp (pantry) in some recipes and fresh sprigs (produce) in others under one item
+  name, and since ingredients.yaml covered both units, the aggregator merged them into a
+  single line under whichever store section came first — Tortilla Soup + Marinara produced
+  one "oregano" line combining a fresh sprig with dried flakes. Split into `fresh oregano` /
+  `fresh thyme` (the spinach / baby-spinach join-key convention), each with its own DB entry.
+  Verified against the real bundled script: those two recipes now produce two separate lines.
+- **New `npm run check`** (`scripts/check-data.mjs`), also run ahead of `astro build`:
+  cross-recipe invariants the per-recipe zod schema can't see — every item name maps to
+  exactly one store section, and every recipe item exists in ingredients.yaml. Would have
+  caught the herb bug at build time; these were the only two conflicts across all 49 recipes.
+- **Schema rejects non-positive `qty` / `base_servings`** — a typo'd `qty: 0` on a primary
+  ingredient would have made every scale factor Infinity. No existing recipe violated it.
+- **Emptying a shopping-list qty box no longer drops the recipe.** `parseFloat('')` is NaN,
+  which silently filtered a still-checked recipe out of the aggregated list mid-edit (and
+  persisted `null` to localStorage). The list now holds the last good value until the input
+  parses again. Verified in Node's vm against the real bundle with a mock DOM: check,
+  empty-box, retype, and Clear all paths all pass. Unlike previous audits, the harness is
+  committed this time (`scripts/smoke-shopping-list.mjs`, `npm run smoke` after a build)
+  instead of being rebuilt from scratch next pass.
+
+</details>
+
+<details>
 <summary>Menu tracking page — DONE 2026-07-07</summary>
 
 `/menu/` page backed by `src/data/menu.yaml`, mirroring the master cookbook list (Breakfast,
