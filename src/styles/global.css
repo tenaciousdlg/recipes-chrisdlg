@@ -111,7 +111,8 @@ a.tag:hover { border-color: var(--accent); color: var(--accent); text-decoration
   flex-wrap: wrap;
   margin-bottom: 1.5rem;
 }
-#recipe-search {
+#recipe-search,
+#picker-search {
   flex: 1;
   min-width: 12rem;
   background: var(--bg);
@@ -121,7 +122,9 @@ a.tag:hover { border-color: var(--accent); color: var(--accent); text-decoration
   padding: 0.5em 0.75em;
   font-size: 0.95rem;
 }
-#recipe-search::placeholder { color: var(--text-dim); }
+#recipe-search::placeholder,
+#picker-search::placeholder { color: var(--text-dim); }
+#picker-search { width: 100%; margin-bottom: 1rem; }
 
 .sort-control {
   display: flex;
@@ -228,6 +231,10 @@ a.tag:hover { border-color: var(--accent); color: var(--accent); text-decoration
 }
 .ingredient-list .qty { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; min-width: 4.5rem; }
 .ingredient-list .fixed-note { color: var(--text-dim); font-size: 0.8rem; }
+
+/* "already have it": stays visible for context, struck out and skipped by Copy list */
+.have-check { accent-color: var(--accent); }
+.ingredient-list li.have-it { text-decoration: line-through; opacity: 0.55; }
 
 .note-banner {
   border-left: 3px solid var(--accent);

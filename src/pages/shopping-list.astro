@@ -2,7 +2,7 @@
 import { load as parseYaml } from 'js-yaml';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { getPrimaryIngredient } from '../lib/scale';
+import { getPrimaryIngredient, unitLabel } from '../lib/scale';
 // ?raw has Vite inline the file's text at build time, no runtime fs access needed --
 // node:fs isn't available in the Cloudflare-adapter's Workers-emulated prerender step.
 import ingredientsYamlRaw from '../data/ingredients.yaml?raw';
@@ -28,6 +28,27 @@ const recipesForClient = recipes.map((r) => {
   };
 });
 
+// searchable blob per picker row, mirroring the homepage card index (title, description,
+// cuisine, category, season, tags, primary ingredient) so "greek" finds the same recipes
+// here as it does there. Server-rendered as a data attribute, not part of the JSON payload.
+const searchIndexById = new Map(
+  recipes.map((r) => {
+    const primary = getPrimaryIngredient(r.data.ingredients);
+    const blob = [
+      r.data.title,
+      r.data.description ?? '',
+      r.data.cuisine ?? '',
+      r.data.category,
+      r.data.season,
+      ...r.data.tags,
+      primary.item,
+    ]
+      .join(' ')
+      .toLowerCase();
+    return [r.id, blob];
+  }),
+);
+
 // grams-per-unit for each ingredient, used client-side to reconcile the same item
 // listed under different units across recipes (e.g. ginger by tbsp in one, tsp in
 // another) into a single line instead of two duplicate ones.
@@ -43,18 +64,23 @@ const gramConversions = Object.fromEntries(
 <Layout title="Shopping List" description="Aggregate scaled ingredients from selected recipes into a store-section shopping list.">
   <a href="/">&larr; all recipes</a>
   <h1>Shopping List</h1>
-  <p>Check off what you're making and adjust each to how much, ingredients aggregate below by store section.</p>
+  <p>
+    Check off what you're making and adjust each to how much, ingredients aggregate below by store
+    section. Tick an ingredient you already have and it stays visible but drops off the copied list.
+  </p>
+
+  <input type="search" id="picker-search" placeholder="Filter recipes... (title, cuisine, tag)" />
 
   <div class="box" id="recipe-picker">
     {recipesForClient.map((r) => (
-      <div class="picker-row">
+      <div class="picker-row" data-search={searchIndexById.get(r.id)}>
         <label class="picker-label">
           <input type="checkbox" class="recipe-check" data-id={r.id} />
           {r.title}
         </label>
         <span class="picker-scale">
           <input type="number" step="any" min="0" class="recipe-qty" data-id={r.id} value={r.primaryQty} />
-          {r.primaryUnit} {r.primaryItem}
+          {[unitLabel(r.primaryUnit), r.primaryItem].filter(Boolean).join(' ')}
         </span>
       </div>
     ))}
@@ -74,8 +100,14 @@ const gramConversions = Object.fromEntries(
 </Layout>
 
 <script>
-  import { aggregateIngredients, groupBySection, type SelectedRecipe, type GramConversions } from '../lib/shoppingList';
-  import { formatQty } from '../lib/scale';
+  import {
+    aggregateIngredients,
+    groupBySection,
+    type AggregatedLine,
+    type SelectedRecipe,
+    type GramConversions,
+  } from '../lib/shoppingList';
+  import { formatQty, formatMeasure } from '../lib/scale';
   import type { ScalableIngredient } from '../lib/scale';
 
   interface RecipeForClient {
@@ -97,6 +129,7 @@ const gramConversions = Object.fromEntries(
   const conversionsEl = document.getElementById('gram-conversions-data')!;
   const gramConversions: GramConversions = JSON.parse(conversionsEl.textContent!);
   const STORAGE_KEY = 'recipes-chrisdlg:shopping-list';
+  const PANTRY_KEY = 'recipes-chrisdlg:pantry';
 
   const picker = document.getElementById('recipe-picker')!;
   const output = document.getElementById('shopping-list-output')!;
@@ -111,6 +144,29 @@ const gramConversions = Object.fromEntries(
     } catch {
       return {};
     }
+  }
+
+  // pantry-lite: items marked "already have it". Keyed by item name and persisted, so a
+  // leftover from last week's cooking (the other 3/4 red onion) stays off the copied list
+  // until you untick it. Lines stay visible, struck out, so the skip is a conscious one.
+  function loadPantry(): Record<string, true> {
+    try {
+      return JSON.parse(localStorage.getItem(PANTRY_KEY) || '{}');
+    } catch {
+      return {};
+    }
+  }
+  const pantry = loadPantry();
+
+  // produce bought by the piece rounds up to whole items -- nobody buys 1/4 of a red
+  // onion. The exact need is kept alongside so the leftover is a known quantity.
+  function lineDisplay(l: AggregatedLine): { qty: string; need: string | null } {
+    if (l.unit === 'count') {
+      const exact = Math.round(l.qty * 1000) / 1000;
+      const buy = Math.ceil(exact);
+      return { qty: formatQty(buy), need: buy !== exact ? formatQty(exact) : null };
+    }
+    return { qty: formatMeasure(l.qty, l.unit), need: null };
   }
 
   // a qty box that's empty mid-edit parses to NaN; falling back to the last good value
@@ -163,13 +219,17 @@ const gramConversions = Object.fromEntries(
         <h3>${g.section}</h3>
         <ul class="ingredient-list">
           ${g.lines
-            .map(
-              (l) => `
-            <li>
-              <span class="qty">${formatQty(l.qty)} ${l.unit}</span>
-              <span>${l.item} <span class="fixed-note">(${l.recipes.join(', ')})</span></span>
-            </li>`,
-            )
+            .map((l) => {
+              const d = lineDisplay(l);
+              const have = !!pantry[l.item];
+              const note = [d.need ? `need ${d.need}` : null, l.recipes.join(', ')].filter(Boolean).join(' · ');
+              return `
+            <li class="${have ? 'have-it' : ''}">
+              <input type="checkbox" class="have-check" data-item="${l.item}" ${have ? 'checked' : ''} title="already have it" />
+              <span class="qty">${d.qty}</span>
+              <span>${l.item} <span class="fixed-note">(${note})</span></span>
+            </li>`;
+            })
             .join('')}
         </ul>
       </div>`,
@@ -193,13 +253,41 @@ const gramConversions = Object.fromEntries(
   picker.addEventListener('input', render);
   picker.addEventListener('change', render);
 
+  // "have it" toggles live inside the re-rendered output, so listen on the container
+  output.addEventListener('change', (e) => {
+    const t = e.target as HTMLInputElement;
+    if (!t.classList.contains('have-check')) return;
+    if (t.checked) pantry[t.dataset.item!] = true;
+    else delete pantry[t.dataset.item!];
+    localStorage.setItem(PANTRY_KEY, JSON.stringify(pantry));
+    render();
+  });
+
+  // filters picker rows only; checked-but-hidden recipes stay on the list
+  const pickerSearch = document.getElementById('picker-search') as HTMLInputElement;
+  const pickerRows = picker.querySelectorAll<HTMLElement>('.picker-row');
+  pickerSearch.addEventListener('input', () => {
+    const q = pickerSearch.value.trim().toLowerCase();
+    pickerRows.forEach((row) => {
+      row.style.display = q === '' || row.dataset.search!.includes(q) ? '' : 'none';
+    });
+  });
+
   copyBtn.addEventListener('click', () => {
     const selected = selectedFromState(currentState());
     const groups = groupBySection(aggregateIngredients(selected, gramConversions));
     const text = groups
+      .map((g) => ({ ...g, lines: g.lines.filter((l) => !pantry[l.item]) }))
+      .filter((g) => g.lines.length > 0)
       .map(
         (g) =>
-          `${g.section.toUpperCase()}\n` + g.lines.map((l) => `- ${formatQty(l.qty)} ${l.unit} ${l.item}`).join('\n'),
+          `${g.section.toUpperCase()}\n` +
+          g.lines
+            .map((l) => {
+              const d = lineDisplay(l);
+              return `- ${d.qty} ${l.item}${d.need ? ` (need ${d.need})` : ''}`;
+            })
+            .join('\n'),
       )
       .join('\n\n');
     navigator.clipboard.writeText(text).then(() => {
