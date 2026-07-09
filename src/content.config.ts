@@ -16,7 +16,8 @@ const TAGS = [
 
 const ingredient = z.object({
   item: z.string(),
-  qty: z.number(),
+  // positive: a typo'd 0 on the primary ingredient would make every scale factor Infinity
+  qty: z.number().positive(),
   unit: z.enum(UNITS),
   prep: z.string().optional(),
   // marks the ingredient the scale factor anchors on: exactly one per recipe
@@ -50,7 +51,7 @@ const recipe = z.object({
   // its own. A side (bread, slaw) is still fine either way; only the base pool is skipped.
   self_contained: z.boolean().optional().default(false),
   tags: z.array(z.enum(TAGS)).optional().default([]),
-  base_servings: z.number().optional().default(1),
+  base_servings: z.number().positive().optional().default(1),
   ingredients: z.array(ingredient).refine(
     (list) => list.filter((i) => i.primary).length === 1,
     { message: 'exactly one ingredient must be marked primary: true' },
