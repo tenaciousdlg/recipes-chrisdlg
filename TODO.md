@@ -61,7 +61,11 @@ across all 49 recipes surfaced the real issues instead:
 
 ### Shopping UX (A- -> A)
 
-- No pantry awareness: the shopping list has no way to say "skip onions, I already have some."
+- ~~No pantry awareness: the shopping list has no way to say "skip onions, I already have
+  some."~~ FIRST CUT 2026-07-09: per-item "have it" toggles on the aggregated list, persisted
+  across visits, struck through in place and skipped by Copy list. Quantity-aware leftovers
+  ("I have half an onion, only buy if the need exceeds it") are still open, as is any smarter
+  tie-in to `made_log` (auto-suggesting have-it after you cook something).
 - Aisle grouping is by category only, not personalized to a specific store's layout.
 
 ### Data rigor (A- -> A): one known, low-priority gap
@@ -80,6 +84,34 @@ Keep applying the same rigor to whatever gets built from the list above.
 ---
 
 ## Completed
+
+<details>
+<summary>First real-user feedback pass: display polish, picker search, whole-item rounding, pantry toggles — DONE 2026-07-09</summary>
+
+Driven by the first real multi-person usage session (Greek Yogurt-Marinated Chicken Thighs +
+Greek Cucumber-Tomato Salad on the shopping list together):
+
+- **`count` no longer appears as a display unit.** "1 lemon, zested and juiced", not
+  "1 count / lemon , zest + juice". New `unitLabel`/`formatMeasure` helpers in `scale.ts`
+  used by the recipe page (server render and client rescale), recipe cards, and the shopping
+  list; `fl_oz` reads "fl oz"; the stray space before the prep comma fixed; that lemon's prep
+  reworded from "zest + juice" to "zested and juiced".
+- **Shopping-list picker is searchable.** Same search-blob convention as the homepage cards
+  (title, description, cuisine, category, season, tags, primary ingredient), server-rendered
+  as a `data-search` attribute per row. Chosen over add-to-list buttons on the homepage so
+  list-building stays in one place. Checked-but-filtered recipes stay on the list.
+- **Count produce rounds up to whole purchasable items.** You don't buy 1/4 of a red onion:
+  the list shows "1 red onion (need 1/4 · Greek Cucumber-Tomato Salad)" and the copy export
+  says "- 1 red onion (need 1/4)". Weight/volume units are left exact.
+- **Pantry-lite "have it" toggles** (the first cut of pantry awareness, see Shopping UX
+  above): each aggregated line gets a checkbox persisted under `recipes-chrisdlg:pantry`;
+  ticked lines stay visible but struck out and are excluded from Copy list.
+
+Smoke harness extended from 6 to 14 assertions, including the exact two-recipe scenario from
+the feedback, and now pulls the real server-rendered `data-search` attributes from the built
+page rather than fabricating them.
+
+</details>
 
 <details>
 <summary>Review-pass fixes: fresh/dried herb split, data check script, schema + qty hardening — DONE 2026-07-09</summary>

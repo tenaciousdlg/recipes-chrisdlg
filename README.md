@@ -17,7 +17,10 @@ client-side scripts working off JSON embedded at build time.
   and unlocked. State persists per-browser via `localStorage`.
 - **Shopping mode** — `/shopping-list/` lets you check off the recipes you're making this week,
   adjust each one's batch size, and get a single aggregated list grouped by store section
-  (produce, meat, dairy, ...) with a copy-to-clipboard export. Selections persist across visits.
+  (produce, meat, dairy, ...) with a copy-to-clipboard export. The picker is searchable (same
+  index as the homepage search), produce bought by the piece rounds up to whole items with the
+  exact need shown ("1 red onion, need 1/4"), and per-item "have it" toggles keep pantry
+  leftovers off the copied list. Selections and pantry state persist across visits.
 
 Everything else (macros, tags, search/sort, the menu tracker, the suggestion widget) supports
 those two.
