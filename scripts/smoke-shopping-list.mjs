@@ -41,7 +41,7 @@ function el(extra = {}) {
     style: {},
     listeners: {},
     addEventListener(ev, fn) { (this.listeners[ev] ??= []).push(fn); },
-    dispatch(ev) { (this.listeners[ev] ?? []).forEach((fn) => fn()); },
+    dispatch(ev, evt) { (this.listeners[ev] ?? []).forEach((fn) => fn(evt)); },
     ...extra,
   };
 }
@@ -53,10 +53,18 @@ for (const r of recipes) {
   qtys.set(r.id, el({ dataset: { id: r.id }, value: String(r.primaryQty) }));
 }
 
+// picker rows with the REAL data-search attributes the server rendered into the built
+// page, so the search test exercises the shipped index, not a fabricated one
+const rowEls = new Map();
+for (const m of html.matchAll(/class="picker-row" data-search="([^"]*)"[\s\S]*?data-id="([^"]+)"/g)) {
+  rowEls.set(m[2], el({ dataset: { search: m[1] } }));
+}
+
 const picker = el({
   querySelectorAll(sel) {
     if (sel.includes('recipe-check')) return { forEach: (fn) => [...checks.values()].forEach(fn) };
     if (sel.includes('recipe-qty')) return { forEach: (fn) => [...qtys.values()].forEach(fn) };
+    if (sel.includes('picker-row')) return { forEach: (fn) => [...rowEls.values()].forEach(fn) };
     throw new Error('unexpected selector ' + sel);
   },
   querySelector(sel) {
@@ -76,16 +84,18 @@ const byId = {
   'copy-list': el(),
   'copy-confirm': el(),
   'clear-all': el(),
+  'picker-search': el({ value: '' }),
 };
 
 const storage = new Map();
+let copiedText = null;
 const context = {
   document: { getElementById: (id) => byId[id] },
   localStorage: {
     getItem: (k) => storage.get(k) ?? null,
     setItem: (k, v) => storage.set(k, String(v)),
   },
-  navigator: {},
+  navigator: { clipboard: { writeText: (t) => { copiedText = t; return Promise.resolve(); } } },
   setTimeout: () => {},
   console,
 };
@@ -135,10 +145,48 @@ const marinara = recipes.find((r) => r.title.includes('Marinara'));
 checks.get(soup.id).checked = true;
 checks.get(marinara.id).checked = true;
 picker.dispatch('change');
-const oreganoLines = (output.innerHTML.match(/oregano/g) ?? []).length;
+const oreganoItems = output.innerHTML.match(/data-item="(?:fresh )?oregano"/g) ?? [];
 assert(
-  output.innerHTML.includes('fresh oregano') && oreganoLines === 2,
-  `fresh + dried oregano stay separate lines (found ${oreganoLines} mentions)`,
+  oreganoItems.length === 2 && new Set(oreganoItems).size === 2,
+  `fresh + dried oregano stay separate lines (found: ${oreganoItems.join(', ') || 'none'})`,
 );
+
+// 6. the user's real scenario: both Greek recipes together. Count items display without
+//    the word "count", and fractional count produce rounds up with the exact need shown.
+byId['clear-all'].dispatch('click');
+const salad = recipes.find((r) => r.title.includes('Cucumber-Tomato'));
+const chicken = recipes.find((r) => r.title.includes('Greek Yogurt-Marinated'));
+checks.get(salad.id).checked = true;
+checks.get(chicken.id).checked = true;
+picker.dispatch('change');
+assert(!output.innerHTML.includes(' count'), 'the word "count" never appears as a display unit');
+assert(output.innerHTML.includes('need 1/4'), 'quarter red onion rounds up to a whole one with the need shown');
+
+// 7. picker search: real server-rendered data-search attributes drive the filter
+byId['picker-search'].value = 'greek';
+byId['picker-search'].dispatch('input');
+const potRoast = recipes.find((r) => r.title === 'Pot Roast');
+assert(
+  rowEls.get(salad.id).style.display === '' && rowEls.get(potRoast.id).style.display === 'none',
+  'searching "greek" keeps Greek rows visible and hides Pot Roast',
+);
+assert(output.innerHTML.includes(salad.title), 'checked recipes stay on the list while filtered out of view');
+
+// 8. pantry-lite: mark red onion "have it" -> struck in the list, dropped from the copy
+byId['shopping-list-output'].dispatch('change', {
+  target: {
+    classList: { contains: (c) => c === 'have-check' },
+    dataset: { item: 'red onion' },
+    checked: true,
+  },
+});
+assert(output.innerHTML.includes('have-it'), 'have-it line is marked in the rendered list');
+assert(JSON.parse(storage.get('recipes-chrisdlg:pantry'))['red onion'] === true, 'pantry state persists to localStorage');
+byId['copy-list'].dispatch('click');
+assert(
+  copiedText !== null && !copiedText.includes('red onion') && copiedText.includes('cucumber'),
+  'copied list skips have-it items but keeps the rest',
+);
+assert(copiedText !== null && copiedText.includes('- 1 lemon'), 'copied count lines read like "- 1 lemon"');
 
 process.exit(failures ? 1 : 0);
