@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "check": "node scripts/check-data.mjs",
+    "smoke": "node --experimental-vm-modules scripts/smoke-shopping-list.mjs",
     "build": "node scripts/check-data.mjs && astro build",
     "preview": "astro preview",
     "astro": "astro",
