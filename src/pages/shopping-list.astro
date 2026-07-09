@@ -113,12 +113,21 @@ const gramConversions = Object.fromEntries(
     }
   }
 
+  // a qty box that's empty mid-edit parses to NaN; falling back to the last good value
+  // (or the recipe default) keeps a checked recipe on the list instead of silently
+  // dropping it while the user types
+  const defaultQty = new Map(recipesForClient.map((r) => [r.id, r.primaryQty]));
+  const lastGoodQty: Record<string, number> = {};
+
   function currentState(): Record<string, RowState> {
     const state: Record<string, RowState> = {};
     picker.querySelectorAll<HTMLInputElement>('.recipe-check').forEach((cb) => {
       const id = cb.dataset.id!;
       const qtyInput = picker.querySelector<HTMLInputElement>(`.recipe-qty[data-id="${id}"]`)!;
-      state[id] = { checked: cb.checked, qty: parseFloat(qtyInput.value) };
+      const parsed = parseFloat(qtyInput.value);
+      const qty = Number.isNaN(parsed) ? lastGoodQty[id] ?? defaultQty.get(id)! : parsed;
+      lastGoodQty[id] = qty;
+      state[id] = { checked: cb.checked, qty };
     });
     return state;
   }
