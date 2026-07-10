@@ -106,6 +106,11 @@ Greek Cucumber-Tomato Salad on the shopping list together):
 - **Pantry-lite "have it" toggles** (the first cut of pantry awareness, see Shopping UX
   above): each aggregated line gets a checkbox persisted under `recipes-chrisdlg:pantry`;
   ticked lines stay visible but struck out and are excluded from Copy list.
+- **Count nouns** (follow-up feedback same session): dropping the count unit made
+  "4 garlic, minced" read as four whole heads. `ingredients.yaml` entries can now declare
+  `count_noun` (garlic -> clove; cilantro, rosemary, fresh thyme, fresh oregano -> sprig)
+  and every display shows "4 cloves / garlic, minced", pluralizing with the scale factor
+  ("1/2 clove" at 0.125x). Redundant "sprig(s)" preps removed from the affected recipes.
 
 Smoke harness extended from 6 to 14 assertions, including the exact two-recipe scenario from
 the feedback, and now pulls the real server-rendered `data-search` attributes from the built

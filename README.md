@@ -60,7 +60,9 @@ An Astro content collection validated by the zod schema in
 ### Ingredient database — `src/data/ingredients.yaml`
 
 Normalized item → per-100g macros + grams-per-unit for every unit that item is actually used
-with across recipes. Each entry cites its `source` (`usda`, `brand:NAME`, `estimate`). Used two
+with across recipes. Each entry cites its `source` (`usda`, `brand:NAME`, `estimate`). Entries
+whose count means a named sub-unit declare `count_noun` (garlic → clove, herbs → sprig) so
+quantities display as "4 cloves garlic" rather than an ambiguous "4 garlic". Used two
 ways: recomputing recipe macros during audits, and merging cross-unit duplicates on the
 shopping list. Recipe quantities are raw/as-purchased amounts, so macros are on the same raw
 basis.
