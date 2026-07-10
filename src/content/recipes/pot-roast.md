@@ -14,8 +14,8 @@ ingredients:
   - { item: red wine, qty: 2, unit: cup, section: pantry }
   - { item: beef stock, qty: 3, unit: cup, section: pantry }
   - { item: potato, qty: 3, unit: count, prep: gold/Yukon, chopped, section: produce }
-  - { item: fresh thyme, qty: 3, unit: count, prep: sprigs, scale: false, section: produce }
-  - { item: rosemary, qty: 3, unit: count, prep: fresh sprigs, scale: false, section: produce }
+  - { item: fresh thyme, qty: 3, unit: count, scale: false, section: produce }
+  - { item: rosemary, qty: 3, unit: count, prep: fresh, scale: false, section: produce }
   - { item: all-purpose flour, qty: 3, unit: tbsp, section: pantry }
   - { item: salt, qty: 1, unit: tsp, prep: to taste, scale: false, section: pantry }
 steps:

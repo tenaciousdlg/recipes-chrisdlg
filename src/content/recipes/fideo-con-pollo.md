@@ -11,7 +11,7 @@ ingredients:
   - { item: water, qty: 6, unit: cup, prep: or chicken broth, section: pantry }
   - { item: white onion, qty: 0.5, unit: count, section: produce }
   - { item: garlic, qty: 2, unit: count, section: produce }
-  - { item: cilantro, qty: 10, unit: count, prep: sprigs, scale: false, section: produce }
+  - { item: cilantro, qty: 10, unit: count, scale: false, section: produce }
   - { item: salt, qty: 1, unit: tsp, scale: false, section: pantry }
   - { item: chicken bouillon, qty: 1, unit: tbsp, section: pantry }
   - { item: tomato, qty: 5, unit: count, section: produce }

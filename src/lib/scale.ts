@@ -50,8 +50,14 @@ export function unitLabel(unit: string): string {
   return unit;
 }
 
-// quantity + unit as a person reads it: "1 1/4 lb", "3 tbsp", or a bare "2" for count items
-export function formatMeasure(qty: number, unit: string): string {
+// quantity + unit as a person reads it: "1 1/4 lb", "3 tbsp", or a bare "2" for count
+// items. Some items' count means a named sub-unit (ingredients.yaml `count_noun`): garlic
+// counts cloves, herbs count sprigs -- "4 cloves", never an ambiguous "4 garlic" that
+// could read as whole heads. Nouns pluralize regularly (clove/cloves, sprig/sprigs).
+export function formatMeasure(qty: number, unit: string, countNoun?: string | null): string {
+  if (unit === 'count' && countNoun) {
+    return `${formatQty(qty)} ${qty > 1 ? `${countNoun}s` : countNoun}`;
+  }
   const label = unitLabel(unit);
   return label ? `${formatQty(qty)} ${label}` : formatQty(qty);
 }

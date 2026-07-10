@@ -15,8 +15,8 @@ ingredients:
   - { item: jalapeno, qty: 0.5, unit: count, section: produce }
   - { item: chipotle in adobo, qty: 1, unit: count, prep: plus 1 tsp adobo, section: pantry }
   - { item: chicken broth, qty: 8, unit: cup, prep: low sodium, section: pantry }
-  - { item: cilantro, qty: 8, unit: count, prep: sprigs, scale: false, section: produce }
-  - { item: fresh oregano, qty: 1, unit: count, prep: sprig, scale: false, section: produce }
+  - { item: cilantro, qty: 8, unit: count, scale: false, section: produce }
+  - { item: fresh oregano, qty: 1, unit: count, scale: false, section: produce }
   - { item: canola oil, qty: 1, unit: tbsp, scale: false, section: pantry }
   - { item: salt, qty: 0.5, unit: tsp, prep: kosher, scale: false, section: pantry }
   - { item: corn tortillas, qty: 8, unit: count, prep: cut in 1/2-inch strips, group: toppings, section: pantry }

@@ -54,10 +54,19 @@ const searchIndexById = new Map(
 // another) into a single line instead of two duplicate ones.
 interface IngredientEntry {
   grams_per_unit: Record<string, number>;
+  count_noun?: string;
 }
 const ingredientsYaml = parseYaml(ingredientsYamlRaw) as Record<string, IngredientEntry>;
 const gramConversions = Object.fromEntries(
   Object.entries(ingredientsYaml).map(([item, data]) => [item, data.grams_per_unit]),
+);
+
+// items whose count means a named sub-unit (garlic -> cloves, cilantro -> sprigs);
+// display only, so "4 cloves garlic" never reads as four whole heads
+const countNouns = Object.fromEntries(
+  Object.entries(ingredientsYaml).flatMap(([item, data]) =>
+    data.count_noun ? [[item, data.count_noun]] : [],
+  ),
 );
 ---
 
@@ -97,6 +106,7 @@ const gramConversions = Object.fromEntries(
 
   <script type="application/json" id="recipes-data" set:html={JSON.stringify(recipesForClient)} />
   <script type="application/json" id="gram-conversions-data" set:html={JSON.stringify(gramConversions)} />
+  <script type="application/json" id="count-nouns-data" set:html={JSON.stringify(countNouns)} />
 </Layout>
 
 <script>
@@ -128,6 +138,8 @@ const gramConversions = Object.fromEntries(
   const recipesForClient: RecipeForClient[] = JSON.parse(dataEl.textContent!);
   const conversionsEl = document.getElementById('gram-conversions-data')!;
   const gramConversions: GramConversions = JSON.parse(conversionsEl.textContent!);
+  const countNounsEl = document.getElementById('count-nouns-data')!;
+  const countNouns: Record<string, string> = JSON.parse(countNounsEl.textContent!);
   const STORAGE_KEY = 'recipes-chrisdlg:shopping-list';
   const PANTRY_KEY = 'recipes-chrisdlg:pantry';
 
@@ -164,7 +176,10 @@ const gramConversions = Object.fromEntries(
     if (l.unit === 'count') {
       const exact = Math.round(l.qty * 1000) / 1000;
       const buy = Math.ceil(exact);
-      return { qty: formatQty(buy), need: buy !== exact ? formatQty(exact) : null };
+      return {
+        qty: formatMeasure(buy, 'count', countNouns[l.item]),
+        need: buy !== exact ? formatQty(exact) : null,
+      };
     }
     return { qty: formatMeasure(l.qty, l.unit), need: null };
   }

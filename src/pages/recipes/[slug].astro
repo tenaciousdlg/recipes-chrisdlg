@@ -1,8 +1,12 @@
 ---
+import { load as parseYaml } from 'js-yaml';
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { getPrimaryIngredient, formatMeasure } from '../../lib/scale';
 import { isHighProtein } from '../../lib/macros';
+// ?raw has Vite inline the file's text at build time; node:fs isn't available
+// in the Cloudflare-adapter's Workers-emulated prerender step.
+import ingredientsYamlRaw from '../../data/ingredients.yaml?raw';
 
 export async function getStaticPaths() {
   const recipes = await getCollection('recipes');
@@ -15,6 +19,11 @@ export async function getStaticPaths() {
 const { recipe } = Astro.props;
 const { Content } = await render(recipe);
 const primary = getPrimaryIngredient(recipe.data.ingredients);
+
+// count_noun from the ingredient DB names the sub-unit a count of that item means
+// (garlic -> cloves, cilantro -> sprigs), so quantities read unambiguously
+const ingredientsDb = parseYaml(ingredientsYamlRaw) as Record<string, { count_noun?: string }>;
+const countNoun = (item: string) => ingredientsDb[item]?.count_noun ?? null;
 
 // groups ingredients by recipe sub-component (sauce, pickle, etc); undefined = main dish, shown first
 const groups: Array<{ name: string | undefined; items: typeof recipe.data.ingredients }> = [];
@@ -70,8 +79,8 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
       {group.name && <h3>{group.name}</h3>}
       <ul class="ingredient-list">
         {group.items.map((ing) => (
-          <li data-ingredient data-qty={ing.qty} data-scale={ing.scale ? '1' : '0'} data-unit={ing.unit}>
-            <span class="qty">{formatMeasure(ing.qty, ing.unit)}</span>
+          <li data-ingredient data-qty={ing.qty} data-scale={ing.scale ? '1' : '0'} data-unit={ing.unit} data-count-noun={countNoun(ing.item)}>
+            <span class="qty">{formatMeasure(ing.qty, ing.unit, countNoun(ing.item))}</span>
             <span>
               {ing.prep ? `${ing.item}, ${ing.prep}` : ing.item}
               {!ing.scale ? <span class="fixed-note"> (fixed)</span> : null}
@@ -133,7 +142,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
       const baseIngQty = parseFloat(row.dataset.qty!);
       const doesScale = row.dataset.scale === '1';
       const newQty = doesScale ? baseIngQty * factor : baseIngQty;
-      qtyEl.textContent = formatMeasure(newQty, row.dataset.unit!);
+      qtyEl.textContent = formatMeasure(newQty, row.dataset.unit!, row.dataset.countNoun);
     });
 
     servingsOut.textContent = formatQty(scaledServings(baseServings, factor));

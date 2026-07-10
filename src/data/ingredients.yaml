@@ -124,18 +124,21 @@ baby spinach:
 cilantro:
   macros_per_100g: { calories: 23, protein_g: 2.1, carbs_g: 3.7, fat_g: 0.5 }
   grams_per_unit: { cup: 16, count: 2 }
+  count_noun: sprig
   note: "loosely packed leaves -- cilantro is very light by volume. count=one sprig, ~2g."
   source: usda
 
 fresh oregano:
   macros_per_100g: { calories: 66, protein_g: 2.2, carbs_g: 17, fat_g: 1.1 }
   grams_per_unit: { count: 1 }
+  count_noun: sprig
   note: "count=one sprig, ~1g; negligible at recipe quantities. no clean USDA fresh-oregano entry, so derived from the dried figure at ~25% dry matter. split from dried 'oregano' (used in tortilla-soup)."
   source: estimate
 
 fresh thyme:
   macros_per_100g: { calories: 101, protein_g: 5.6, carbs_g: 24.5, fat_g: 1.7 }
   grams_per_unit: { count: 1 }
+  count_noun: sprig
   note: "count=one sprig, ~1g; negligible at a few sprigs, usually stripped/removed before serving. split from dried 'thyme' (used in pot-roast)."
   source: usda
 
@@ -147,6 +150,7 @@ cucumber:
 garlic:
   macros_per_100g: { calories: 149, protein_g: 6.4, carbs_g: 33, fat_g: 0.5 }
   grams_per_unit: { count: 3 }
+  count_noun: clove
   note: "1 clove ~= 3g. Dense per 100g but negligible at the 1-6 clove amounts our recipes use."
   source: usda
 
@@ -554,6 +558,7 @@ thyme:
 rosemary:
   macros_per_100g: { calories: 331, protein_g: 4.9, carbs_g: 64, fat_g: 15.2 }
   grams_per_unit: { count: 1 }
+  count_noun: sprig
   note: "fresh sprig, ~1g; negligible at a few sprigs, typically removed before serving."
   source: usda
 

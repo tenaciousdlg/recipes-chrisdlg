@@ -20,7 +20,7 @@ ingredients:
   - { item: yellow onion, qty: 0.5, unit: count, prep: chopped, section: produce }
   - { item: red wine, qty: 0.5, unit: cup, prep: dry, cabernet/pinot, section: pantry }
   - { item: chicken broth, qty: 1, unit: cup, section: pantry }
-  - { item: rosemary, qty: 2, unit: count, prep: fresh sprigs, scale: false, section: produce }
+  - { item: rosemary, qty: 2, unit: count, prep: fresh, scale: false, section: produce }
   - { item: carrot, qty: 2, unit: count, prep: large, 1.5-inch chunks, section: produce }
   - { item: potato, qty: 2, unit: count, prep: large, chunks, section: produce }
   - { item: balsamic vinegar, qty: 0.33, unit: cup, section: pantry }
