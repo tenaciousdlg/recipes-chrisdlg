@@ -78,6 +78,7 @@ const picker = el({
 const byId = {
   'recipes-data': el({ textContent: recipesJson }),
   'gram-conversions-data': el({ textContent: jsonOf('gram-conversions-data') }),
+  'count-nouns-data': el({ textContent: jsonOf('count-nouns-data') }),
   'recipe-picker': picker,
   'shopping-list-output': el(),
   'empty-state': el(),
@@ -161,6 +162,7 @@ checks.get(chicken.id).checked = true;
 picker.dispatch('change');
 assert(!output.innerHTML.includes(' count'), 'the word "count" never appears as a display unit');
 assert(output.innerHTML.includes('need 1/4'), 'quarter red onion rounds up to a whole one with the need shown');
+assert(output.innerHTML.includes('4 cloves'), 'garlic displays as cloves, not ambiguous whole garlic');
 
 // 7. picker search: real server-rendered data-search attributes drive the filter
 byId['picker-search'].value = 'greek';
@@ -188,5 +190,6 @@ assert(
   'copied list skips have-it items but keeps the rest',
 );
 assert(copiedText !== null && copiedText.includes('- 1 lemon'), 'copied count lines read like "- 1 lemon"');
+assert(copiedText !== null && copiedText.includes('- 4 cloves garlic'), 'copied garlic line names cloves');
 
 process.exit(failures ? 1 : 0);
