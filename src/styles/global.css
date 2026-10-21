@@ -277,13 +277,91 @@ a.tag:hover { border-color: var(--accent); color: var(--accent); text-decoration
 }
 #cooking-mode-toggle:hover { background: var(--accent-bright); border-color: var(--accent-bright); color: #fff; }
 
-/* Cooking Mode: bigger, easier to read from across the kitchen */
-body.cooking-mode .ingredient-list,
-body.cooking-mode ol {
-  font-size: 1.25em;
-  line-height: 2;
-}
+/* Cooking Mode: a step-by-step view. Page 0 (body[data-cook-page="0"]) is the ingredient
+   list; every other page shows one step, big, with Back/Next pinned to the bottom. */
+.cook-only, .step-ingredients { display: none; }
+body.cooking-mode .cook-hide { display: none; }
+body.cooking-mode .cook-only { display: block; }
+
+body.cooking-mode .ingredient-list { font-size: 1.25em; line-height: 1.4; }
+body.cooking-mode .ingredient-list li { padding: 0.45rem 0; }
 body.cooking-mode .qty { font-size: 1.05em; }
+body.cooking-mode h1 { font-size: 1.2rem; color: var(--text-dim); }
+
+body.cooking-mode[data-cook-page="0"] #steps { display: none; }
+body.cooking-mode:not([data-cook-page="0"]) #cook-ingredients { display: none; }
+
+body.cooking-mode #steps { list-style: none; margin: 0; }
+body.cooking-mode #steps > li { display: none; }
+body.cooking-mode #steps > li.current { display: block; min-height: 45vh; }
+body.cooking-mode .step-text { font-size: 1.6rem; line-height: 1.5; }
+body.cooking-mode .current .step-ingredients {
+  display: block;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 1rem;
+}
+body.cooking-mode .current .step-ingredients li { padding: 0.2rem 0; }
+
+#cook-page-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  margin: 0.5rem 0 1rem;
+}
+.cook-progress {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+#cook-progress-bar { height: 100%; width: 0; background: var(--accent); transition: width 0.2s; }
+
+body.cooking-mode #cook-nav {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem 0 calc(0.75rem + env(safe-area-inset-bottom));
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+#cook-nav button {
+  flex: 1;
+  min-height: 3.25rem;
+  font-size: 1.05rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--accent);
+}
+#cook-prev { background: var(--bg); color: var(--accent); }
+#cook-prev:disabled { opacity: 0.35; cursor: default; }
+#cook-next { background: var(--accent); color: #fff; flex: 2; }
+
+body.cooking-mode #timer-tray:not(:empty) {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  background: var(--bg);
+}
+.tray-timer {
+  font: inherit;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.3em 0.8em;
+  cursor: pointer;
+}
+.tray-timer.done { background: #b45309; animation: timer-pulse 1s ease-in-out infinite; }
 
 /* step timers: durations inside a step's text, tappable. Inline so the step still reads
    as a sentence; a running one shows the countdown in its place. */
@@ -315,8 +393,7 @@ body.cooking-mode .qty { font-size: 1.05em; }
 }
 .step-timer.done::before { content: "⏰ "; }
 @keyframes timer-pulse { 50% { opacity: 0.55; } }
-@media (prefers-reduced-motion: reduce) { .step-timer.done { animation: none; } }
-body.cooking-mode h2 { font-size: 1.6rem; }
+@media (prefers-reduced-motion: reduce) { .step-timer.done, .tray-timer.done { animation: none; } }
 
 .meal-suggestion {
   border-color: var(--accent);

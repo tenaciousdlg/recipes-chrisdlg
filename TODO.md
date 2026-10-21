@@ -55,8 +55,17 @@ across all 49 recipes surfaced the real issues instead:
 
 ### Cooking UX (B+ -> A)
 
-- No read-aloud or hands-free step navigation during cooking mode (screen-wake + bigger text
-  only, which was a deliberate, scoped choice, not an oversight).
+- ~~No step navigation during cooking mode~~ DONE 2026-10-21, asked for after the timers v1
+  ("click Cooking Mode and the screens shift to show each step with the timer"): cooking
+  mode is now a step-by-step view. Ingredients page first (scaled), then one step per screen
+  in big text with the ingredients it mentions (`src/lib/cook.ts`: full name or plural
+  first, longest first and blanking what it matched so "tomato sauce" never also counts as
+  "tomato", then a distinctive single word such as "calabaza" or "corn"). Back/Next, swipe,
+  and arrow keys; progress bar; current step persists per recipe; Done exits and resets to
+  the ingredients. A timer tray keeps live timers visible from any step and jumps to a
+  timer's step on tap. `scripts/smoke-cooking-mode.mjs` runs the shipped script; checked
+  visually at 390px in headless Chrome. Read-aloud / hands-free voice control is still not
+  built.
 - ~~No built-in step timers~~ DONE 2026-10-21: durations in step text render as tappable
   countdowns (`src/lib/timers.ts` parses, the recipe page runs them). Ranges start at the low
   end; "or" is never a range. End timestamps rather than tick counting, so a throttled or

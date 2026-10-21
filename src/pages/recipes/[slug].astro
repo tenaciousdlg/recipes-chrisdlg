@@ -5,6 +5,7 @@ import Layout from '../../layouts/Layout.astro';
 import { getPrimaryIngredient, formatMeasure } from '../../lib/scale';
 import { isHighProtein } from '../../lib/macros';
 import { splitTimers } from '../../lib/timers';
+import { stepIngredients } from '../../lib/cook';
 // ?raw has Vite inline the file's text at build time; node:fs isn't available
 // in the Cloudflare-adapter's Workers-emulated prerender step.
 import ingredientsYamlRaw from '../../data/ingredients.yaml?raw';
@@ -37,16 +38,19 @@ for (const ing of recipe.data.ingredients) {
   group.items.push(ing);
 }
 groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0));
+
+// per step, the ingredients it mentions: shown under the step in Cooking Mode's step view
+const stepIngs = recipe.data.steps.map((step) => stepIngredients(step, recipe.data.ingredients));
 ---
 
 <Layout title={recipe.data.title} description={recipe.data.description}>
-  <a href="/">&larr; all recipes</a>
+  <a href="/" class="cook-hide">&larr; all recipes</a>
   <h1>
     {recipe.data.title}
-    <span class="tag category-tag">{recipe.data.category}</span>
+    <span class="tag category-tag cook-hide">{recipe.data.category}</span>
   </h1>
-  <p>{recipe.data.description}</p>
-  <div class="tags">
+  <p class="cook-hide">{recipe.data.description}</p>
+  <div class="tags cook-hide">
     {isHighProtein(recipe.data.macros_per_serving) && <span class="tag">high-protein</span>}
     {recipe.data.tags.map((tag) => <a class="tag" href={`/tags/${tag}/`}>{tag}</a>)}
   </div>
@@ -56,7 +60,12 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
     <span id="cooking-mode-status" class="recipe-meta"></span>
   </div>
 
-  <div class="box">
+  <!-- Cooking Mode only: timers running on other steps, and step navigation -->
+  <div id="timer-tray" class="cook-only" aria-live="polite"></div>
+  <div class="cook-only cook-progress"><div id="cook-progress-bar"></div></div>
+  <p id="cook-page-label" class="cook-only"></p>
+
+  <div class="box cook-hide">
     <div class="scale-control">
       <label for="scale-input">Scale by {primary.item} ({primary.unit}):</label>
       <input
@@ -75,27 +84,32 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
     </div>
   </div>
 
-  {groups.map((group) => (
-    <div class="ingredient-group">
-      {group.name && <h3>{group.name}</h3>}
-      <ul class="ingredient-list">
-        {group.items.map((ing) => (
-          <li data-ingredient data-qty={ing.qty} data-scale={ing.scale ? '1' : '0'} data-unit={ing.unit} data-count-noun={countNoun(ing.item)}>
-            <span class="qty">{formatMeasure(ing.qty, ing.unit, countNoun(ing.item))}</span>
-            <span>
-              {ing.prep ? `${ing.item}, ${ing.prep}` : ing.item}
-              {!ing.scale ? <span class="fixed-note"> (fixed)</span> : null}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  ))}
+  <section id="cook-ingredients">
+    <p class="cook-only recipe-meta">
+      for <span id="cook-servings">{recipe.data.base_servings}</span> servings · change the scale outside Cooking Mode
+    </p>
+    {groups.map((group) => (
+      <div class="ingredient-group">
+        {group.name && <h3>{group.name}</h3>}
+        <ul class="ingredient-list">
+          {group.items.map((ing) => (
+            <li data-ingredient data-qty={ing.qty} data-scale={ing.scale ? '1' : '0'} data-unit={ing.unit} data-count-noun={countNoun(ing.item)}>
+              <span class="qty">{formatMeasure(ing.qty, ing.unit, countNoun(ing.item))}</span>
+              <span>
+                {ing.prep ? `${ing.item}, ${ing.prep}` : ing.item}
+                {!ing.scale ? <span class="fixed-note"> (fixed)</span> : null}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
 
-  <h2>Steps</h2>
+  <h2 class="cook-hide">Steps</h2>
   <ol id="steps">
     {recipe.data.steps.map((step, i) => (
-      <li>{splitTimers(step).map((part, j) =>
+      <li><p class="step-text">{splitTimers(step).map((part, j) =>
         typeof part === 'string' ? part : (
           <button
             type="button"
@@ -106,12 +120,26 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
             aria-label={`start ${part.text} timer`}
           >{part.text}</button>
         ),
+      )}</p>{stepIngs[i].length > 0 && (
+        <ul class="ingredient-list step-ingredients">
+          {stepIngs[i].map((ing) => (
+            <li data-ingredient data-qty={ing.qty} data-scale={ing.scale ? '1' : '0'} data-unit={ing.unit} data-count-noun={countNoun(ing.item)}>
+              <span class="qty">{formatMeasure(ing.qty, ing.unit, countNoun(ing.item))}</span>
+              <span>{ing.item}</span>
+            </li>
+          ))}
+        </ul>
       )}</li>
     ))}
   </ol>
 
+  <nav id="cook-nav" class="cook-only" aria-label="recipe steps">
+    <button id="cook-prev" type="button">&larr; Back</button>
+    <button id="cook-next" type="button">Next &rarr;</button>
+  </nav>
+
   {recipe.data.macros_per_serving && (
-    <>
+    <div class="cook-hide">
       <h2>Macros (per serving)</h2>
       <div class="box macros">
         <div><div class="val">{recipe.data.macros_per_serving.calories}</div><div class="label">cal</div></div>
@@ -122,17 +150,17 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
       <p class="recipe-meta">
         {recipe.data.macros_per_serving.source === 'manual' ? 'hand-entered' : 'computed'} · per serving, does not rescale with batch size
       </p>
-    </>
+    </div>
   )}
 
   {recipe.data.notes && (
-    <>
+    <div class="cook-hide">
       <h2>Notes</h2>
       <p>{recipe.data.notes}</p>
-    </>
+    </div>
   )}
 
-  <Content />
+  <div class="cook-hide"><Content /></div>
 </Layout>
 
 <script>
@@ -160,6 +188,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
     });
 
     servingsOut.textContent = formatQty(scaledServings(baseServings, factor));
+    document.getElementById('cook-servings')!.textContent = servingsOut.textContent;
     note.classList.toggle('visible', Math.abs(factor - 1) > 0.001);
   }
 
@@ -167,12 +196,72 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
 </script>
 
 <script>
-  // Cooking Mode: bigger, easier-to-read text and (where supported) keeps the
-  // screen from locking so you're not re-unlocking your phone with wet hands.
+  // Cooking Mode: a step-by-step view (ingredients first, then one step per screen in big
+  // text with Back/Next, swipe, and arrow keys) and, where supported, a screen wake lock
+  // so you're not re-unlocking your phone with wet hands.
   const STORAGE_KEY = 'recipes-chrisdlg:cooking-mode';
+  const PAGE_KEY = `recipes-chrisdlg:cook-page:${location.pathname}`;
   const button = document.getElementById('cooking-mode-toggle')!;
   const status = document.getElementById('cooking-mode-status')!;
   const supportsWakeLock = 'wakeLock' in navigator;
+
+  // page 0 is the ingredient list, pages 1..n are the steps
+  const steps = [...document.querySelectorAll<HTMLLIElement>('#steps > li')];
+  const lastPage = steps.length;
+  const prev = document.getElementById('cook-prev') as HTMLButtonElement;
+  const next = document.getElementById('cook-next') as HTMLButtonElement;
+  const label = document.getElementById('cook-page-label')!;
+  const bar = document.getElementById('cook-progress-bar')!;
+  let page = Math.min(Math.max(Number(localStorage.getItem(PAGE_KEY)) || 0, 0), lastPage);
+
+  const cooking = () => document.body.classList.contains('cooking-mode');
+
+  function show(target: number) {
+    page = Math.min(Math.max(target, 0), lastPage);
+    document.body.dataset.cookPage = String(page);
+    steps.forEach((li, i) => li.classList.toggle('current', i === page - 1));
+    label.textContent = page === 0 ? 'Ingredients' : `Step ${page} of ${lastPage}`;
+    bar.style.width = `${(page / lastPage) * 100}%`;
+    prev.disabled = page === 0;
+    next.textContent = page === 0 ? 'Start cooking →' : page === lastPage ? 'Done ✓' : 'Next →';
+    localStorage.setItem(PAGE_KEY, String(page));
+    scrollTo(0, 0);
+  }
+
+  prev.addEventListener('click', () => show(page - 1));
+  next.addEventListener('click', () => {
+    if (page < lastPage) return show(page + 1);
+    // finished: next time starts from the ingredients again
+    page = 0;
+    localStorage.setItem(PAGE_KEY, '0');
+    disable();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (!cooking() || (event.target as HTMLElement).tagName === 'INPUT') return;
+    if (event.key === 'ArrowRight') show(page + 1);
+    if (event.key === 'ArrowLeft') show(page - 1);
+  });
+
+  // a horizontal swipe turns the page; mostly-vertical movement is scrolling, not a swipe
+  let touchX = 0;
+  let touchY = 0;
+  document.addEventListener('touchstart', (event) => {
+    touchX = event.changedTouches[0].clientX;
+    touchY = event.changedTouches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', (event) => {
+    if (!cooking()) return;
+    const dx = event.changedTouches[0].clientX - touchX;
+    const dy = event.changedTouches[0].clientY - touchY;
+    if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    show(dx < 0 ? page + 1 : page - 1);
+  });
+
+  // the timer tray jumps to the step a timer belongs to
+  document.addEventListener('cook:goto', (event) => {
+    if (cooking()) show((event as CustomEvent<number>).detail);
+  });
 
   let wakeLock: WakeLockSentinel | null = null;
 
@@ -201,6 +290,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
     button.textContent = 'Exit Cooking Mode';
     button.setAttribute('aria-pressed', 'true');
     localStorage.setItem(STORAGE_KEY, '1');
+    show(page);
     requestWakeLock().then(setStatus);
     setStatus();
   }
@@ -212,6 +302,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
     status.textContent = '';
     localStorage.setItem(STORAGE_KEY, '0');
     if (wakeLock) wakeLock.release();
+    scrollTo(0, 0);
   }
 
   button.addEventListener('click', () => {
@@ -238,9 +329,40 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
 
   const STORAGE_KEY = `recipes-chrisdlg:timers:${location.pathname}`;
   const list = document.getElementById('steps')!;
+  // Cooking Mode shows one step at a time, so every live timer also gets a chip in this
+  // tray (CSS hides it outside Cooking Mode); tapping a chip jumps to that timer's step
+  const tray = document.getElementById('timer-tray')!;
   const baseTitle = document.title;
   const running = new Map<HTMLButtonElement, number>(); // button -> end time (epoch ms)
   const ringing = new Set<HTMLButtonElement>();
+  const chips = new Map<HTMLButtonElement, HTMLButtonElement>();
+
+  // data-timer-id is "<step index>-<part index>"; pages are 1-based steps
+  const stepOf = (button: HTMLButtonElement) => Number(button.dataset.timerId!.split('-')[0]) + 1;
+
+  function chip(button: HTMLButtonElement, text: string) {
+    let c = chips.get(button);
+    if (!c) {
+      c = document.createElement('button');
+      c.type = 'button';
+      c.className = 'tray-timer';
+      c.dataset.page = String(stepOf(button));
+      tray.appendChild(c);
+      chips.set(button, c);
+    }
+    c.textContent = `Step ${stepOf(button)} · ${text}`;
+    return c;
+  }
+
+  function dropChip(button: HTMLButtonElement) {
+    chips.get(button)?.remove();
+    chips.delete(button);
+  }
+
+  tray.addEventListener('click', (event) => {
+    const c = (event.target as HTMLElement).closest<HTMLButtonElement>('.tray-timer');
+    if (c) document.dispatchEvent(new CustomEvent('cook:goto', { detail: Number(c.dataset.page) }));
+  });
   let interval: ReturnType<typeof setInterval> | null = null;
   // browsers only allow sound after a user gesture, so this is created on the first start tap
   let audio: AudioContext | null = null;
@@ -270,6 +392,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
   function reset(button: HTMLButtonElement) {
     running.delete(button);
     ringing.delete(button);
+    dropChip(button);
     button.classList.remove('running', 'done');
     button.textContent = button.dataset.label!;
     button.setAttribute('aria-label', `start ${button.dataset.label} timer`);
@@ -281,6 +404,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
     button.classList.remove('running');
     button.classList.add('done');
     button.textContent = `${button.dataset.label} done`;
+    chip(button, `${button.dataset.label} done`).classList.add('done');
     button.setAttribute('aria-label', `${button.dataset.label} timer done, tap to dismiss`);
     navigator.vibrate?.([300, 150, 300, 150, 300]);
     chime();
@@ -297,6 +421,7 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
         continue;
       }
       button.textContent = formatClock(remaining);
+      chip(button, formatClock(remaining));
       if (soonest === null || remaining < soonest) soonest = remaining;
     }
     // the tab title carries the countdown, so it's visible from another tab or app switcher

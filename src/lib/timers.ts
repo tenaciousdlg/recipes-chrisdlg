@@ -11,11 +11,12 @@ const UNIT_SECONDS: Array<[RegExp, number]> = [
   [/^s/i, 1],
 ];
 
-// a number, an optional range end ("-", en dash, or "to"), then a unit. "or" is NOT a range
-// ("high 4-5 hrs or low 8 hrs" is two separate times). No bare "h"/"m": too easy to hit
-// words, and no recipe writes times that way.
+// an optional "~" (kept inside the button so it can't wrap away from its number), a number,
+// an optional range end ("-", en dash, or "to"), then a unit. "or" is NOT a range ("high
+// 4-5 hrs or low 8 hrs" is two separate times). No bare "h"/"m": too easy to hit words, and
+// no recipe writes times that way.
 const DURATION =
-  /\b(\d+(?:\.\d+)?)(?:\s*(?:-|–|to)\s*(\d+(?:\.\d+)?))?\s*(hours?|hrs?|min(?:ute)?s?|sec(?:ond)?s?)\b/gi;
+  /(?:~\s*)?\b(\d+(?:\.\d+)?)(?:\s*(?:-|–|to)\s*(\d+(?:\.\d+)?))?\s*(hours?|hrs?|min(?:ute)?s?|sec(?:ond)?s?)\b/gi;
 
 function unitSeconds(unit: string): number {
   return UNIT_SECONDS.find(([re]) => re.test(unit))![1];

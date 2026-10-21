@@ -42,7 +42,7 @@ for (const slug of slugs) {
   // the step must still read exactly as written: buttons wrap durations, never alter text
   const steps = parseYaml(readFileSync(`src/content/recipes/${slug}.md`, 'utf8').split('---')[1]).steps;
   const ol = html.match(/<ol id="steps">([\s\S]*?)<\/ol>/)[1];
-  const rendered = [...ol.matchAll(/<li>([\s\S]*?)<\/li>/g)].map((m) => decode(m[1]));
+  const rendered = [...ol.matchAll(/<p class="step-text">([\s\S]*?)<\/p>/g)].map((m) => decode(m[1]));
   if (rendered.length !== steps.length || rendered.some((t, i) => t !== steps[i])) {
     textIntact = false;
     console.log(`  step text changed in ${slug}`);
@@ -95,14 +95,29 @@ async function loadPage({ confirmAnswer = () => true } = {}) {
     addEventListener: (ev, fn) => (listeners[ev] = fn),
     querySelector: (sel) => buttons.find((b) => sel.includes(`"${b.dataset.timerId}"`)) ?? null,
   };
+  const trayListeners = {};
+  const tray = {
+    children: [],
+    appendChild(c) { this.children.push(c); c.parent = this; },
+    addEventListener: (ev, fn) => (trayListeners[ev] = fn),
+  };
   const docListeners = {};
+  const dispatched = [];
   const document = {
     title: 'Coleslaw',
     visibilityState: 'visible',
-    getElementById: (id) => (id === 'steps' ? list : null),
+    getElementById: (id) => ({ steps: list, 'timer-tray': tray })[id] ?? null,
     addEventListener: (ev, fn) => (docListeners[ev] = fn),
+    dispatchEvent: (e) => dispatched.push(e),
+    createElement: () => ({
+      dataset: {},
+      classList: classList(),
+      textContent: '',
+      closest() { return this; },
+      remove() { this.parent.children.splice(this.parent.children.indexOf(this), 1); },
+    }),
   };
-  const page = { buttons, document, vibrated: [], tick: null, cleared: false };
+  const page = { buttons, document, tray, dispatched, vibrated: [], tick: null, cleared: false };
   const context = {
     document,
     location: { pathname: `/recipes/${slug}/` },
@@ -115,6 +130,7 @@ async function loadPage({ confirmAnswer = () => true } = {}) {
     setInterval: (fn) => { page.tick = fn; page.cleared = false; return 1; },
     clearInterval: () => { page.cleared = true; },
     confirm: confirmAnswer,
+    CustomEvent: class { constructor(type, init) { this.type = type; this.detail = init?.detail; } },
     console,
   };
   vm.createContext(context);
@@ -122,6 +138,7 @@ async function loadPage({ confirmAnswer = () => true } = {}) {
   await mod.link(() => { throw new Error('timer script should have no imports'); });
   await mod.evaluate();
   page.tap = (btn) => listeners.click({ target: btn });
+  page.tapChip = (c) => trayListeners.click({ target: c });
   page.advance = (ms) => { clock += ms; page.tick?.(); };
   return page;
 }
@@ -137,6 +154,10 @@ assert(page.document.title === '⏱ 30:00 · Coleslaw', 'tab title shows the cou
 page.advance(10 * 60 * 1000);
 assert(timer.textContent === '20:00', 'ten minutes later it reads 20:00');
 assert(JSON.parse(storage.get(KEY))[timer.dataset.timerId] === 1_000_000 + 1800 * 1000, 'end time persists');
+const [chip] = page.tray.children;
+assert(page.tray.children.length === 1 && chip.textContent === 'Step 4 · 20:00', 'the Cooking Mode tray shows "Step 4 · 20:00"');
+page.tapChip(chip);
+assert(page.dispatched.at(-1)?.type === 'cook:goto' && page.dispatched.at(-1).detail === 4, 'tapping the tray chip asks to jump to step 4');
 
 // reload: a fresh page instance restores the running timer from storage
 page = await loadPage({ confirmAnswer: () => false });
@@ -153,6 +174,7 @@ page.tap(t);
 assert(!t.classList.contains('running') && t.textContent === '30 min', 'confirmed cancel restores the label');
 assert(JSON.stringify(JSON.parse(storage.get(KEY))) === '{}', 'cancel clears it from storage');
 assert(page.document.title === 'Coleslaw', 'title returns to the recipe name');
+assert(page.tray.children.length === 0, 'cancel removes the tray chip');
 
 // run to completion: alarm state, vibration, interval stops
 page.tap(t);
@@ -161,9 +183,11 @@ assert(t.classList.contains('done') && t.textContent === '30 min done', 'at zero
 assert(page.vibrated.length === 1, 'the phone vibrates once when it finishes');
 assert(page.document.title === '⏰ done · Coleslaw', 'title flags the finished timer');
 assert(page.cleared, 'the tick interval stops when nothing is running');
+assert(page.tray.children[0]?.classList.contains('done') && page.tray.children[0].textContent === 'Step 4 · 30 min done', 'the tray chip turns into a done alarm');
 assert(JSON.stringify(JSON.parse(storage.get(KEY))) === '{}', 'a finished timer is not restored on reload');
 page.tap(t);
 assert(!t.classList.contains('done') && t.textContent === '30 min' && page.document.title === 'Coleslaw', 'tap dismisses the alarm');
+assert(page.tray.children.length === 0, 'dismissing clears the tray');
 
 // a timer that ran out while the page was closed shows done on return
 storage.set(KEY, JSON.stringify({ [t.dataset.timerId]: clock - 1000 }));
