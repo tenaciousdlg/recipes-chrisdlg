@@ -74,7 +74,7 @@ function el(extra = {}) {
 const storage = new Map();
 const PAGE_KEY = `recipes-chrisdlg:cook-page:/recipes/${slug}/`;
 
-async function loadPage() {
+async function loadPage(pathname = `/recipes/${slug}/`) {
   const steps = Array.from({ length: stepCount }, () => el());
   const ids = {
     'cooking-mode-toggle': el(),
@@ -97,7 +97,7 @@ async function loadPage() {
   };
   const context = {
     document,
-    location: { pathname: `/recipes/${slug}/` },
+    location: { pathname },
     localStorage: {
       getItem: (k) => storage.get(k) ?? null,
       setItem: (k, v) => storage.set(k, String(v)),
@@ -158,6 +158,8 @@ assert(p.current() === String(stepCount) && p['cook-next'].textContent === 'Done
 // reload mid-recipe: Cooking Mode and the step are both restored
 p = await loadPage();
 assert(p.body.classList.contains('cooking-mode') && p.current() === String(stepCount), 'a reload resumes Cooking Mode on the same step');
+const other = await loadPage('/recipes/pot-roast/');
+assert(!other.body.classList.contains('cooking-mode'), 'another recipe still opens as the normal full page');
 
 p['cook-next'].fire('click');
 assert(!p.body.classList.contains('cooking-mode'), 'Done exits Cooking Mode');

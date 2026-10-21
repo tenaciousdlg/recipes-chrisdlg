@@ -199,7 +199,9 @@ const stepIngs = recipe.data.steps.map((step) => stepIngredients(step, recipe.da
   // Cooking Mode: a step-by-step view (ingredients first, then one step per screen in big
   // text with Back/Next, swipe, and arrow keys) and, where supported, a screen wake lock
   // so you're not re-unlocking your phone with wet hands.
-  const STORAGE_KEY = 'recipes-chrisdlg:cooking-mode';
+  // per recipe, not site-wide: a reload mid-cook resumes, but opening any other recipe
+  // shows the normal full page (a site-wide flag put every recipe into the step view)
+  const STORAGE_KEY = `recipes-chrisdlg:cooking-mode:${location.pathname}`;
   const PAGE_KEY = `recipes-chrisdlg:cook-page:${location.pathname}`;
   const button = document.getElementById('cooking-mode-toggle')!;
   const status = document.getElementById('cooking-mode-status')!;
