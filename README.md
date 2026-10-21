@@ -14,7 +14,10 @@ client-side scripts working off JSON embedded at build time.
 
 - **Cooking mode** — each recipe page has a toggle that bumps text size and (where the browser
   supports it) holds a screen wake lock, so a phone propped up in the kitchen stays readable
-  and unlocked. State persists per-browser via `localStorage`.
+  and unlocked. State persists per-browser via `localStorage`. Every duration in a step
+  ("simmer ~10 min", "bake 15 to 20 minutes") is a tappable countdown: a range starts at its
+  low end, the tab title carries the time left, and a finished timer pulses, beeps and
+  vibrates. Timers persist per recipe across reloads.
 - **Shopping mode** — `/shopping-list/` lets you check off the recipes you're making this week,
   adjust each one's batch size, and get a single aggregated list grouped by store section
   (produce, meat, dairy, ...) with a copy-to-clipboard export. The picker is searchable (same
@@ -94,7 +97,7 @@ npm install
 npm run dev        # local dev server
 npm run check      # cross-recipe data consistency checks (also runs ahead of build)
 npm run build      # data checks + static build into dist/
-npm run smoke      # shopping-list smoke tests against the real built bundle (build first)
+npm run smoke      # shopping-list + step-timer smoke tests against the real build (build first)
 npx wrangler dev   # preview the built site in the Workers runtime
 npx wrangler deploy
 ```
@@ -125,4 +128,4 @@ feature wishlist. Audits (macro accuracy, tag hygiene, ingredient/step consisten
 there with what was found and what was deliberately left alone. Client-side behavior is
 verified by extracting the actual bundled scripts from a real build and running them against
 real data — not by testing a parallel reimplementation. `npm run smoke` does exactly that for
-the shopping list.
+the shopping list and the step timers.

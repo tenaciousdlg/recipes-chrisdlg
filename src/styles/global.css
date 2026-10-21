@@ -284,6 +284,38 @@ body.cooking-mode ol {
   line-height: 2;
 }
 body.cooking-mode .qty { font-size: 1.05em; }
+
+/* step timers: durations inside a step's text, tappable. Inline so the step still reads
+   as a sentence; a running one shows the countdown in its place. */
+.step-timer {
+  font: inherit;
+  color: var(--accent);
+  background: var(--bg-2);
+  border: 1px solid var(--border-bright);
+  border-radius: 999px;
+  padding: 0 0.5em;
+  cursor: pointer;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.step-timer::before { content: "⏱ "; }
+.step-timer:hover { border-color: var(--accent); }
+.step-timer.running {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+.step-timer.done {
+  background: #b45309;
+  border-color: #b45309;
+  color: #fff;
+  font-weight: 600;
+  animation: timer-pulse 1s ease-in-out infinite;
+}
+.step-timer.done::before { content: "⏰ "; }
+@keyframes timer-pulse { 50% { opacity: 0.55; } }
+@media (prefers-reduced-motion: reduce) { .step-timer.done { animation: none; } }
 body.cooking-mode h2 { font-size: 1.6rem; }
 
 .meal-suggestion {

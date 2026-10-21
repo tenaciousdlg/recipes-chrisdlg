@@ -4,6 +4,7 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { getPrimaryIngredient, formatMeasure } from '../../lib/scale';
 import { isHighProtein } from '../../lib/macros';
+import { splitTimers } from '../../lib/timers';
 // ?raw has Vite inline the file's text at build time; node:fs isn't available
 // in the Cloudflare-adapter's Workers-emulated prerender step.
 import ingredientsYamlRaw from '../../data/ingredients.yaml?raw';
@@ -92,8 +93,21 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
   ))}
 
   <h2>Steps</h2>
-  <ol>
-    {recipe.data.steps.map((step) => <li>{step}</li>)}
+  <ol id="steps">
+    {recipe.data.steps.map((step, i) => (
+      <li>{splitTimers(step).map((part, j) =>
+        typeof part === 'string' ? part : (
+          <button
+            type="button"
+            class="step-timer"
+            data-timer-id={`${i}-${j}`}
+            data-seconds={part.seconds}
+            data-label={part.text}
+            aria-label={`start ${part.text} timer`}
+          >{part.text}</button>
+        ),
+      )}</li>
+    ))}
   </ol>
 
   {recipe.data.macros_per_serving && (
@@ -212,4 +226,128 @@ groups.sort((a, b) => (a.name === undefined ? -1 : b.name === undefined ? 1 : 0)
   });
 
   if (localStorage.getItem(STORAGE_KEY) === '1') enable();
+</script>
+
+<script>
+  // Step timers: every duration in a step is a button. Tap to start a countdown, tap a
+  // running one to cancel, tap a finished one to dismiss. Timers keep an end timestamp
+  // rather than counting ticks, so a backgrounded or locked phone (which throttles
+  // intervals) still shows the right time on return, and they persist per recipe across
+  // reloads.
+  import { formatClock } from '../../lib/timers';
+
+  const STORAGE_KEY = `recipes-chrisdlg:timers:${location.pathname}`;
+  const list = document.getElementById('steps')!;
+  const baseTitle = document.title;
+  const running = new Map<HTMLButtonElement, number>(); // button -> end time (epoch ms)
+  const ringing = new Set<HTMLButtonElement>();
+  let interval: ReturnType<typeof setInterval> | null = null;
+  // browsers only allow sound after a user gesture, so this is created on the first start tap
+  let audio: AudioContext | null = null;
+
+  function save() {
+    const saved: Record<string, number> = {};
+    running.forEach((end, button) => (saved[button.dataset.timerId!] = end));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+  }
+
+  function chime() {
+    if (!audio) return;
+    // three short beeps, twice
+    for (let i = 0; i < 6; i++) {
+      const at = audio.currentTime + i * 0.35 + (i >= 3 ? 0.8 : 0);
+      const osc = audio.createOscillator();
+      const gain = audio.createGain();
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.25, at);
+      gain.gain.exponentialRampToValueAtTime(0.001, at + 0.25);
+      osc.connect(gain).connect(audio.destination);
+      osc.start(at);
+      osc.stop(at + 0.25);
+    }
+  }
+
+  function reset(button: HTMLButtonElement) {
+    running.delete(button);
+    ringing.delete(button);
+    button.classList.remove('running', 'done');
+    button.textContent = button.dataset.label!;
+    button.setAttribute('aria-label', `start ${button.dataset.label} timer`);
+  }
+
+  function ring(button: HTMLButtonElement) {
+    running.delete(button);
+    ringing.add(button);
+    button.classList.remove('running');
+    button.classList.add('done');
+    button.textContent = `${button.dataset.label} done`;
+    button.setAttribute('aria-label', `${button.dataset.label} timer done, tap to dismiss`);
+    navigator.vibrate?.([300, 150, 300, 150, 300]);
+    chime();
+  }
+
+  function update() {
+    const now = Date.now();
+    let soonest: number | null = null;
+    for (const [button, end] of running) {
+      const remaining = (end - now) / 1000;
+      if (remaining <= 0) {
+        ring(button);
+        save();
+        continue;
+      }
+      button.textContent = formatClock(remaining);
+      if (soonest === null || remaining < soonest) soonest = remaining;
+    }
+    // the tab title carries the countdown, so it's visible from another tab or app switcher
+    if (ringing.size) document.title = `⏰ done · ${baseTitle}`;
+    else if (soonest !== null) document.title = `⏱ ${formatClock(soonest)} · ${baseTitle}`;
+    else document.title = baseTitle;
+    if (!running.size && interval !== null) {
+      clearInterval(interval);
+      interval = null;
+    }
+  }
+
+  function start(button: HTMLButtonElement, end: number) {
+    running.set(button, end);
+    button.classList.add('running');
+    button.setAttribute('aria-label', `${button.dataset.label} timer running, tap to cancel`);
+    if (interval === null) interval = setInterval(update, 250);
+  }
+
+  list.addEventListener('click', (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('.step-timer');
+    if (!button) return;
+    if (ringing.has(button)) {
+      reset(button);
+    } else if (running.has(button)) {
+      // a confirm, because a wet-handed mis-tap shouldn't silently lose a 40-minute timer
+      if (!confirm(`Cancel the ${button.dataset.label} timer?`)) return;
+      reset(button);
+    } else {
+      if (!audio && typeof AudioContext !== 'undefined') audio = new AudioContext();
+      audio?.resume();
+      start(button, Date.now() + Number(button.dataset.seconds) * 1000);
+    }
+    save();
+    update();
+  });
+
+  // intervals are throttled or paused in a hidden tab; catch up the moment it's visible
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') update();
+  });
+
+  let saved: Record<string, number> = {};
+  try {
+    saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}');
+  } catch {
+    // corrupt entry: start clean
+  }
+  for (const [id, end] of Object.entries(saved)) {
+    const button = list.querySelector<HTMLButtonElement>(`.step-timer[data-timer-id="${id}"]`);
+    if (button) start(button, end);
+  }
+  update();
 </script>

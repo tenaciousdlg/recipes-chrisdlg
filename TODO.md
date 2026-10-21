@@ -57,7 +57,16 @@ across all 49 recipes surfaced the real issues instead:
 
 - No read-aloud or hands-free step navigation during cooking mode (screen-wake + bigger text
   only, which was a deliberate, scoped choice, not an oversight).
-- No built-in step timers (e.g. "simmer 30 min" as a tappable countdown instead of just text).
+- ~~No built-in step timers~~ DONE 2026-10-21: durations in step text render as tappable
+  countdowns (`src/lib/timers.ts` parses, the recipe page runs them). Ranges start at the low
+  end; "or" is never a range. End timestamps rather than tick counting, so a throttled or
+  backgrounded tab shows the right time on return; persisted per recipe; the tab title shows
+  the soonest countdown; done = pulse + beep + vibrate, tap to dismiss; cancelling a running
+  timer asks first. 49 of 50 recipes get at least one. `scripts/smoke-step-timers.mjs` runs
+  the shipped inline script against a fake clock, and checks every page renders its steps
+  with the original text intact. **Known limit:** a locked phone suspends the page, so the
+  alarm sounds when it's unlocked, not on time. Cooking Mode's wake lock is what prevents
+  that.
 
 ### Shopping UX (A- -> A)
 
