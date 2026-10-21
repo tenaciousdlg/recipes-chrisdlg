@@ -87,7 +87,7 @@ butter:
 greek yogurt:
   macros_per_100g: { calories: 59, protein_g: 10.2, carbs_g: 3.6, fat_g: 0.4 }
   note: "nonfat -- greek-yogurt-chicken-thighs and harissa-chicken-bowls both specify nonfat/no fat qualifier is implied by the recipe's whole macro story (pushing protein-to-fat ratio up)."
-  grams_per_unit: { cup: 245 }
+  grams_per_unit: { cup: 245, tbsp: 15.3 }
   source: usda
 
 milk:
@@ -1075,4 +1075,30 @@ mixed berries:
   macros_per_100g: { calories: 57, protein_g: 0.7, carbs_g: 14, fat_g: 0.3 }
   note: "blueberry/blackberry average, fresh or frozen."
   grams_per_unit: { cup: 148 }
+  source: usda
+
+# --- added for egg-potato-salad-sandwich ---
+
+persian cucumber:
+  macros_per_100g: { calories: 15, protein_g: 0.65, carbs_g: 3.6, fat_g: 0.1 }
+  grams_per_unit: { count: 100 }
+  note: "same per-100g as cucumber; separate item because it's a separate product (smaller, thin-skinned). ~100g each."
+  source: estimate
+
+whole grain mustard:
+  macros_per_100g: { calories: 150, protein_g: 7.5, carbs_g: 6, fat_g: 10 }
+  grams_per_unit: { tbsp: 15 }
+  note: "typical stone-ground/whole grain label values; brands vary."
+  source: estimate
+
+sesame dressing:
+  macros_per_100g: { calories: 448, protein_g: 3.4, carbs_g: 17, fat_g: 41 }
+  grams_per_unit: { tbsp: 15 }
+  note: "Kewpie-style roasted sesame dressing, ~130 kcal per 2 tbsp."
+  source: estimate
+
+sandwich bread:
+  macros_per_100g: { calories: 266, protein_g: 8.9, carbs_g: 49.4, fat_g: 3.3 }
+  grams_per_unit: { count: 28 }
+  note: "white sandwich bread, one slice ~28g. The source recipe used Hero (a low-carb brand), which would cut carbs sharply."
   source: usda
